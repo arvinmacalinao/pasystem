@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreign('period_id')->references('id')->on('appraisal_period');
             $table->string('evaluator_remarks',255)->nullable();
             $table->string('employee_remarks',255)->nullable();
-            $talbe->
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

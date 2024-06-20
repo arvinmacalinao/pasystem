@@ -17,7 +17,7 @@
                     {{-- <div class="small text-body-secondary">January - July 2023</div> --}}
                   </div>
                   <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
-                    <a href="{{ route('company.add') }}" class="btn btn-sm btn-success text-light">
+                    <a href="{{ route('ugroup.add') }}" class="btn btn-sm btn-success text-light">
                         <i class="fa fa-plus"></i>
                         Add {{ $data['page'] }}
                     </a>
@@ -50,8 +50,9 @@
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
                         <th class="bg-body-secondary text-center">#</th>
-                        <th class="bg-body-secondary">Name</th>
+                        <th class="bg-body-secondary">Usergroup Name</th>
                         <th class="bg-body-secondary">Alias</th>
+                        <th class="bg-body-secondary">Description</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -65,14 +66,15 @@
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->name }}</td>
                         <td>{{ $row->alias }}</td>
+                        <td>{{ $row->description }}</td>
                        
                         <td  class="project-actions text-right">
-                            <a class="btn btn-success btn-sm text-light" href="{{ route('company.edit', ['id' => $row->id]) }}">
+                            <a class="btn btn-success btn-sm text-light" href="{{ route('ugroup.edit', ['id' => $row->id]) }}">
                                 <i class="fa fa-pencil"></i>
                                 </i>
                                 Edit
                             </a>
-                            <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('company.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
+                            <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('ugroup.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
                         </td>

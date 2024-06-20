@@ -1,17 +1,18 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use View;
-use Validator;
 use Carbon\Carbon;
-use App\Models\Company;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CompanyController extends Controller
+class RoleController extends Controller
 {
     public function __construct() 
     {
-		$data = [ 'page' => 'Company' ];
+		$data = [ 'page' => 'Role' ];
 		View::share('data', $data);
 
         $this->middleware(function ($request, $next) {  
@@ -29,9 +30,9 @@ class CompanyController extends Controller
     {
         $msg        = $request->session()->pull('session_msg', '');
 
-        $rows       = Company::paginate(20);
+        $rows       = Role::paginate(20);
 
-        return view('pages.company.index', compact('rows', 'msg'));
+        return view('pages.role.index', compact('rows', 'msg'));
     }
 
     public function create(Request $request)
@@ -39,41 +40,41 @@ class CompanyController extends Controller
         $msg        = $request->session()->pull('session_msg', '');
     
         $id         = 0;
-        $company    = new Company;
+        $role    = new Role;
 
-        return view('pages.company.form', compact('id', 'company', 'msg'));
+        return view('pages.role.form', compact('id', 'role', 'msg'));
     }
 
     public function store(Request $request, $id)
     {
         if($id == 0) {
-            $company     = Company::create($request->all());
+            $role     = Role::create($request->all());
     
             $request->session()->put('session_msg', 'Record successfully added.');
         } else {
-            $company     = Company::where('id', $id)->first();
-            if(!$company ) {
+            $role     = Role::where('id', $id)->first();
+            if(!$role ) {
                 $request->session()->put('session_msg', 'Record not found!');
-                return redirect(route('company.index'));
+                return redirect(route('role.index'));
             }
-            $company->update($request->all());
+            $role->update($request->all());
 
             $request->session()->put('session_msg', 'Record updated.');
         }
 
-        return redirect(route('company.index'));
+        return redirect(route('role.index'));
     }
     
     public function edit(Request $request, $id)
     {
         $msg        = $request->session()->pull('session_msg', '');
-        $company       = Company::where('id', $id)->first();
+        $role       = Role::where('id', $id)->first();
 
-        if(!$company) {
+        if(!$role) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('company.index'));
+            return redirect(route('role.index'));
         }
-        return view('pages.company.form', compact('id', 'msg', 'company'));
+        return view('pages.role.form', compact('id', 'msg', 'role'));
     }
 
     // /**
@@ -84,16 +85,16 @@ class CompanyController extends Controller
     //  */
     public function destroy(Request $request, $id)
     {
-        $company = Company::where('id', $id)->first();
-        if(!$company) {
+        $role = Role::where('id', $id)->first();
+        if(!$role) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('company.index'));
+            return redirect(route('role.index'));
         } else {
-            $company->deleted_at = Carbon::now();
-            $company->update();
+            $role->deleted_at = Carbon::now();
+            $role->update();
             
             $request->session()->put('session_msg', 'Record deleted!');
-            return redirect(route('company.index'));
+            return redirect(route('role.index'));
         }        
     }
 }

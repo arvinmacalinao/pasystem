@@ -18,7 +18,7 @@
       <div class="tab-content" id="nav-tabContent">
         <!-- Content for Management and Organizational Skills -->
         <div class="tab-pane fade show active" id="nav-management" role="tabpanel" aria-labelledby="nav-management-tab" tabindex="0">
-            <form method="POST" action="{{ route('team.appraise', ['id' => $user->id]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('team.appraise', ['id' => $user->id, 'appraise_id' => $appraise_id]) }}" enctype="multipart/form-data">
                 @csrf
             <h4>I. MANAGEMENT AND ORGANIZATIONAL SKILLS</h4>
             <div class="form-group">
@@ -1206,7 +1206,7 @@
             <p>DISPOSITION AND EFFORT EXERTED TO OBSERVE AND COMPLY TO COMPANY STANDARDS, POLICIES, PROCEDURES, PROTOCOL, WORK ETHICS, AMONG OTHERS IN ORDER TO PROMOTE ORDER, SAFETY, SECURITY, HARMONY, AND TO AVOID ACCIDENTS, WASTAGES, LOSSES / DAMAGES OF COMPANY RESOURCES/PROPERTIES, INJURIES OF PERSONNEL, AMONG OTHERS.</p>       
             <!-- 7.1 EXPECTED OUTCOME: Adheres to Company rules and regulations -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_1"><strong>10.1. EXPECTED OUTCOME:</strong> Adheres to Company rules and regulations. Conforms to established policies and procedures.</label>       
+                    <label for="expectedOutcome7_1"><strong>7.1. EXPECTED OUTCOME:</strong> Adheres to Company rules and regulations. Conforms to established policies and procedures.</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_1" id="comp_rating_1_1" value="1" required>       
@@ -1242,7 +1242,7 @@
                 </div>       
                 <!-- 7.2 EXPECTED OUTCOME: Observes safety and security procedures -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_2"><strong>10.2. EXPECTED OUTCOME:</strong> Observes safety and security procedures</label>       
+                    <label for="expectedOutcome7_2"><strong>7.2. EXPECTED OUTCOME:</strong> Observes safety and security procedures</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_2" id="comp_rating_2_3" value="3" required>       
@@ -1278,7 +1278,7 @@
                 </div>       
                 <!-- 7.3 EXPECTED OUTCOME: Determines appropriate action beyond guidelines -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_3"><strong>10.3. EXPECTED OUTCOME:</strong> Determines appropriate action beyond guidelines</label>       
+                    <label for="expectedOutcome7_3"><strong>7.3. EXPECTED OUTCOME:</strong> Determines appropriate action beyond guidelines</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_3" id="comp_rating_3_3" value="3" required>       
@@ -1314,7 +1314,7 @@
                 </div>       
                 <!-- 7.4 EXPECTED OUTCOME: Uses equipment and materials properly -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_4"><strong>10.4. EXPECTED OUTCOME:</strong> Uses equipment and materials properly</label>       
+                    <label for="expectedOutcome7_4"><strong>7.4. EXPECTED OUTCOME:</strong> Uses equipment and materials properly</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_4" id="comp_rating_4_3" value="3" required>       
@@ -1350,7 +1350,7 @@
                 </div>       
                 <!-- 7.5 EXPECTED OUTCOME: Observes proper deportment and decorum -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_5"><strong>10.5. EXPECTED OUTCOME:</strong> Observes proper deportment and decorum – social traits such as disposition, tact, appearance, behavior, and conduct</label>       
+                    <label for="expectedOutcome7_5"><strong>7.5. EXPECTED OUTCOME:</strong> Observes proper deportment and decorum – social traits such as disposition, tact, appearance, behavior, and conduct</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_5" id="comp_rating_5_3" value="3" required>       
@@ -1386,7 +1386,7 @@
                 </div>       
                 <!-- 7.6 EXPECTED OUTCOME: Observes proper interpersonal skills -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_6"><strong>10.6. EXPECTED OUTCOME:</strong> Observes proper interpersonal skills – the ability to work harmoniously with others towards the achievement of goals.</label>       
+                    <label for="expectedOutcome7_6"><strong>7.6. EXPECTED OUTCOME:</strong> Observes proper interpersonal skills – the ability to work harmoniously with others towards the achievement of goals.</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_6" id="comp_rating_6_4" value="4" required>       
@@ -1422,7 +1422,7 @@
                 </div>       
                 <!-- 7.7 EXPECTED OUTCOME: Possesses interest in his/her work, enthusiasm, and concern over speedy accomplishment of assigned tasks -->       
                 <div class="form-group">       
-                    <label for="expectedOutcome7_7"><strong>10.7. EXPECTED OUTCOME:</strong> Possesses interest in his/her work, enthusiasm, and concern over speedy accomplishment of assigned tasks.</label>       
+                    <label for="expectedOutcome7_7"><strong>7.7. EXPECTED OUTCOME:</strong> Possesses interest in his/her work, enthusiasm, and concern over speedy accomplishment of assigned tasks.</label>       
                     <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="comp_rating_7" id="comp_rating_7_1" value="1" required>       

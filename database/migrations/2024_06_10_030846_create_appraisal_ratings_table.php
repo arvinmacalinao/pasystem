@@ -22,7 +22,7 @@ return new class extends Migration
             $table->tinyInteger('jk_rating_3')->nullable();
             $table->tinyInteger('jk_rating_4')->nullable();
             $table->tinyInteger('jk_rating_5')->nullable();
-            $table->tinyInteger('jk_rating_score')->nullable();
+            $table->decimal('jk_rating_score', 8, 2)->nullable();
             $table->string('jk_rating_remarks', 255)->nullable();
 
             // Quality Rating
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->tinyInteger('quality_rating_3')->nullable();
             $table->tinyInteger('quality_rating_4')->nullable();
             $table->tinyInteger('quality_rating_5')->nullable();
-            $table->tinyInteger('quality_rating_score')->nullable();
+            $table->decimal('quality_rating_score', 8, 2)->nullable();
             $table->string('quality_rating_remarks', 255)->nullable();
 
             // Quantity Rating
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->tinyInteger('quantity_rating_3')->nullable();
             $table->tinyInteger('quantity_rating_4')->nullable();
             $table->tinyInteger('quantity_rating_5')->nullable();
-            $table->tinyInteger('quantity_rating_score')->nullable();
+            $table->decimal('quantity_rating_score', 8, 2)->nullable();
             $table->string('quantity_rating_remarks', 255)->nullable();
 
             // Initiative Rating
@@ -49,7 +49,7 @@ return new class extends Migration
             $table->tinyInteger('initiative_rating_3')->nullable();
             $table->tinyInteger('initiative_rating_4')->nullable();
             $table->tinyInteger('initiative_rating_5')->nullable();
-            $table->tinyInteger('initiative_rating_score')->nullable();
+            $table->decimal('initiative_rating_score', 8, 2)->nullable();
             $table->string('initiative_rating_remarks', 255)->nullable();
 
             // Cooperation Rating
@@ -58,7 +58,7 @@ return new class extends Migration
             $table->tinyInteger('coop_rating_3')->nullable();
             $table->tinyInteger('coop_rating_4')->nullable();
             $table->tinyInteger('coop_rating_5')->nullable();
-            $table->tinyInteger('coop_rating_score')->nullable();
+            $table->decimal('coop_rating_score', 8, 2)->nullable();
             $table->string('coop_rating_remarks', 255)->nullable();
 
             // Communications Rating
@@ -67,7 +67,7 @@ return new class extends Migration
             $table->tinyInteger('comms_rating_3')->nullable();
             $table->tinyInteger('comms_rating_4')->nullable();
             $table->tinyInteger('comms_rating_5')->nullable();
-            $table->tinyInteger('comms_rating_score')->nullable();
+            $table->decimal('comms_rating_score', 8, 2)->nullable();
             $table->string('comms_rating_remarks', 255)->nullable();
 
             // Compliance Rating
@@ -78,7 +78,7 @@ return new class extends Migration
             $table->tinyInteger('comp_rating_5')->nullable();
             $table->tinyInteger('comp_rating_6')->nullable();
             $table->tinyInteger('comp_rating_7')->nullable();
-            $table->tinyInteger('comp_rating_score')->nullable();
+            $table->decimal('comp_rating_score', 8, 2)->nullable();
             $table->string('comp_rating_remarks', 255)->nullable();
 
             // Attendance Rating
@@ -87,7 +87,7 @@ return new class extends Migration
             $table->tinyInteger('attend_rating_3')->nullable();
             $table->tinyInteger('attend_rating_4')->nullable();
             $table->tinyInteger('attend_rating_5')->nullable();
-            $table->tinyInteger('attend_rating_score')->nullable();
+            $table->decimal('attend_rating_score', 8, 2)->nullable();
             $table->string('attend_rating_remarks', 255)->nullable();
 
             // Problem Solving Rating
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->tinyInteger('ps_rating_3')->nullable();
             $table->tinyInteger('ps_rating_4')->nullable();
             $table->tinyInteger('ps_rating_5')->nullable();
-            $table->tinyInteger('ps_rating_score')->nullable();
+            $table->decimal('ps_rating_score', 8, 2)->nullable();
             $table->string('ps_rating_remarks', 255)->nullable();
 
             // Innovation Solving Rating
@@ -104,7 +104,7 @@ return new class extends Migration
             $table->tinyInteger('inno_rating_2')->nullable();
             $table->tinyInteger('inno_rating_3')->nullable();
             $table->tinyInteger('inno_rating_4')->nullable();
-            $table->tinyInteger('inno_rating_score')->nullable();
+            $table->decimal('inno_rating_score', 8, 2)->nullable();
             $table->string('inno_rating_remarks', 255)->nullable();
 
             // Teamwork Solving Rating
@@ -113,7 +113,7 @@ return new class extends Migration
             $table->tinyInteger('tw_rating_3')->nullable();
             $table->tinyInteger('tw_rating_4')->nullable();
             $table->tinyInteger('tw_rating_5')->nullable();
-            $table->tinyInteger('tw_rating_score')->nullable();
+            $table->decimal('tw_rating_score', 8, 2)->nullable();
             $table->string('tw_rating_remarks', 255)->nullable();
 
             // People Management
@@ -122,7 +122,7 @@ return new class extends Migration
             $table->tinyInteger('pm_rating_3')->nullable();
             $table->tinyInteger('pm_rating_4')->nullable();
             $table->tinyInteger('pm_rating_5')->nullable();
-            $table->tinyInteger('pm_rating_score')->nullable();
+            $table->decimal('pm_rating_score', 8, 2)->nullable();
             $table->string('pm_rating_remarks', 255)->nullable();
 
             // Judgement
@@ -131,7 +131,7 @@ return new class extends Migration
             $table->tinyInteger('judgment_rating_3')->nullable();
             $table->tinyInteger('judgment_rating_4')->nullable();
             $table->tinyInteger('judgment_rating_5')->nullable();
-            $table->tinyInteger('judgment_rating_score')->nullable();
+            $table->decimal('judgment_rating_score', 8, 2)->nullable();
             $table->string('judgment_rating_remarks', 255)->nullable();
 
             // Compliance Rating
@@ -142,55 +142,11 @@ return new class extends Migration
             $table->tinyInteger('management_rating_5')->nullable();
             $table->tinyInteger('management_rating_6')->nullable();
             $table->tinyInteger('management_rating_7')->nullable();
-            $table->tinyInteger('management_rating_score')->nullable();
+            $table->decimal('management_rating_score', 8, 2)->nullable();
             $table->string('management_rating_remarks', 255)->nullable();
 
-            // Attendance HR
-            // late
-            $table->tinyInteger('late_rating_1')->nullable();
-            $table->tinyInteger('late_rating_2')->nullable();
-            $table->tinyInteger('late_rating_3')->nullable();
-            $table->tinyInteger('late_rating_4')->nullable();
-            $table->tinyInteger('late_rating_5')->nullable();
-            $table->tinyInteger('late_rating_6')->nullable();
-            $table->tinyInteger('da_records_late_1')->nullable();
-            $table->tinyInteger('da_records_late_2')->nullable();
-            $table->tinyInteger('da_records_late_3')->nullable();
-            $table->tinyInteger('da_records_late_4')->nullable();
-            $table->tinyInteger('da_records_late_5')->nullable();
-            $table->tinyInteger('da_records_late_6')->nullable();
-            $table->tinyInteger('late_rating_score')->nullable();
-            // undertime
-            $table->tinyInteger('ut_rating_1')->nullable();
-            $table->tinyInteger('ut_rating_2')->nullable();
-            $table->tinyInteger('ut_rating_3')->nullable();
-            $table->tinyInteger('ut_rating_4')->nullable();
-            $table->tinyInteger('ut_rating_5')->nullable();
-            $table->tinyInteger('ut_rating_6')->nullable();
-            $table->tinyInteger('da_records_ut_1')->nullable();
-            $table->tinyInteger('da_records_ut_2')->nullable();
-            $table->tinyInteger('da_records_ut_3')->nullable();
-            $table->tinyInteger('da_records_ut_4')->nullable();
-            $table->tinyInteger('da_records_ut_5')->nullable();
-            $table->tinyInteger('da_records_ut_6')->nullable();
-            $table->tinyInteger('ut_rating_score')->nullable();
-            // unscheduled leave
-            $table->tinyInteger('ul_rating_1')->nullable();
-            $table->tinyInteger('ul_rating_2')->nullable();
-            $table->tinyInteger('ul_rating_3')->nullable();
-            $table->tinyInteger('ul_rating_4')->nullable();
-            $table->tinyInteger('ul_rating_5')->nullable();
-            $table->tinyInteger('ul_rating_6')->nullable();
-            $table->tinyInteger('da_records_ul_1')->nullable();
-            $table->tinyInteger('da_records_ul_2')->nullable();
-            $table->tinyInteger('da_records_ul_3')->nullable();
-            $table->tinyInteger('da_records_ul_4')->nullable();
-            $table->tinyInteger('da_records_ul_5')->nullable();
-            $table->tinyInteger('da_records_ul_6')->nullable();
-            $table->tinyInteger('ul_rating_score')->nullable();
-            $table->tinyInteger('attend_b_rating_score')->nullable();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

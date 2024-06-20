@@ -41,6 +41,7 @@ return new class extends Migration
             $table->tinyInteger('u_active')->default(0); 
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

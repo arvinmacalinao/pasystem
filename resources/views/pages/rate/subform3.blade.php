@@ -17,13 +17,15 @@
               <button class="nav-link" id="nav-communication-tab" data-coreui-toggle="tab" data-coreui-target="#nav-communication" type="button" role="tab" aria-controls="nav-communication" aria-selected="false"><strong>Communications</strong></button>
               <button class="nav-link" id="nav-compliance-tab" data-coreui-toggle="tab" data-coreui-target="#nav-compliance" type="button" role="tab" aria-controls="nav-compliance" aria-selected="false"><strong>Compliances</strong></button>
               <button class="nav-link" id="nav-attendance-tab" data-coreui-toggle="tab" data-coreui-target="#nav-attendance" type="button" role="tab" aria-controls="nav-attendance" aria-selected="false"><strong>Attendance</strong></button>
-              <button class="nav-link" id="nav-attendanceb-tab" data-coreui-toggle="tab" data-coreui-target="#nav-attendanceb" type="button" role="tab" aria-controls="nav-attendanceb" aria-selected="false"><strong>Attendance (HRD)</strong></button>
-        </div>
+              @if(Auth::user()->group->name == "Human Resources")
+                <button class="nav-link" id="nav-attendanceb-tab" data-coreui-toggle="tab" data-coreui-target="#nav-attendanceb" type="button" role="tab" aria-controls="nav-attendanceb" aria-selected="false"><strong>Attendance (HRD)</strong></button>
+              @endif
+            </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
         <!-- Content for Job Knowledge -->
         <div class="tab-pane fade show active" id="nav-job" role="tabpanel" aria-labelledby="nav-job-tab" tabindex="0">
-                <form method="POST" action="{{ route('team.appraise', ['id' => $user->id]) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('team.appraise', ['id' => $user->id, 'appraise_id' => $appraise_id]) }}" enctype="multipart/form-data">
                     @csrf
                 <h4>I. JOB KNOWLEDGE</h4>       
                 <p>THE EXTENT OF TECHNICAL PROFICIENCY AND DEGREE OF UNDERSTANDING OF THE TASKS ASSIGNED. EMPLOYEE IS EXPECTED TO UNDERSTAND THE NATURE AND DETAILS OF THE TASKS BY APPLYING HIS/HER COMPETENCIES TO THE JOB.</p>       

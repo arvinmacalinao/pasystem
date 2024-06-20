@@ -6,20 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class UserGroup extends Model
+class AppraisalPeriod extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'user_groups';
+    protected $table = 'appraisal_period';
 
 	protected $fillable = [
-		'name',
-		'alias',
-		'description',
+		'id', 'name', 'created_at', 'updated_at', 'deleted_at'
 	];
-	
-	public function users()
-	{
-	    return $this->hasMany(User::class);
-	}
 }

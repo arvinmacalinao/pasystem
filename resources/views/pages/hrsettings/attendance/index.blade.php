@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h4 class="card-title mb-0">My Team</h4>
+                    <h4 class="card-title mb-0">Attendance Encoding</h4>
                     {{-- <div class="small text-body-secondary">January - July 2023</div> --}}
                   </div>
                   {{-- <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
@@ -104,22 +104,17 @@
                         <td>{{ $row->role->name }}</td>
                         <td  class="project-actions text-right">
                             @if (!$row->has_been_rated)
-                                <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                <a class="btn btn-warning btn-sm text-light" href="{{ route('hr.attendance.rate', ['id' => $row->id]) }}">
                                     <i class="fa fa-pencil"></i> Rate
                                 </a>
-                                @if ($row->immediate_supervisor_rated)
-                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
-                                </a>
-                                @endif
                             @else
                                 <!-- Optionally, you can add a message or leave it empty -->
-                                <a class="btn btn-info btn-sm text-light" href="{{ route('team.view', ['id' => $row->has_been_rated->id]) }}">
+                                <a class="btn btn-info btn-sm text-light" href="">
                                     <i class="fa fa-folder-open"></i>
                                     </i>
                                     View
                                 </a>
-                                <span class="text-muted"></span>
+                                <span class="text-muted"><small></small></span>
                             @endif
                         </td>
                     </tr>

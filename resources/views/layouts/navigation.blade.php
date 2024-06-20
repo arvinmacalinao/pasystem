@@ -29,6 +29,15 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('hr.attendance.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
+            </svg>
+            {{ __('Attendance Encoding') }}
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('company.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-building') }}"></use>
@@ -38,15 +47,24 @@
     </li>
     
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('company.index') }}">
+        <a class="nav-link" href="{{ route('ugroup.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-building') }}"></use>
             </svg>
             {{ __('Groups') }}
         </a>
     </li>
-    
+
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('role.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-building') }}"></use>
+            </svg>
+            {{ __('Role') }}
+        </a>
+    </li>
+    
+    {{-- <li class="nav-item">
         <a class="nav-link" href="">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-speedometer') }}"></use>
@@ -72,5 +90,5 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> --}}
 </ul>

@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
 use App\Models\EmployeeStatus;
+use App\Models\ActualAttendance;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\PerformanceAppraisal;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -80,8 +82,22 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'is_id');
     }
 
-    public function subordinates(): HasMany
+    public function subordinatesasIS(): HasMany
     {
         return $this->hasMany(User::class, 'is_id');
     }
+    public function subordinatesasFR(): HasMany
+    {
+        return $this->hasMany(User::class, 'fr_id');
+    }
+    
+    public function performanceAppraisals()
+    {
+        return $this->hasMany(PerformanceAppraisal::class, 'employee_id', 'id');
+    }
+
+    public function actual_attendance()
+{
+    return $this->hasMany(ActualAttendance::class, 'employee_id');
+}
 }

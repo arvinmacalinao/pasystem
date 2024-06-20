@@ -187,7 +187,7 @@
 							<select class="form-control form-control-sm @error('fr_id') is-invalid @enderror select2" name="fr_id">
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($supervisories as $visor)
-									<option value="{{ $visor->id }}" 0>{{ $visor->FullName . "-" . $visor->company->alias ."/". $visor->role->name }}</option>
+									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}>{{ $visor->FullName . "-" . $visor->company->alias ."/". $visor->role->name }}</option>
 								@endforeach
 							</select>
 							<div class="invalid-feedback">@error('fr_id') {{ $errors->first('fr_id') }} @enderror</div>

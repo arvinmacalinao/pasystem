@@ -1,17 +1,18 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use View;
-use Validator;
 use Carbon\Carbon;
-use App\Models\Company;
+use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CompanyController extends Controller
+class UserGroupsController extends Controller
 {
     public function __construct() 
     {
-		$data = [ 'page' => 'Company' ];
+		$data = [ 'page' => 'User Group' ];
 		View::share('data', $data);
 
         $this->middleware(function ($request, $next) {  
@@ -29,9 +30,9 @@ class CompanyController extends Controller
     {
         $msg        = $request->session()->pull('session_msg', '');
 
-        $rows       = Company::paginate(20);
+        $rows       = UserGroup::paginate(20);
 
-        return view('pages.company.index', compact('rows', 'msg'));
+        return view('pages.ugroup.index', compact('rows', 'msg'));
     }
 
     public function create(Request $request)
@@ -39,41 +40,41 @@ class CompanyController extends Controller
         $msg        = $request->session()->pull('session_msg', '');
     
         $id         = 0;
-        $company    = new Company;
+        $ugroup    = new UserGroup;
 
-        return view('pages.company.form', compact('id', 'company', 'msg'));
+        return view('pages.ugroup.form', compact('id', 'ugroup', 'msg'));
     }
 
     public function store(Request $request, $id)
     {
         if($id == 0) {
-            $company     = Company::create($request->all());
+            $ugroup     = UserGroup::create($request->all());
     
             $request->session()->put('session_msg', 'Record successfully added.');
         } else {
-            $company     = Company::where('id', $id)->first();
-            if(!$company ) {
+            $ugroup     = UserGroup::where('id', $id)->first();
+            if(!$ugroup ) {
                 $request->session()->put('session_msg', 'Record not found!');
-                return redirect(route('company.index'));
+                return redirect(route('ugroup.index'));
             }
-            $company->update($request->all());
+            $ugroup->update($request->all());
 
             $request->session()->put('session_msg', 'Record updated.');
         }
 
-        return redirect(route('company.index'));
+        return redirect(route('ugroup.index'));
     }
     
     public function edit(Request $request, $id)
     {
         $msg        = $request->session()->pull('session_msg', '');
-        $company       = Company::where('id', $id)->first();
+        $ugroup       = UserGroup::where('id', $id)->first();
 
-        if(!$company) {
+        if(!$ugroup) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('company.index'));
+            return redirect(route('ugroup.index'));
         }
-        return view('pages.company.form', compact('id', 'msg', 'company'));
+        return view('pages.ugroup.form', compact('id', 'msg', 'ugroup'));
     }
 
     // /**
@@ -84,16 +85,16 @@ class CompanyController extends Controller
     //  */
     public function destroy(Request $request, $id)
     {
-        $company = Company::where('id', $id)->first();
-        if(!$company) {
+        $ugroup = UserGroup::where('id', $id)->first();
+        if(!$ugroup) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('company.index'));
+            return redirect(route('ugroup.index'));
         } else {
-            $company->deleted_at = Carbon::now();
-            $company->update();
+            $ugroup->deleted_at = Carbon::now();
+            $ugroup->update();
             
             $request->session()->put('session_msg', 'Record deleted!');
-            return redirect(route('company.index'));
+            return redirect(route('ugroup.index'));
         }        
     }
 }
