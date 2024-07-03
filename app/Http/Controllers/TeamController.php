@@ -8,9 +8,11 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\AppraisalRating;
 use App\Helpers\AppraisalHelper;
+use App\Events\FinalGradeUpdated;
 use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,6 +65,8 @@ class TeamController extends Controller
             ->where('evaluator_id', $row->is_id)
             ->wherenot('evaluator_id', $user->id)
             ->first();
+
+            $row->is_final_rater = User::where('id', $row->id)->where('fr_id', $user->id)->first();
         }
 
         return view('pages.team.index', compact('rows', 'companies', 'roles', 'groups', 'msg'));
@@ -84,13 +88,19 @@ class TeamController extends Controller
         
         $userid = auth()->id();
 
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+
+        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+
         if($appraise_id == 0){
+
             // Create a new record in the PerformanceAppraisal table
             $appraisal = PerformanceAppraisal::create([
                 'employee_id' => $id,
                 'evaluator_id' => $userid,
                 'evaluation_date' => now(),
-                'period_id' => 1,
+                'period_id' => $period_id,
                 'evaluator_remarks' => $request->input('evaluator_remarks'),
                 'employee_remarks' => $request->input('employee_remarks'),
             ]);
@@ -100,13 +110,103 @@ class TeamController extends Controller
             $averageRatings = AppraisalHelper::computeAverageRatings($request, $categories);
 
             // Add the performance_appraisal_id to the request data
-            $request->request->add(['appraisal_id' => $appraisal->id]);
 
+            $request->request->add(['appraisal_id' => $appraisal->id]);
+            
             // Merge the average ratings into the request data
             $request->merge($averageRatings);
+           
+            // Compute Total
+            $level = $employee_level->job_level;
+                
+            if ($level >= 1 && $level <= 3) {
+                $appraisal_rating_score  = [
+                    $averageRatings['jk_rating_score'] * 0.2,
+                    $averageRatings['quality_rating_score'] * 0.2,
+                    $averageRatings['quantity_rating_score'] * 0.15,
+                    $averageRatings['initiative_rating_score'] * 0.05,
+                    $averageRatings['coop_rating_score'] * 0.05,
+                    $averageRatings['comms_rating_score'] * 0.05,
+                    $averageRatings['comp_rating_score'] * 0.1,
+                    $averageRatings['attend_rating_score'] * 0.05,
+                ];
+                $ratingscore = array_sum($appraisal_rating_score);
+            } elseif ($level >= 4 && $level <= 6) {
+                $appraisal_rating_score  = [
+                    $averageRatings['jk_rating_score'] * 0.15,
+                    $averageRatings['quality_rating_score'] * 0.15,
+                    $averageRatings['quantity_rating_score'] * 0.15,
+                    $averageRatings['ps_rating_score'] * 0.15,
+                    $averageRatings['inno_rating_score'] * 0.05,
+                    $averageRatings['tw_rating_score'] * 0.05,
+                    $averageRatings['comms_rating_score'] * 0.05,
+                    $averageRatings['comp_rating_score'] * 0.1,
+                    $averageRatings['attend_rating_score'] * 0.05,
+                ];
+                $ratingscore = array_sum($appraisal_rating_score);
+            } elseif ($level >= 7 && $level <= 8) {
+                $appraisal_rating_score  = [
+                    $averageRatings['jk_rating_score'] * 0.1,
+                    $averageRatings['quality_rating_score'] * 0.1,
+                    $averageRatings['quantity_rating_score'] * 0.1,
+                    $averageRatings['pm_rating_score'] * 0.1,
+                    $averageRatings['ps_rating_score'] * 0.1,
+                    $averageRatings['judgment_rating_score'] * 0.05,
+                    $averageRatings['leadership_rating_score'] * 0.1,
+                    $averageRatings['inno_rating_score'] * 0.08,
+                    $averageRatings['comms_rating_score'] * 0.05,
+                    $averageRatings['comp_rating_score'] * 0.1,
+                    $averageRatings['attend_rating_score'] * 0.04,
+                ];
+                $ratingscore = array_sum($appraisal_rating_score);
+            } elseif ($level == 9) {
+                $appraisal_rating_score  = [
+                    $averageRatings['jk_rating_score'] * 0.1,
+                    $averageRatings['quality_rating_score'] * 0.1,
+                    $averageRatings['quantity_rating_score'] * 0.1,
+                    $averageRatings['pm_rating_score'] * 0.1,
+                    $averageRatings['ps_rating_score'] * 0.1,
+                    $averageRatings['judgment_rating_score'] * 0.1,
+                    $averageRatings['leadership_rating_score'] * 0.1,
+                    $averageRatings['inno_rating_score'] * 0.1,
+                    $averageRatings['comms_rating_score'] * 0.05,
+                    $averageRatings['comp_rating_score'] * 0.1,
+                    $averageRatings['attend_rating_score'] * 0.02,
+                ];
+                $ratingscore = array_sum($appraisal_rating_score);
+            } elseif ($level == 10) {
+                $appraisal_rating_score  = [
+                    $averageRatings['management_rating_score'] * 0.4,
+                    $averageRatings['pm_rating_score'] * 0.1,
+                    $averageRatings['ps_rating_score'] * 0.1,
+                    $averageRatings['judgment_rating_score'] * 0.1,
+                    $averageRatings['leadership_rating_score'] * 0.1,
+                    $averageRatings['inno_rating_score'] * 0.1,
+                    $averageRatings['comp_rating_score'] * 0.1,
+                ];
+                $ratingscore = array_sum($appraisal_rating_score);
+            }
+
+            // $ratingscore = count($averageRatings) > 0 ? array_sum($averageRatings) / count($averageRatings): null;
+            
+            // dd($averageRatings, $ratingscore, $level);
+            
+            $request->request->add(['appraisal_rating_score' => $ratingscore]);
 
             // Create a new record in the AppraisalRating table
             $appraisal_ratings = AppraisalRating::create($request->all());
+
+            // Dispatch the FinalGradeUpdated event
+            event(new FinalGradeUpdated($id));
+
+            // Check if the user is the immediate supervisor (is_id)
+            $isImmediateSupervisor = $this->checkIfImmediateSupervisor($userid, $id); // Implement this function to return true/false
+
+            if ($isImmediateSupervisor) {
+                // Send notification to HR and the final rater
+                $this->sendNotificationToHR($id);
+                $this->sendNotificationToFinalRater($id);
+            }
 
             $request->session()->put('session_msg', 'Ratings has been successfully submitted.');
         } else {
@@ -161,18 +261,65 @@ class TeamController extends Controller
 
             AppraisalRating::create($newRatingData);
 
+            // Dispatch the FinalGradeUpdated event
+            event(new FinalGradeUpdated($supervisorAppraisal->employee_id));
+
             return redirect()->route('team.index')->with('session_msg', 'Rating copied successfully.');
         } else {
             return redirect()->route('team.index')->with('session_msg', 'No appraisal rating found to copy.');
         }
     }
 
-    public function view(Request $request, $appraisalId)
+    public function view(Request $request, $id)
     {
         $msg        = $request->session()->pull('session_msg', '');
-        // Retrieve the Performance Appraisal and its associated ratings
-        $performanceAppraisal = PerformanceAppraisal::with('appraisalRating')->findOrFail($appraisalId);
+        
+        $auth_id    = Auth::id();
+        
+        $employee       = User::where('id', $id)->first();
 
-        return view('pages.team.view', compact('performanceAppraisal', 'msg'));
+        $rows           = PerformanceAppraisal::where('employee_id', $employee->id)->where('evaluator_id', $auth_id)->orderby('created_at', 'desc')->orderby('period_id', 'asc')->paginate(20);
+
+        return view('pages.team.view', compact('msg', 'rows', 'id', 'employee'));
+    }
+
+    private function checkIfImmediateSupervisor($userid, $employeeId) {
+        // Find the employee by ID
+            $employee = User::find($employeeId);
+
+            // Check if the employee's immediate supervisor ID matches the user ID
+            if ($employee && $employee->is_id == $userid) {
+                return true;
+            }
+        
+            return false;
+    }
+    
+    // Function to send notification to HR
+    private function sendNotificationToHR($employeeId) {
+        $userIds = User::where('r_id', 4)->pluck('id');
+        $employee = User::where('id', $employeeId)->first();
+
+        foreach ($userIds as $userId) {
+        Notification::create([
+            'u_id' => $userId,
+            'title' => 'For Attendace Encode',
+            'employee_id' => $employeeId,
+            'message' => 'You can now encode attendance for this user: ' . $employee->FullName,
+        ]);
+        }
+    }
+    
+    // Function to send notification to the final rater
+    private function sendNotificationToFinalRater($employeeId) {
+        $finalrater = User::where('id', $employeeId)->value('fr_id');
+        $employee = User::where('id', $employeeId)->first();
+
+        Notification::create([
+            'u_id' => $finalrater,
+            'title' => 'New Employee Rate',
+            'employee_id' => $employeeId,
+            'message' => 'You can now rate this user: ' . $employee->FullName,
+        ]);
     }
 }

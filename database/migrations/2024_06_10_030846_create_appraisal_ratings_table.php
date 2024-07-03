@@ -107,6 +107,15 @@ return new class extends Migration
             $table->decimal('inno_rating_score', 8, 2)->nullable();
             $table->string('inno_rating_remarks', 255)->nullable();
 
+            // Leadership  Rating
+            $table->tinyInteger('leadership_rating_1')->nullable();
+            $table->tinyInteger('leadership_rating_2')->nullable();
+            $table->tinyInteger('leadership_rating_3')->nullable();
+            $table->tinyInteger('leadership_rating_4')->nullable();
+            $table->tinyInteger('leadership_rating_5')->nullable();
+            $table->decimal('leadership_rating_score', 8, 2)->nullable();
+            $table->string('leadership_rating_remarks', 255)->nullable();
+
             // Teamwork Solving Rating
             $table->tinyInteger('tw_rating_1')->nullable();
             $table->tinyInteger('tw_rating_2')->nullable();
@@ -145,6 +154,8 @@ return new class extends Migration
             $table->decimal('management_rating_score', 8, 2)->nullable();
             $table->string('management_rating_remarks', 255)->nullable();
 
+            $table->decimal('appraisal_rating_score', 8, 2)->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

@@ -2,7 +2,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('home') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-speedometer') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-monitor') }}"></use>
             </svg>
             {{ __('Dashboard') }}
         </a>
@@ -10,11 +10,21 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('team.index') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-address-book') }}"></use>
             </svg>
-            {{ __('My Team') }}
+            {{ __('My Subordinate') }}
         </a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('hr.attendance.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
+            </svg>
+            {{ __('Attendance Encoding') }}
+        </a>
+    </li>
+    
     <hr>
     <li class="text-center">
         <h4>HR Settings</h4>
@@ -22,18 +32,9 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('employee.index') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-people') }}"></use>
             </svg>
             {{ __('Employees') }}
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('hr.attendance.index') }}">
-            <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
-            </svg>
-            {{ __('Attendance Encoding') }}
         </a>
     </li>
 
@@ -49,18 +50,27 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('ugroup.index') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-building') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-industry') }}"></use>
             </svg>
-            {{ __('Groups') }}
+            {{ __('Department') }}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('designation.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
+            </svg>
+            {{ __('Designation') }}
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('role.index') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-building') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-featured-playlist') }}"></use>
             </svg>
-            {{ __('Role') }}
+            {{ __('Permission') }}
         </a>
     </li>
     

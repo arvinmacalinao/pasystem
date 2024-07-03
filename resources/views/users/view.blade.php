@@ -5,7 +5,7 @@
         <div class="card-header">
             {{ __('My profile') }}
             <div class="pull-right">
-                {{-- {{ route('user.edit', ['id' => $user->u_id]) }} --}}
+                {{-- {{ route('user.edit', ['id' => $employee->u_id]) }} --}}
                 <a class="btn btn-success btn-sm text-light" href="">
                     <i class="fa fa-pencil">
                     </i>
@@ -21,25 +21,25 @@
                             <div class="col-md-4">
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="first_name">First Name</label>
-                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $user->first_name }}" readonly>
+                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $employee->first_name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="middle_name">Middle Name</label>
-                                    <input placeholder="Middle Name" class="form-control" type="text" maxlength="255" name="middle_name" id="middle_name" value="{{ $user->middle_name }}" readonly>
+                                    <input placeholder="Middle Name" class="form-control" type="text" maxlength="255" name="middle_name" id="middle_name" value="{{ $employee->middle_name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="last_name">Last Name</label>
-                                    <input placeholder="Last Name" class="form-control" type="text" maxlength="255" name="last_name" id="last_name" value="{{ $user->last_name }}" readonly>
+                                    <input placeholder="Last Name" class="form-control" type="text" maxlength="255" name="last_name" id="last_name" value="{{ $employee->last_name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="email">E-mail Address</label>
-                                    <input placeholder="E-mail Address" class="form-control" type="text" maxlength="255" name="email" id="email" value="{{ $user->email }}" readonly>
+                                    <input placeholder="E-mail Address" class="form-control" type="text" maxlength="255" name="email" id="email" value="{{ $employee->email }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4"></div>
@@ -50,7 +50,7 @@
                             <div class="col-md-4">
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="username">Username</label>
-                                    <input placeholder="Username" class="form-control" type="text" maxlength="255" name="username" id="username" value="{{ $user->username }}" readonly>
+                                    <input placeholder="Username" class="form-control" type="text" maxlength="255" name="username" id="username" value="{{ $employee->username }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -104,8 +104,9 @@
                                     <th class="bg-body-secondary text-center">#</th>
                                     <th class="bg-body-secondary">Year</th>
                                     <th class="bg-body-secondary">Semester</th>
-                                    <th class="bg-body-secondary">Rated by:</th>
-                                    <th class="bg-body-secondary">Grade</th>
+                                    <th class="bg-body-secondary">Immediate Supervisor Grade</th>
+                                    <th class="bg-body-secondary">Final Rater Grade</th>
+                                    <th class="bg-body-secondary">Final Grade</th>
                                     <th class="bg-body-secondary"></th>
                                 </tr>
                             </thead>
@@ -117,11 +118,28 @@
                             @foreach ($rows as $row)
                                 <tr>
                                     <td class="text-center">{{ $ctr++ }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($row->evaluation_date)->format('Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($row->created_at)->format('Y') }}</td>
                                     <td>{{ $row->period_id == 1 ? '1st Semester' : '2nd Semester' }}</td>
-                                    <td>{{ $row->evaluator->FullName }}</td>
-                                    <td>{{ $row->appraisalRating->appraisal_rating_score ?? '' }}</td>
+                                    @if($row->appraisal1_score)
+                                    <td><small>score:</small> {{ $row->appraisal1_score ?? ''}} <small>
+                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.reset', ['id' => $row->appraisal1_id]) }}">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i> Reset
+                                        </a>
+                                        <br>rated by: {{$row->appraisal1->evaluator->FullName ?? ''}}</small></td>
+                                    @endif
+                                    @if($row->appraisal2_score)
+                                    <td text-center><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
+                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i> Reset
+                                        </a>
+                                        <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>  
+                                    </td>
+                                    @else
+                                    <td><small>Not yet rated</small></td>
+                                    @endif
+                                    <td>{{ $row->final_score ?? '-'}}</small></td>
                                     <td  class="project-actions text-right">
+                                        
                                     </td>
                                 </tr>
                             </tbody>

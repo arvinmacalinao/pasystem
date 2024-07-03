@@ -29,7 +29,7 @@ class User extends Authenticatable
     protected $fillable = [
         'id', 'first_name', 'middle_name', 'last_name', 'email', 'username', 'password', 'employee_code', 
         'date_hired',  'date_regular', 'date_separated', 'location', 'es_id', 'is_id', 'fr_id', 'job_level', 
-        'ug_id', 'r_id', 'c_id', 'u_enabled', 'u_active', 
+        'ug_id', 'r_id', 'c_id', 'd_id', 'u_enabled', 'u_active', 
         'remember_token', 'created_at', 'updated_at', 'deleted_at'
     ];
 

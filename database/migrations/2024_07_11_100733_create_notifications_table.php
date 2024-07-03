@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notification', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('type');
+            $table->bigInteger('u_id')->unsigned()->nullable();
+            $table->foreign('u_id')->references('id')->on('users');
+            $table->bigInteger('employee_id')->unsigned()->nullable();
+            $table->foreign('employee_id')->references('id')->on('users');
             $table->string('title');
             $table->text('message');
             $table->json('data')->nullable();
             $table->string('url')->nullable();
-            $table->string('status')->default('unread');
-            $table->string('priority')->nullable();
-            $table->string('category')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

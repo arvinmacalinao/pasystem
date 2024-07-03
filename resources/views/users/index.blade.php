@@ -115,13 +115,19 @@
                  ?>
                 <tbody>
                 @foreach ($rows as $row)
-                    <tr>
+                    <tr style="background-color: {{ $row->u_active == 1 ? 'white' : 'grey' }};">
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->alias }}</td>
                         <td>{{ $row->group->name }}</td>
                         <td>{{ $row->role->name }}</td>
+                        @if($row->u_active == 1)
                         <td  class="project-actions text-right">
+                            <a class="btn btn-info btn-sm text-light" href="{{ route('employee.view', ['id' => $row->id]) }}">
+                                <i class="fa fa-folder-open"></i>
+                                </i>
+                                View
+                            </a>
                             <a class="btn btn-success btn-sm text-light" href="{{ route('employee.edit', ['id' => $row->id]) }}">
                                 <i class="fa fa-pencil"></i>
                                 </i>
@@ -131,6 +137,15 @@
                                 <i class="fa fa-trash"></i> Delete
                             </a>
                         </td>
+                        @else
+                        <td>
+                            <a class="btn btn-success btn-sm text-light" href="{{ route('employee.active', ['id' => $row->id]) }}">
+                                <i class="fa fa-pencil"></i>
+                                </i>
+                                Mark as Active
+                            </a>
+                        </td>
+                        @endif
                     </tr>
                 </tbody>
                 @endforeach

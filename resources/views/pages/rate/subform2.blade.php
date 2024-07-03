@@ -812,7 +812,7 @@
             <!-- 5.1 EXPECTED OUTCOME: Displays original thinking and creativity -->
                 <div class="form-group">
                     <label for="expectedOutcome5_1"><strong>5.1. EXPECTED OUTCOME:</strong> Displays original thinking and creativity</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_1" id="inno_rating_1_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_1_3">
@@ -849,7 +849,7 @@
                 <!-- 5.2 EXPECTED OUTCOME: Meets challenges with resourcefulness -->
                 <div class="form-group">
                     <label for="expectedOutcome5_2"><strong>5.2. EXPECTED OUTCOME:</strong> Meets challenges with resourcefulness</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_2" id="inno_rating_2_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_2_3">
@@ -886,7 +886,7 @@
                 <!-- 5.3 EXPECTED OUTCOME: Generates suggestions for improving work -->
                 <div class="form-group">
                     <label for="expectedOutcome5_3"><strong>5.3. EXPECTED OUTCOME:</strong> Generates suggestions for improving work</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_3" id="inno_rating_3_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_3_3">
@@ -923,7 +923,7 @@
                 <!-- 5.4 EXPECTED OUTCOME: Develops innovative approaches and ideas -->
                 <div class="form-group">
                     <label for="expectedOutcome5_4"><strong>5.4. EXPECTED OUTCOME:</strong> Develops innovative approaches and ideas</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_4" id="inno_rating_4_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_4_3">
@@ -977,7 +977,7 @@
             <!-- 6.1 EXPECTED OUTCOME: Balances team and individual responsibilities -->
             <div class="form-group">
                 <label for="expectedOutcome6_1"><strong>6.1. EXPECTED OUTCOME:</strong> Balances team and individual responsibilities</label>
-                <div class="mt-3">
+                <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tw_rating_1" id="tw_rating_1_5" value="5" required>
                         <label class="form-check-label" for="tw_rating_1_5">
@@ -1014,7 +1014,7 @@
             <!-- 6.2 EXPECTED OUTCOME: Exhibits objectivity and openness to others’ views -->
             <div class="form-group">
                 <label for="expectedOutcome6_2"><strong>6.2. EXPECTED OUTCOME:</strong> Exhibits objectivity and openness to others’ views</label>
-                <div class="mt-3">
+                <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tw_rating_2" id="tw_rating_2_5" value="5" required>
                         <label class="form-check-label" for="tw_rating_2_5">
@@ -1051,7 +1051,7 @@
             <!-- 6.3 EXPECTED OUTCOME: Gives and welcomes feedback -->
             <div class="form-group">
                 <label for="expectedOutcome6_3"><strong>6.3. EXPECTED OUTCOME:</strong> Gives and welcomes feedback</label>
-                <div class="mt-3">
+                <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tw_rating_3" id="tw_rating_3_5" value="5" required>
                         <label class="form-check-label" for="tw_rating_3_5">
@@ -1088,7 +1088,7 @@
             <!-- 6.4 EXPECTED OUTCOME: Contributes to building a positive team spirit -->
             <div class="form-group">
                 <label for="expectedOutcome6_4"><strong>6.4. EXPECTED OUTCOME:</strong> Contributes to building a positive team spirit</label>
-                <div class="mt-3">
+                <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tw_rating_4" id="tw_rating_4_5" value="5" required>
                         <label class="form-check-label" for="tw_rating_4_5">
@@ -1125,7 +1125,7 @@
             <!-- 6.5 EXPECTED OUTCOME: Puts success of team above own interests -->
             <div class="form-group">
                 <label for="expectedOutcome6_5"><strong>6.5. EXPECTED OUTCOME:</strong> Puts success of team above own interests</label>
-                <div class="mt-3">
+                <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tw_rating_5" id="tw_rating_5_5" value="5" required>
                         <label class="form-check-label" for="tw_rating_5_5">
@@ -1792,6 +1792,7 @@
             <br>
             <br>
             <div class="d-grid gap-2">
+              <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
               <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
             </div>
         </div>

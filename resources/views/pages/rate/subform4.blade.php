@@ -619,7 +619,7 @@
             <!-- 4.1. EXPECTED OUTCOME: Provides direction and gains compliance -->
                 <div class="form-group">
                     <label for="expectedOutcome4_1"><strong>4.1. EXPECTED OUTCOME:</strong> Provides direction and gains compliance</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pm_rating_1" id="pm_rating_1_4" value="4" required>
                             <label class="form-check-label" for="pm_rating_1_4">
@@ -656,7 +656,7 @@
                 <!-- 4.2. EXPECTED OUTCOME: Includes subordinates in planning -->
                 <div class="form-group">
                     <label for="expectedOutcome4_2"><strong>4.2. EXPECTED OUTCOME:</strong> Includes subordinates in planning</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pm_rating_2" id="pm_rating_2_4" value="4" required>
                             <label class="form-check-label" for="pm_rating_2_4">
@@ -693,7 +693,7 @@
                 <!-- 4.3. EXPECTED OUTCOME: Takes responsibility for subordinates’ activities -->
                 <div class="form-group">
                     <label for="expectedOutcome4_3"><strong>4.3. EXPECTED OUTCOME:</strong> Takes responsibility for subordinates’ activities</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pm_rating_3" id="pm_rating_3_4" value="4" required>
                             <label class="form-check-label" for="pm_rating_3_4">
@@ -730,7 +730,7 @@
                 <!-- 4.4. EXPECTED OUTCOME: Makes self available to subordinates -->
                 <div class="form-group">
                     <label for="expectedOutcome4_4"><strong>4.4. EXPECTED OUTCOME:</strong> Makes self available to subordinates</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pm_rating_4" id="pm_rating_4_4" value="4" required>
                             <label class="form-check-label" for="pm_rating_4_4">
@@ -767,7 +767,7 @@
                 <!-- 4.5. EXPECTED OUTCOME: Provides regular performance feedback and develops subordinates’ skills and encourages growth -->
                 <div class="form-group">
                     <label for="expectedOutcome4_5"><strong>4.5. EXPECTED OUTCOME:</strong> Provides regular performance feedback and develops subordinates’ skills and encourages growth</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pm_rating_5" id="pm_rating_5_4" value="4" required>
                             <label class="form-check-label" for="pm_rating_5_4">
@@ -890,7 +890,7 @@
                 <!-- 4.3 EXPECTED OUTCOME: Develops alternative solutions -->       
                 <div class="form-group">       
                     <label for="expectedOutcome4_3"><strong>5.3. EXPECTED OUTCOME:</strong> Develops alternative solutions</label>       
-                    <div class="mt-3">       
+                    <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="ps_rating_3" id="ps_rating_3_4" value="4" required>       
                             <label class="form-check-label" for="ps_rating_3_4">       
@@ -926,7 +926,7 @@
                 <!-- 4.4 EXPECTED OUTCOME: Resolves problems in early stages -->       
                 <div class="form-group">       
                     <label for="expectedOutcome4_4"><strong>5.4. EXPECTED OUTCOME:</strong> Resolves problems in early stages</label>       
-                    <div class="mt-3">       
+                    <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="ps_rating_4" id="ps_rating_4_4" value="4" required>       
                             <label class="form-check-label" for="ps_rating_4_4">       
@@ -962,7 +962,7 @@
                 <!-- 4.5 EXPECTED OUTCOME: Works well in group problem solving situations -->       
                 <div class="form-group">       
                     <label for="expectedOutcome4_5"><strong>5.5. EXPECTED OUTCOME:</strong> Works well in group problem solving situations</label>       
-                    <div class="mt-3">       
+                    <div class="mb-3">       
                         <div class="form-check">       
                             <input class="form-check-input" type="radio" name="ps_rating_5" id="ps_rating_5_4" value="4" required>       
                             <label class="form-check-label" for="ps_rating_5_4">       
@@ -1014,171 +1014,181 @@
             </p>
                 <div class="form-group">
                     <label><strong>6.1. EXPECTED OUTCOME:</strong> Displays willingness to make decisions</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_2" value="2" required>
-                        <label class="form-check-label" for="judgment_rating_1_2">
-                            Hesitates in making some decisions on his/her own, often requiring more assistance than appropriate 
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_4" value="4" required>
-                        <label class="form-check-label" for="judgment_rating_1_4">
-                            Confidently makes decisions in all areas of his/her job
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_3" value="3" required>
-                        <label class="form-check-label" for="judgment_rating_1_3">
-                            Makes confident decisions in most areas of his/her job
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_1" value="1" required>
-                        <label class="form-check-label" for="judgment_rating_1_1">
-                            Frequently, s/he has difficulty making independent decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_5" value="5" required>
-                        <label class="form-check-label" for="judgment_rating_1_5">
-                            Does not hesitate to make decisions on very challenging matters and has confidence in his/her decision making abilities
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_2" value="2" required>
+                            <label class="form-check-label" for="judgment_rating_1_2">
+                                Hesitates in making some decisions on his/her own, often requiring more assistance than appropriate 
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_4" value="4" required>
+                            <label class="form-check-label" for="judgment_rating_1_4">
+                                Confidently makes decisions in all areas of his/her job
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_3" value="3" required>
+                            <label class="form-check-label" for="judgment_rating_1_3">
+                                Makes confident decisions in most areas of his/her job
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_1" value="1" required>
+                            <label class="form-check-label" for="judgment_rating_1_1">
+                                Frequently, s/he has difficulty making independent decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_1" id="judgment_rating_1_5" value="5" required>
+                            <label class="form-check-label" for="judgment_rating_1_5">
+                                Does not hesitate to make decisions on very challenging matters and has confidence in his/her decision making abilities
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label><strong>6.2. EXPECTED OUTCOME:</strong> Exhibits sound and accurate judgment</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_2" value="2" required>
-                        <label class="form-check-label" for="judgment_rating_2_2">
-                            Has too often made decisions that subsequently resulted in problems because they were not well thought out
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_4" value="4" required>
-                        <label class="form-check-label" for="judgment_rating_2_4">
-                            Decisions are on target and reflect his/her reliable, sound judgment skills
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_3" value="3" required>
-                        <label class="form-check-label" for="judgment_rating_2_3">
-                            Decisions are generally accurate and sound
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_1" value="1" required>
-                        <label class="form-check-label" for="judgment_rating_2_1">
-                            Lack of judgment has often resulted in problem situations
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_5" value="5" required>
-                        <label class="form-check-label" for="judgment_rating_2_5">
-                            Sound judgment results in decisions that are consistently on target for even the most complicated issues
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_2" value="2" required>
+                            <label class="form-check-label" for="judgment_rating_2_2">
+                                Has too often made decisions that subsequently resulted in problems because they were not well thought out
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_4" value="4" required>
+                            <label class="form-check-label" for="judgment_rating_2_4">
+                                Decisions are on target and reflect his/her reliable, sound judgment skills
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_3" value="3" required>
+                            <label class="form-check-label" for="judgment_rating_2_3">
+                                Decisions are generally accurate and sound
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_1" value="1" required>
+                            <label class="form-check-label" for="judgment_rating_2_1">
+                                Lack of judgment has often resulted in problem situations
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_2" id="judgment_rating_2_5" value="5" required>
+                            <label class="form-check-label" for="judgment_rating_2_5">
+                                Sound judgment results in decisions that are consistently on target for even the most complicated issues
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label><strong>6.3. EXPECTED OUTCOME:</strong> Supports and explains reasoning for decisions</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_2" value="2" required>
-                        <label class="form-check-label" for="judgment_rating_3_2">
-                            Sometimes has difficulty supporting and explaining his/her decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_4" value="4" required>
-                        <label class="form-check-label" for="judgment_rating_3_4">
-                            Can clearly explain the reasoning and provide good support for his/her decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_3" value="3" required>
-                        <label class="form-check-label" for="judgment_rating_3_3">
-                            Can usually support and explain the reasoning for his/her decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_1" value="1" required>
-                        <label class="form-check-label" for="judgment_rating_3_1">
-                            Presents inadequate support and reasoning for his/her decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_5" value="5" required>
-                        <label class="form-check-label" for="judgment_rating_3_5">
-                            Skillfully presents the supporting information and reasoning behind his/her decisions
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_2" value="2" required>
+                            <label class="form-check-label" for="judgment_rating_3_2">
+                                Sometimes has difficulty supporting and explaining his/her decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_4" value="4" required>
+                            <label class="form-check-label" for="judgment_rating_3_4">
+                                Can clearly explain the reasoning and provide good support for his/her decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_3" value="3" required>
+                            <label class="form-check-label" for="judgment_rating_3_3">
+                                Can usually support and explain the reasoning for his/her decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_1" value="1" required>
+                            <label class="form-check-label" for="judgment_rating_3_1">
+                                Presents inadequate support and reasoning for his/her decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_3" id="judgment_rating_3_5" value="5" required>
+                            <label class="form-check-label" for="judgment_rating_3_5">
+                                Skillfully presents the supporting information and reasoning behind his/her decisions
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label><strong>6.4. EXPECTED OUTCOME:</strong> Includes appropriate people in decision making process</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_2" value="2" required>
-                        <label class="form-check-label" for="judgment_rating_4_2">
-                            Decision making is frequently less than effective because s/he does not include the appropriate people
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_4" value="4" required>
-                        <label class="form-check-label" for="judgment_rating_4_4">
-                            Verifies that the appropriate people are included in the decision-making process
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_3" value="3" required>
-                        <label class="form-check-label" for="judgment_rating_4_3">
-                            In most matters, s/he includes the appropriate people in the decision-making process
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_1" value="1" required>
-                        <label class="form-check-label" for="judgment_rating_4_1">
-                            Excludes appropriate people from the decision-making process too often
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_5" value="5" required>
-                        <label class="form-check-label" for="judgment_rating_4_5">
-                            Always ensures that the appropriate people are included in the decision-making process
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_2" value="2" required>
+                            <label class="form-check-label" for="judgment_rating_4_2">
+                                Decision making is frequently less than effective because s/he does not include the appropriate people
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_4" value="4" required>
+                            <label class="form-check-label" for="judgment_rating_4_4">
+                                Verifies that the appropriate people are included in the decision-making process
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_3" value="3" required>
+                            <label class="form-check-label" for="judgment_rating_4_3">
+                                In most matters, s/he includes the appropriate people in the decision-making process
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_1" value="1" required>
+                            <label class="form-check-label" for="judgment_rating_4_1">
+                                Excludes appropriate people from the decision-making process too often
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_4" id="judgment_rating_4_5" value="5" required>
+                            <label class="form-check-label" for="judgment_rating_4_5">
+                                Always ensures that the appropriate people are included in the decision-making process
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label><strong>6.5. EXPECTED OUTCOME:</strong> Makes timely decisions</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_2" value="2" required>
-                        <label class="form-check-label" for="judgment_rating_5_2">
-                            Takes longer than acceptable to reach a decision
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_4" value="4" required>
-                        <label class="form-check-label" for="judgment_rating_5_4">
-                            Can usually make decisions even under tight time frames 
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_3" value="3" required>
-                        <label class="form-check-label" for="judgment_rating_5_3">
-                            Decisions are made in a timely manner
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_1" value="1" required>
-                        <label class="form-check-label" for="judgment_rating_5_1">
-                            Takes an unacceptable length of time to make decisions
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_5" value="5" required>
-                        <label class="form-check-label" for="judgment_rating_5_5">
-                            Can be relied upon to make decisions even under the tightest time frames
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_2" value="2" required>
+                            <label class="form-check-label" for="judgment_rating_5_2">
+                                Takes longer than acceptable to reach a decision
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_4" value="4" required>
+                            <label class="form-check-label" for="judgment_rating_5_4">
+                                Can usually make decisions even under tight time frames 
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_3" value="3" required>
+                            <label class="form-check-label" for="judgment_rating_5_3">
+                                Decisions are made in a timely manner
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_1" value="1" required>
+                            <label class="form-check-label" for="judgment_rating_5_1">
+                                Takes an unacceptable length of time to make decisions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="judgment_rating_5" id="judgment_rating_5_5" value="5" required>
+                            <label class="form-check-label" for="judgment_rating_5_5">
+                                Can be relied upon to make decisions even under the tightest time frames
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1200,171 +1210,181 @@
             </p>
             <div class="form-group">
                 <label><strong>7.1. EXPECTED OUTCOME:</strong> Exhibits confidence in self and others</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_2" value="2" required>
-                    <label class="form-check-label" for="leadership_rating_1_2">
-                        Would be a stronger leader if s/he exhibited greater confidence in himself/herself as well as in others
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_1" value="1" required>
-                    <label class="form-check-label" for="leadership_rating_1_1">
-                        Fails to exhibit the kind of confidence in himself/herself and others that is needed to successfully perform his/her job
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_5" value="5" required>
-                    <label class="form-check-label" for="leadership_rating_1_5">
-                        Communicates not only a strong confidence in himself/herself but also a confidence in others that encourages them to perform to their best
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_3" value="3" required>
-                    <label class="form-check-label" for="leadership_rating_1_3">
-                        Exhibits an appropriate level of confidence in himself/herself as well as in others
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_4" value="4" required>
-                    <label class="form-check-label" for="leadership_rating_1_4">
-                        Exhibits a high degree of confidence in himself/herself as well as in others
-                    </label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_2" value="2" required>
+                        <label class="form-check-label" for="leadership_rating_1_2">
+                            Would be a stronger leader if s/he exhibited greater confidence in himself/herself as well as in others
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_1" value="1" required>
+                        <label class="form-check-label" for="leadership_rating_1_1">
+                            Fails to exhibit the kind of confidence in himself/herself and others that is needed to successfully perform his/her job
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_5" value="5" required>
+                        <label class="form-check-label" for="leadership_rating_1_5">
+                            Communicates not only a strong confidence in himself/herself but also a confidence in others that encourages them to perform to their best
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_3" value="3" required>
+                        <label class="form-check-label" for="leadership_rating_1_3">
+                            Exhibits an appropriate level of confidence in himself/herself as well as in others
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_1" id="leadership_rating_1_4" value="4" required>
+                        <label class="form-check-label" for="leadership_rating_1_4">
+                            Exhibits a high degree of confidence in himself/herself as well as in others
+                        </label>
+                    </div>
                 </div>
             </div>
             
             <div class="form-group">
                 <label><strong>7.2. EXPECTED OUTCOME:</strong> Inspires respect and trust</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_2" value="2" required>
-                    <label class="form-check-label" for="leadership_rating_2_2">
-                        Upon occasion, his/her actions have resulted in a lack of respect and trust from others
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_1" value="1" required>
-                    <label class="form-check-label" for="leadership_rating_2_1">
-                        Because of his/her actions, s/he has not inspired the respect and trust of others
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_5" value="5" required>
-                    <label class="form-check-label" for="leadership_rating_2_5">
-                        Has earned the respect and trust of others through his/her uncompromising integrity and openness
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_3" value="3" required>
-                    <label class="form-check-label" for="leadership_rating_2_3">
-                        Inspires the respect and trust of others through his/her actions
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_4" value="4" required>
-                    <label class="form-check-label" for="leadership_rating_2_4">
-                        Inspires the respect and trust of others through his/her openness and integrity
-                    </label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_2" value="2" required>
+                        <label class="form-check-label" for="leadership_rating_2_2">
+                            Upon occasion, his/her actions have resulted in a lack of respect and trust from others
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_1" value="1" required>
+                        <label class="form-check-label" for="leadership_rating_2_1">
+                            Because of his/her actions, s/he has not inspired the respect and trust of others
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_5" value="5" required>
+                        <label class="form-check-label" for="leadership_rating_2_5">
+                            Has earned the respect and trust of others through his/her uncompromising integrity and openness
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_3" value="3" required>
+                        <label class="form-check-label" for="leadership_rating_2_3">
+                            Inspires the respect and trust of others through his/her actions
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_2" id="leadership_rating_2_4" value="4" required>
+                        <label class="form-check-label" for="leadership_rating_2_4">
+                            Inspires the respect and trust of others through his/her openness and integrity
+                        </label>
+                    </div>
                 </div>
             </div>
             
             <div class="form-group">
                 <label><strong>7.3. EXPECTED OUTCOME:</strong> Reacts well under pressure</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_2" value="2" required>
-                    <label class="form-check-label" for="leadership_rating_3_2">
-                        Sometimes reacts poorly in pressure situations
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_1" value="1" required>
-                    <label class="form-check-label" for="leadership_rating_3_1">
-                        Has reacted poorly in pressure situations
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_5" value="5" required>
-                    <label class="form-check-label" for="leadership_rating_3_5">
-                        Provides leadership even when challenged with highly stressful or crisis situations
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_3" value="3" required>
-                    <label class="form-check-label" for="leadership_rating_3_3">
-                        Reacts well in pressure situations
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_4" value="4" required>
-                    <label class="form-check-label" for="leadership_rating_3_4">
-                        Tolerates a great deal of pressure
-                    </label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_2" value="2" required>
+                        <label class="form-check-label" for="leadership_rating_3_2">
+                            Sometimes reacts poorly in pressure situations
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_1" value="1" required>
+                        <label class="form-check-label" for="leadership_rating_3_1">
+                            Has reacted poorly in pressure situations
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_5" value="5" required>
+                        <label class="form-check-label" for="leadership_rating_3_5">
+                            Provides leadership even when challenged with highly stressful or crisis situations
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_3" value="3" required>
+                        <label class="form-check-label" for="leadership_rating_3_3">
+                            Reacts well in pressure situations
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_3" id="leadership_rating_3_4" value="4" required>
+                        <label class="form-check-label" for="leadership_rating_3_4">
+                            Tolerates a great deal of pressure
+                        </label>
+                    </div>
                 </div>
             </div>
             
             <div class="form-group">
                 <label><strong>7.4. EXPECTED OUTCOME:</strong> Shows courage to take action</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_2" value="2" required>
-                    <label class="form-check-label" for="leadership_rating_4_2">
-                        Has shown reluctance to assume a leadership role when action was needed
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_1" value="1" required>
-                    <label class="form-check-label" for="leadership_rating_4_1">
-                        Often hesitates or lacks conviction when action is needed
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_5" value="5" required>
-                    <label class="form-check-label" for="leadership_rating_4_5">
-                        When action is needed, s/he is a natural leader due to his/her courage and decisiveness
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_3" value="3" required>
-                    <label class="form-check-label" for="leadership_rating_4_3">
-                        When action is needed, s/he shows the ability to assume a leadership role
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_4" value="4" required>
-                    <label class="form-check-label" for="leadership_rating_4_4">
-                        Quickly assumes a strong leadership role when action is needed
-                    </label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_2" value="2" required>
+                        <label class="form-check-label" for="leadership_rating_4_2">
+                            Has shown reluctance to assume a leadership role when action was needed
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_1" value="1" required>
+                        <label class="form-check-label" for="leadership_rating_4_1">
+                            Often hesitates or lacks conviction when action is needed
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_5" value="5" required>
+                        <label class="form-check-label" for="leadership_rating_4_5">
+                            When action is needed, s/he is a natural leader due to his/her courage and decisiveness
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_3" value="3" required>
+                        <label class="form-check-label" for="leadership_rating_4_3">
+                            When action is needed, s/he shows the ability to assume a leadership role
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_4" id="leadership_rating_4_4" value="4" required>
+                        <label class="form-check-label" for="leadership_rating_4_4">
+                            Quickly assumes a strong leadership role when action is needed
+                        </label>
+                    </div>
                 </div>
             </div>
             
             <div class="form-group">
                 <label><strong>7.5. EXPECTED OUTCOME:</strong> Motivates others to perform well</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_2" value="2" required>
-                    <label class="form-check-label" for="leadership_rating_5_2">
-                        Has not adequately motivated others to perform better
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_1" value="1" required>
-                    <label class="form-check-label" for="leadership_rating_5_1">
-                        Has not demonstrated the ability to motivate others to perform better
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_5" value="5" required>
-                    <label class="form-check-label" for="leadership_rating_5_5">
-                        A powerful influence upon others, motivating them to perform their best
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_3" value="3" required>
-                    <label class="form-check-label" for="leadership_rating_5_3">
-                        Influences others to perform better
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_4" value="4" required>
-                    <label class="form-check-label" for="leadership_rating_5_4">
-                        Excels at motivating others to perform better
-                    </label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_2" value="2" required>
+                        <label class="form-check-label" for="leadership_rating_5_2">
+                            Has not adequately motivated others to perform better
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_1" value="1" required>
+                        <label class="form-check-label" for="leadership_rating_5_1">
+                            Has not demonstrated the ability to motivate others to perform better
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_5" value="5" required>
+                        <label class="form-check-label" for="leadership_rating_5_5">
+                            A powerful influence upon others, motivating them to perform their best
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_3" value="3" required>
+                        <label class="form-check-label" for="leadership_rating_5_3">
+                            Influences others to perform better
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="leadership_rating_5" id="leadership_rating_5_4" value="4" required>
+                        <label class="form-check-label" for="leadership_rating_5_4">
+                            Excels at motivating others to perform better
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -1387,7 +1407,7 @@
             <!-- 5.1 EXPECTED OUTCOME: Displays original thinking and creativity -->
                 <div class="form-group">
                     <label for="expectedOutcome5_1"><strong>8.1. EXPECTED OUTCOME:</strong> Displays original thinking and creativity</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_1" id="inno_rating_1_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_1_3">
@@ -1424,7 +1444,7 @@
                 <!-- 5.2 EXPECTED OUTCOME: Meets challenges with resourcefulness -->
                 <div class="form-group">
                     <label for="expectedOutcome5_2"><strong>8.2. EXPECTED OUTCOME:</strong> Meets challenges with resourcefulness</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_2" id="inno_rating_2_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_2_3">
@@ -1461,7 +1481,7 @@
                 <!-- 5.3 EXPECTED OUTCOME: Generates suggestions for improving work -->
                 <div class="form-group">
                     <label for="expectedOutcome5_3"><strong>8.3. EXPECTED OUTCOME:</strong> Generates suggestions for improving work</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_3" id="inno_rating_3_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_3_3">
@@ -1498,7 +1518,7 @@
                 <!-- 5.4 EXPECTED OUTCOME: Develops innovative approaches and ideas -->
                 <div class="form-group">
                     <label for="expectedOutcome5_4"><strong>8.4. EXPECTED OUTCOME:</strong> Develops innovative approaches and ideas</label>
-                    <div class="mt-3">
+                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="inno_rating_4" id="inno_rating_4_3" value="3" required>
                             <label class="form-check-label" for="inno_rating_4_3">
@@ -2165,6 +2185,7 @@
             <br>
             <br>
             <div class="d-grid gap-2">
+              <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
               <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
             </div>
         </div>

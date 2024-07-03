@@ -8,8 +8,11 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
+use App\Models\FinalGrade;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Models\EmployeeStatus;
+use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -46,7 +49,8 @@ class UserController extends Controller
     {
         $msg        = $request->session()->pull('session_msg', '');
         $groups     = UserGroup::get();
-        $roles      = Role::where('id', '!=', 1)->get();
+        $roles             = Role::where('id', '!=', 1)->get();
+        $designations      = Designation::get();
         $companies  = Company::get();
         $statuses   = EmployeeStatus::orderby('name', 'asc')->get();
         $supervisories = User::where('id', '!=', 1)->orderby('last_name', 'asc')->get();
@@ -54,7 +58,7 @@ class UserController extends Controller
         $id      =      0;
         $user    =      new User;
 
-        return view('users.form', compact('id', 'statuses', 'user', 'msg', 'companies', 'roles', 'groups', 'supervisories'));
+        return view('users.form', compact('id', 'statuses', 'designations', 'user', 'msg', 'companies', 'roles', 'groups', 'supervisories'));
     }
 
     public function store(Request $request, $id)
@@ -89,6 +93,13 @@ class UserController extends Controller
                 $request->session()->put('session_msg', 'Record not found!');
                 return redirect(route('employee.index'));
             }
+            $checkboxFields = ['u_enabled', 'u_active'];
+
+                foreach ($checkboxFields as $field) {
+                    $value = $request->has($field) ? 1 : 0;
+                    $user->$field = $value;
+            }
+                
             $user->update($request->all());
 
             $request->session()->put('session_msg', 'Record updated.');
@@ -106,13 +117,14 @@ class UserController extends Controller
         $roles      = Role::where('id', '!=', 1)->get();
         $companies  = Company::get();
         $statuses   = EmployeeStatus::orderby('name', 'asc')->get();
+        $designations      = Designation::get();
         $supervisories = User::where('id', '!=', 1)->orderby('last_name', 'asc')->get();
 
         if(!$user) {
             $request->session()->put('session_msg', 'Record not found!');
             return redirect(route('employee.index'));
         }
-        return view('users.form', compact('id', 'msg', 'statuses', 'user', 'companies', 'roles', 'groups', 'supervisories'));
+        return view('users.form', compact('id', 'msg', 'statuses', 'user', 'designations', 'companies', 'roles', 'groups', 'supervisories'));
     }
 
     // /**
@@ -138,10 +150,72 @@ class UserController extends Controller
 
     public function view(Request $request, $id)
     {
-        $msg            = $request->session()->pull('session_msg', '');
+        $msg        = $request->session()->pull('session_msg', '');
         
-        $rows           = Reservation::where('status_id', 1)->where('driver_id', $id)->orderby('start_date', 'desc')->paginate(20);
-       
-        return view('pages.driver.view', compact('rows', 'msg', 'id'));
+        $employee       = User::where('id', $id)->first();
+
+        $rows           = FinalGrade::where('employee_id', $employee->id)->orderby('created_at', 'desc')->orderby('period_id', 'asc')->paginate(20);
+
+        return view('users.view', compact('msg', 'rows', 'id', 'employee'));
+    }
+
+    public function reset(Request $request, $appraisal_id)
+    {
+        $appraisal = PerformanceAppraisal::where('id', $appraisal_id)->first();
+        if(!$appraisal) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
+        } else {
+            $appraisal->deleted_at = Carbon::now();
+            $appraisal->appraisalRating()->delete();
+            $final_grade1 = FinalGrade::where('appraisal1_id', $appraisal_id)->first();
+            $final_grade2 = FinalGrade::where('appraisal2_id', $appraisal_id)->first();
+
+            if($final_grade1)
+            {
+                $final_grade1->appraisal1_id = null;
+                $final_grade1->appraisal1_score = null;
+                $final_grade1->update();
+            }
+
+            if($final_grade2)
+            {
+                $final_grade2->appraisal2_id = null;
+                $final_grade2->appraisal2_score = null;
+                $final_grade2->update();
+            }    
+           
+            $appraisal->update();
+
+             // Dispatch the FinalGradeUpdated event
+             event(new FinalGradeUpdated($appraisal->employee_id));
+            
+            $request->session()->put('session_msg', 'Appraisal Reset Successfull!');
+            return redirect(route('employee.index'));
+        }        
+    }
+    public function active(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if(!$user) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
+        } else {
+            $user->update(['u_active' => '1']);
+            $request->session()->put('session_msg', 'Account Enabled!');
+            return redirect(route('employee.index'));
+        }      
+    }
+    public function enable(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if(!$user) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
+        } else {
+            $user->update(['u_enabled' => '1']);
+            $request->session()->put('session_msg', 'Account Enabled!');
+            return redirect(route('employee.index'));
+        }      
     }
 }

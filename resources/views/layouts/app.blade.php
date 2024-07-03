@@ -43,12 +43,31 @@
             </ul>
             <ul class="header-nav ms-auto"></ul>
             <ul class="header-nav ms-3">
+                @php
+                    $allNotificationsCount = $notifications->count();
+                @endphp
+                <li class="nav-item dropdown">
+                    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell-o"></i>
+                        @if($allNotificationsCount >= 1)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $allNotificationsCount }}</span>
+                        @endif
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end pt-0">
+                        <a class="dropdown-item" href="{{ route('notification.list') }}">
+                            <svg class="icon me-2">
+                                <use xlink:href="{{ asset('icons/coreui.svg#cil-bell') }}"></use>
+                            </svg>
+                            {{ __('View All Notifications') }}
+                        </a>
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user()->first_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-end pt-0">
-                        <a class="dropdown-item" href="">
+                        <a class="dropdown-item" href="{{ route('my.profile', ['id' => Auth::id()]) }}">
                             <svg class="icon me-2">
                                 <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
                             </svg>

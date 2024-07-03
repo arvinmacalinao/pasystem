@@ -1620,6 +1620,7 @@
           <br>
           <br>
           <div class="d-grid gap-2">
+            <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
             <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
           </div>
         </div>

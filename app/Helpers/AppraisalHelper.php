@@ -49,6 +49,81 @@ class AppraisalHelper
         
         return $averages;
     }
+
+    public static function computeOverallRating($level, $averageRatings)
+    {
+        $appraisal_rating_score = 0;
+
+        if ($level >= 1 && $level <= 3) {
+            $appraisal_rating_score  = [
+                $averageRatings['jk_rating_score'] * 0.2,
+                $averageRatings['quality_rating_score'] * 0.2,
+                $averageRatings['quantity_rating_score'] * 0.15,
+                $averageRatings['initiative_rating_score'] * 0.05,
+                $averageRatings['coop_rating_score'] * 0.05,
+                $averageRatings['comms_rating_score'] * 0.05,
+                $averageRatings['comp_rating_score'] * 0.1,
+                $averageRatings['attend_rating_score'] * 0.05,
+            ];
+            $appraisal_rating_score = array_sum($appraisal_rating_score);
+        } elseif ($level >= 4 && $level <= 6) {
+            $appraisal_rating_score  = [
+                $averageRatings['jk_rating_score'] * 0.15,
+                $averageRatings['quality_rating_score'] * 0.15,
+                $averageRatings['quantity_rating_score'] * 0.15,
+                $averageRatings['ps_rating_score'] * 0.15,
+                $averageRatings['inno_rating_score'] * 0.05,
+                $averageRatings['tw_rating_score'] * 0.05,
+                $averageRatings['comms_rating_score'] * 0.05,
+                $averageRatings['comp_rating_score'] * 0.1,
+                $averageRatings['attend_rating_score'] * 0.05,
+            ];
+            $appraisal_rating_score = array_sum($appraisal_rating_score);
+        } elseif ($level >= 7 && $level <= 8) {
+            $appraisal_rating_score  = [
+                $averageRatings['jk_rating_score'] * 0.1,
+                $averageRatings['quality_rating_score'] * 0.1,
+                $averageRatings['quantity_rating_score'] * 0.1,
+                $averageRatings['pm_rating_score'] * 0.1,
+                $averageRatings['ps_rating_score'] * 0.1,
+                $averageRatings['judgment_rating_score'] * 0.05,
+                $averageRatings['leadership_rating_score'] * 0.1,
+                $averageRatings['inno_rating_score'] * 0.08,
+                $averageRatings['comms_rating_score'] * 0.05,
+                $averageRatings['comp_rating_score'] * 0.1,
+                $averageRatings['attend_rating_score'] * 0.04,
+            ];
+            $appraisal_rating_score = array_sum($appraisal_rating_score);
+        } elseif ($level == 9) {
+            $appraisal_rating_score  = [
+                $averageRatings['jk_rating_score'] * 0.1,
+                $averageRatings['quality_rating_score'] * 0.1,
+                $averageRatings['quantity_rating_score'] * 0.1,
+                $averageRatings['pm_rating_score'] * 0.1,
+                $averageRatings['ps_rating_score'] * 0.1,
+                $averageRatings['judgment_rating_score'] * 0.1,
+                $averageRatings['leadership_rating_score'] * 0.1,
+                $averageRatings['inno_rating_score'] * 0.1,
+                $averageRatings['comms_rating_score'] * 0.05,
+                $averageRatings['comp_rating_score'] * 0.1,
+                $averageRatings['attend_rating_score'] * 0.02,
+            ];
+            $appraisal_rating_score = array_sum($appraisal_rating_score);
+        } elseif ($level == 10) {
+            $appraisal_rating_score  = [
+                $averageRatings['management_rating_score'] * 0.4,
+                $averageRatings['pm_rating_score'] * 0.1,
+                $averageRatings['ps_rating_score'] * 0.1,
+                $averageRatings['judgment_rating_score'] * 0.1,
+                $averageRatings['leadership_rating_score'] * 0.1,
+                $averageRatings['inno_rating_score'] * 0.1,
+                $averageRatings['comp_rating_score'] * 0.1,
+            ];
+            $appraisal_rating_score = array_sum($appraisal_rating_score);
+        }
+        
+        return $appraisal_rating_score;
+    }
     
     public static function test($request)
     {

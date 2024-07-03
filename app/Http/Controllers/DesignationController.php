@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use View;
-use Carbon\Carbon;
-use App\Models\Role;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RoleController extends Controller
+class DesignationController extends Controller
 {
     public function __construct() 
     {
-		$data = [ 'page' => 'Role' ];
+		$data = [ 'page' => 'Designation' ];
 		View::share('data', $data);
 
         $this->middleware(function ($request, $next) {  
@@ -30,9 +29,9 @@ class RoleController extends Controller
     {
         $msg        = $request->session()->pull('session_msg', '');
 
-        $rows       = Role::where('id', '!=', 1)->paginate(20);
+        $rows       = Designation::paginate(20);
 
-        return view('pages.role.index', compact('rows', 'msg'));
+        return view('pages.designation.index', compact('rows', 'msg'));
     }
 
     public function create(Request $request)
@@ -40,41 +39,41 @@ class RoleController extends Controller
         $msg        = $request->session()->pull('session_msg', '');
     
         $id         = 0;
-        $role    = new Role;
+        $designation    = new Designation;
 
-        return view('pages.role.form', compact('id', 'role', 'msg'));
+        return view('pages.designation.form', compact('id', 'designation', 'msg'));
     }
 
     public function store(Request $request, $id)
     {
         if($id == 0) {
-            $role     = Role::create($request->all());
+            $designation     = Designation::create($request->all());
     
             $request->session()->put('session_msg', 'Record successfully added.');
         } else {
-            $role     = Role::where('id', $id)->first();
-            if(!$role ) {
+            $designation     = Designation::where('id', $id)->first();
+            if(!$designation ) {
                 $request->session()->put('session_msg', 'Record not found!');
-                return redirect(route('role.index'));
+                return redirect(route('designation.index'));
             }
-            $role->update($request->all());
+            $designation->update($request->all());
 
             $request->session()->put('session_msg', 'Record updated.');
         }
 
-        return redirect(route('role.index'));
+        return redirect(route('designation.index'));
     }
     
     public function edit(Request $request, $id)
     {
         $msg        = $request->session()->pull('session_msg', '');
-        $role       = Role::where('id', $id)->first();
+        $designation       = Designation::where('id', $id)->first();
 
-        if(!$role) {
+        if(!$designation) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('role.index'));
+            return redirect(route('designation.index'));
         }
-        return view('pages.role.form', compact('id', 'msg', 'role'));
+        return view('pages.designation.form', compact('id', 'msg', 'designation'));
     }
 
     // /**
@@ -85,16 +84,16 @@ class RoleController extends Controller
     //  */
     public function destroy(Request $request, $id)
     {
-        $role = Role::where('id', $id)->first();
-        if(!$role) {
+        $designation = Designation::where('id', $id)->first();
+        if(!$designation) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('role.index'));
+            return redirect(route('designation.index'));
         } else {
-            $role->deleted_at = Carbon::now();
-            $role->update();
+            $designation->deleted_at = Carbon::now();
+            $designation->update();
             
             $request->session()->put('session_msg', 'Record deleted!');
-            return redirect(route('role.index'));
+            return redirect(route('designation.index'));
         }        
     }
 }
