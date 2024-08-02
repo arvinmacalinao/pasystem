@@ -3,25 +3,24 @@
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
-            {{ __('My profile') }}
             <div class="pull-right">
                 {{-- {{ route('user.edit', ['id' => $employee->u_id]) }} --}}
-                <a class="btn btn-success btn-sm text-light" href="">
+                <a class="btn btn-info btn-sm text-light" href="">
                     <i class="fa fa-pencil">
                     </i>
-                    Edit Details
+                    User Details
                 </a>
                 <a class="btn btn-primary btn-sm text-light" href="{{ url()->previous() }}" title="Back"><span class="fa fa-caret-left"></span> Back</a>
             </div> 
             <div class="card-body">
                 <div class="flex-grow-1">
                     <form>
-                        <h4>Personal Details</h4>
+                        <h4>User Details</h4>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-2">
-                                    <label class="form-label fw-bold" for="first_name">First Name</label>
-                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $employee->first_name }}" readonly>
+                                    <label class="form-label fw-bold" for="first_name">Full Name</label>
+                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $employee->FullName }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -51,18 +50,6 @@
                                 <div class="mb-2">
                                     <label class="form-label fw-bold" for="username">Username</label>
                                     <input placeholder="Username" class="form-control" type="text" maxlength="255" name="username" id="username" value="{{ $employee->username }}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-2 dd">
-                                    <label class="form-label fw-bold" for="g_id">User Group</label>
-                                    <input placeholder="User Group" class="form-control" type="text" maxlength="255" name="g_id" id="g_id" value="{{ $groups ?? '' }}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-2 dd">
-                                    <label class="form-label fw-bold" for="role_id">Position</label>
-                                    <input placeholder="Position" class="form-control" type="text" maxlength="255" name="role_id" id="role_id" value="{{ $roles ?? '' }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -120,27 +107,63 @@
                                     <td class="text-center">{{ $ctr++ }}</td>
                                     <td>{{ \Carbon\Carbon::parse($row->created_at)->format('Y') }}</td>
                                     <td>{{ $row->period_id == 1 ? '1st Semester' : '2nd Semester' }}</td>
-                                    @if($row->appraisal1_score)
-                                    <td><small>score:</small> {{ $row->appraisal1_score ?? ''}} <small>
-                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.reset', ['id' => $row->appraisal1_id]) }}">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i> Reset
+                                    @if($row->appraisal1)
+                                    <td class="" style="vertical-align: middle"><small>score:</small> {{ $row->appraisal1_score ?? ''}} <small>
+                                        <br>rated by: {{$row->appraisal1->evaluator->FullName ?? ''}}</small>
+                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal1_id]) }}">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
                                         </a>
-                                        <br>rated by: {{$row->appraisal1->evaluator->FullName ?? ''}}</small></td>
+                                        <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal1_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                    </td>   
                                     @endif
-                                    @if($row->appraisal2_score)
+                                    @if($row->appraisal2_id)
                                     <td text-center><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
-                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i> Reset
-                                        </a>
                                         <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>  
+                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
                                     </td>
                                     @else
                                     <td><small>Not yet rated</small></td>
                                     @endif
                                     <td>{{ $row->final_score ?? '-'}}</small></td>
+                                    @if($employee->job_level >= 1 && $employee->job_level <= 3)
+                                        {{-- Rank & File --}}
+                                        @if($row->appraisal2_id !== null || $row->appraisal1_id !== null)
+                                        <td  class="project-actions text-right">
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                        </td>
+                                        @endif
+                                    @elseif(($employee->job_level >= 4 && $employee->job_level <= 5))
+                                        {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                        @if($row->appraisal2_id !== null || $row->appraisal1_id !== null)
+                                        <td  class="project-actions text-right">
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                        </td>
+                                        @endif
+                                    @elseif(($employee->job_level >= 6 && $employee->job_level <= 7))
+                                        {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                        @if($row->appraisal2_id !== null || $row->appraisal1_id !== null)
+                                        <td  class="project-actions text-right">
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                        </td>
+                                        @endif
+                                    @elseif(($employee->job_level >= 8 && $employee->job_level <= 9))
+                                    {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                    @if($row->appraisal2_id !== null || $row->appraisal1_id !== null)
                                     <td  class="project-actions text-right">
-                                        
+                                        <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
                                     </td>
+                                    @endif
+                                    @elseif(($employee->job_level >= 10 && $employee->job_level <= 11))
+                                    {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                        @if($row->appraisal1_id !== null)
+                                        <td  class="project-actions text-right">
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                        </td>
+                                        @endif
+                                    @endif
                                 </tr>
                             </tbody>
                             @endforeach

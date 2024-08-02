@@ -1496,11 +1496,18 @@
                     <input type="hidden" id="comp_rating_score" name="comp_rating_score" value="" />
                 </div> 
             <br>  
+            <hr>
+            <div class="form-group">
+                <label for="evaluator_recommendation"><strong>EVALUATOR’S RECOMMENDATION / GENERAL ASSESSMENT</strong></label>
+                <textarea class="form-control" name="evaluator_recommendation" id="evaluator_recommendation" rows="5" required></textarea>
+            </div>
+            <br>
             <button type="button" class="btn btn-secondary" id="prev-to-compliance">Previous</button>
             <br>
             <br>
             <div class="d-grid gap-2">
               <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
+              <input type="hidden" id="form_id" name="form_id" value="5" />
               <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
             </div>
         </div>

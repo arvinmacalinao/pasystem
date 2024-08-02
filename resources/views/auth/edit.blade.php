@@ -31,43 +31,43 @@
 					<div class="col-md-4">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="first_name">First Name<span class="text-danger">*</span></label>
-							<input placeholder="First Name" class="form-control form-control-sm @error('first_name') is-invalid @enderror" type="text" maxlength="255" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" style="">
+							<input placeholder="First Name" class="form-control form-control-sm @error('first_name') is-invalid @enderror" type="text" maxlength="255" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" style="" disabled>
 							<div class="invalid-feedback">@error('first_name') {{ $errors->first('first_name') }} @enderror</div>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="middle_name">Middle Name<span class="text-danger">*</span></label>
-							<input placeholder="Middle Name" class="form-control form-control-sm @error('middle_name') is-invalid @enderror" type="text" maxlength="255" name="middle_name" id="middle_name" value="{{ old('middle_name', $user->middle_name) }}" style="">
+							<input placeholder="Middle Name" class="form-control form-control-sm @error('middle_name') is-invalid @enderror" type="text" maxlength="255" name="middle_name" id="middle_name" value="{{ old('middle_name', $user->middle_name) }}" style="" disabled>
 							<div class="invalid-feedback">@error('middle_name') {{ $errors->first('middle_name') }} @enderror</div>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="last_name">Last Name<span class="text-danger">*</span></label>
-							<input placeholder="Last Name" class="form-control form-control-sm @error('last_name') is-invalid @enderror" type="text" maxlength="255" name="last_name" id="last_name" value="{{ old('last_name', $user->last_name) }}" style="">
+							<input placeholder="Last Name" class="form-control form-control-sm @error('last_name') is-invalid @enderror" type="text" maxlength="255" name="last_name" id="last_name" value="{{ old('last_name', $user->last_name) }}" style="" disabled>
 							<div class="invalid-feedback">@error('last_name') {{ $errors->first('last_name') }} @enderror</div>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="mb-2">
-							<label class="form-label fw-bold" for="email">E-mail Address<span class="text-danger"></span></label>
-							<input placeholder="E-mail Address" class="form-control form-control-sm @error('email') is-invalid @enderror" type="text" maxlength="255" name="email" id="email" value="{{ old('email', $user->email) }}" style="">
+							<label class="form-label fw-bold" for="email">E-mail Address<span class="text-danger">*</span></label>
+							<input placeholder="E-mail Address" class="form-control form-control-sm @error('email') is-invalid @enderror" type="text" maxlength="255" name="email" id="email" value="{{ old('email', $user->email) }}" style="" disabled>
 							<div class="invalid-feedback">@error('email') {{ $errors->first('email') }} @enderror</div>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="employee_code">Employee Code<span class="text-danger">*</span></label>
-							<input placeholder="Employee Code" class="form-control form-control-sm @error('employee_code') is-invalid @enderror" type="text" maxlength="255" name="employee_code" id="employee_code" value="{{ old('employee_code', $user->employee_code) }}" style="">
+							<input placeholder="Employee Code" class="form-control form-control-sm @error('employee_code') is-invalid @enderror" type="text" maxlength="255" name="employee_code" id="employee_code" value="{{ old('employee_code', $user->employee_code) }}" style="" disabled>
 							<div class="invalid-feedback">@error('employee_code') {{ $errors->first('employee_code') }} @enderror</div>
 					</div>
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="d_id">Designation<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('d_id') is-invalid @enderror" name="d_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control select2 @error('d_id') is-invalid @enderror" name="d_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($designations as $designation)
-									<option value="{{ $designation->id }}" {{ old('d_id', $user->d_id) == $designation->id ? 'selected' : '' }}>{{ $designation->name }}</option>
+									<option value="{{ $designation->id }}" {{ old('d_id', $user->d_id) == $designation->id ? 'selected' : '' }} >{{ $designation->name }}</option>
 								@endforeach
 							</select>					
 							<div class="invalid-feedback">@error('d_id') {{ $errors->first('d_id') }} @enderror</div>
@@ -76,8 +76,8 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="job_level">Job Level<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('job_level') is-invalid @enderror" name="job_level">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control select2 @error('job_level') is-invalid @enderror" name="job_level" disabled>
+								<option value="" selected disabled>--</option>
 								@for($i = 1; $i <= 12; $i++)
     								<option value="{{ $i }}" {{ old('job_level', $user->job_level) == $i ? 'selected' : '' }}>Level {{ $i }}</option>
 								@endfor
@@ -88,8 +88,8 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="es_id">Employment Status<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('es_id') is-invalid @enderror" name="es_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control select2 @error('es_id') is-invalid @enderror" name="es_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($statuses as $status)
 									<option value="{{ $status->id }}" {{ old('es_id', $user->es_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
 								@endforeach
@@ -100,8 +100,8 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="ug_id">Department<span class="text-danger">*</span></label>
-							<select class="form-control form-control-sm @error('ug_id') is-invalid @enderror select2" name="ug_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control form-control-sm @error('ug_id') is-invalid @enderror select2" name="ug_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($groups as $group)
 									<option value="{{ $group->id }}" {{ old('ug_id', $user->ug_id) == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
 								@endforeach
@@ -112,8 +112,8 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="c_id">Company<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('c_id') is-invalid @enderror" name="c_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control select2 @error('c_id') is-invalid @enderror" name="c_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($companies as $company)
 									<option value="{{ $company->id }}" {{ old('c_id', $user->c_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
 								@endforeach
@@ -124,8 +124,8 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="r_id">Permission<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('r_id') is-invalid @enderror" name="r_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control select2 @error('r_id') is-invalid @enderror" name="r_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($roles as $role)
 									<option value="{{ $role->id }}" {{ old('r_id', $user->r_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
 								@endforeach
@@ -136,7 +136,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_hired">Date Hired<span class="text-danger">*</span></label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $user->date_hired) }}">
+							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $user->date_hired) }}" disabled>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -149,7 +149,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_regular">Date Regular (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', $user->date_regular) }}">
+							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', $user->date_regular) }}" disabled>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -162,7 +162,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_separated">Date Separated (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated">
+							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated" disabled>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -174,7 +174,7 @@
 					</div>
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_separated">Location</label>
-						<input placeholder="Location" class="form-control form-control-sm @error('location') is-invalid @enderror" type="text" maxlength="255" name="location" id="location" value="{{ old('location', $user->location) }}" style="">
+						<input placeholder="Location" class="form-control form-control-sm @error('location') is-invalid @enderror" type="text" maxlength="255" name="location" id="location" value="{{ old('location', $user->location) }}" style="" disabled>
 						<div class="invalid-feedback">@error('location') {{ $errors->first('location') }} @enderror</div>
 					</div>
 				</div>
@@ -184,8 +184,8 @@
 					<div class="col-md-6">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="is_id">Immediate Superior</label>
-							<select class="form-control form-control-sm @error('is_id') is-invalid @enderror select2" name="is_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control form-control-sm @error('is_id') is-invalid @enderror select2" name="is_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($supervisories as $visor)
 									<option value="{{ $visor->id }}" {{ old('is_id', $user->is_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->alias ."/". $visor->designation->name }}</option>
 								@endforeach
@@ -196,25 +196,41 @@
 					<div class="col-md-6">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="fr_id">Final Rater</label>
-							<select class="form-control form-control-sm @error('fr_id') is-invalid @enderror select2" name="fr_id">
-								<option value="" selected disabled>-- Please select --</option>
+							<select class="form-control form-control-sm @error('fr_id') is-invalid @enderror select2" name="fr_id" disabled>
+								<option value="" selected disabled>--</option>
 								@foreach($supervisories as $visor)
-									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->alias ."/". $visor->designation->name }}</option>
+									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}></option>
 								@endforeach
 							</select>
 							<div class="invalid-feedback">@error('fr_id') {{ $errors->first('fr_id') }} @enderror</div>
 						</div>
 					</div>
 				</div>
-                <div class="mb-2">
-					<div class="form-check mr-4">
-						<input class="form-check-input" type="checkbox" value="1" name="u_enabled" id="u_enabled"{{ (old('u_enabled', optional($user)->u_enabled) == 1) ? ' checked="checked"' : ''}}>
-						<label class="form-check-label fw-bold" for="u_enabled">Check to enable account</label>
-						<br>
-						<input class="form-check-input" type="checkbox" value="1" name="u_active" id="u_active"{{ (old('u_active', optional($user)->u_active) == 1) ? ' checked="checked"' : ''}}>
-						<label class="form-check-label fw-bold" for="u_active">Active</label>
-					</div>
-				</div>
+                <hr>
+                <h4>Account Details</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-2">
+                            <label class="form-label fw-bold" for="username">Username<span class="text-danger">*</span></label>
+                            <input placeholder="Username" class="form-control form-control-sm @error('username') is-invalid @enderror" type="text" maxlength="255" name="username" id="username" value="{{ old('username', $user->username) }}" style="">
+                            <div class="invalid-feedback">@error('username') {{ $errors->first('username') }} @enderror</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-2">
+                            <label class="form-label fw-bold" for="password">Password<span class="text-danger">*</span></label>
+                            <input placeholder="password" class="form-control form-control-sm @error('password') is-invalid @enderror" type="password" maxlength="255" name="password" id="password" value="{{ old('password', $user->password) }}" style="">
+                            <div class="invalid-feedback">@error('password') {{ $errors->first('password') }} @enderror</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-2">
+                            <label class="form-label fw-bold" for="confirm_password">Confirm Password<span class="text-danger">*</span></label>
+                            <input placeholder="confirm_password" class="form-control form-control-sm @error('confirm_password') is-invalid @enderror" type="password" maxlength="255" name="confirm_password" id="confirm_password" value="{{ old('password', $user->password) }}" style="">
+                            <div class="invalid-feedback">@error('confirm_password') {{ $errors->first('confirm_password') }} @enderror</div>
+                        </div>
+                    </div>
+                </div>
 				<hr>
                 @if(Str::contains(Request::url(), 'add') || Str::contains(Request::url(), 'edit'))
 				<div class="mb-2 text-end">

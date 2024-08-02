@@ -54,7 +54,7 @@
                         <tr>
                             <td class="text-center">{{ $ctr++ }}</td>
                             <td>{{ \Carbon\Carbon::parse($row->evaluation_date)->format('Y') }}</td>
-                            <td>{{ $row->period_id == 1 ? '1st Semester' : '2nd Semester' }}</td>
+                            <td>{{ $row->period_id == 1 ? 'Jan-June' : 'July-December' }}</td>
                             <td>
                                 <?php
                             $appraisal1Score = App\Models\FinalGrade::firstWhere('appraisal1_id', $row->id);
@@ -69,6 +69,7 @@
                             ?>
                             </td>
                             <td  class="project-actions text-right">
+                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> Download</a>
                             </td>
                         </tr>
                     </tbody>

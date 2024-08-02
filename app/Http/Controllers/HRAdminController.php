@@ -42,7 +42,7 @@ class HRAdminController extends Controller
         // Fetch users with filled-up performance appraisals
         $rows = User::whereNot('job_level', 10)->whereHas('performanceAppraisals', function ($query) {
             $query->whereNotNull('employee_id'); // Ensure 'employee_id' exists
-        })->paginate();
+        })->orderby('created_at', 'desc')->paginate();
 
         $groups     = UserGroup::get();
         $roles      = Role::where('id', '!=', 1)->get();

@@ -17,9 +17,6 @@
               <button class="nav-link" id="nav-communication-tab" data-coreui-toggle="tab" data-coreui-target="#nav-communication" type="button" role="tab" aria-controls="nav-communication" aria-selected="false"><strong>Communications</strong></button>
               <button class="nav-link" id="nav-compliance-tab" data-coreui-toggle="tab" data-coreui-target="#nav-compliance" type="button" role="tab" aria-controls="nav-compliance" aria-selected="false"><strong>Compliances</strong></button>
               <button class="nav-link" id="nav-attendance-tab" data-coreui-toggle="tab" data-coreui-target="#nav-attendance" type="button" role="tab" aria-controls="nav-attendance" aria-selected="false"><strong>Attendance</strong></button>
-              @if(Auth::user()->group->name == "Human Resources")
-                <button class="nav-link" id="nav-attendanceb-tab" data-coreui-toggle="tab" data-coreui-target="#nav-attendanceb" type="button" role="tab" aria-controls="nav-attendanceb" aria-selected="false"><strong>Attendance (HRD)</strong></button>
-              @endif
             </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
@@ -2178,14 +2175,18 @@
                   <input type="hidden" id="attend_rating_score" name="attend_rating_score" value="" />
               </div> 
             <br>
+            <hr>
+            <div class="form-group">
+                <label for="evaluator_recommendation"><strong>EVALUATOR’S RECOMMENDATION / GENERAL ASSESSMENT</strong></label>
+                <textarea class="form-control" name="evaluator_recommendation" id="evaluator_recommendation" rows="5" required></textarea>
+            </div>
+            <br>
             <button type="button" class="btn btn-secondary" id="prev-to-attendance">Previous</button>
-            @if(Auth::user()->group->name == "Human Resources")
-              <button type="button" class="btn btn-primary" id="next-to-attendance">Next</button>
-            @endif
             <br>
             <br>
             <div class="d-grid gap-2">
               <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
+              <input type="hidden" id="form_id" name="form_id" value="3" />
               <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
             </div>
         </div>

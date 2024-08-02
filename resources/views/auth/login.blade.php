@@ -40,7 +40,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-primary px-4" type="submit">{{ __('Login') }}</button>
+                                <button class="btn btn-danger text-light px-4" type="submit">{{ __('Login') }}</button>
                             </div>
                             @if (Route::has('password.request'))
                                 <div class="col-6 text-end">
@@ -52,7 +52,7 @@
                     </form>
                 </div>
             </div>
-            <div class="card col-md-5 text-white bg-primary py-5">
+            <div class="card col-md-5 text-white bg-danger py-5">
                 <div class="card-body text-center">
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <img src="{{ asset('images/EPAlogo.png') }}" alt="" style="max-width: 100%; max-height: 250px;">

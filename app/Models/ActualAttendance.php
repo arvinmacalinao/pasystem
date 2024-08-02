@@ -19,7 +19,7 @@ class ActualAttendance extends Model
     'da_records_ut_2', 'da_records_ut_3', 'da_records_ut_4', 'da_records_ut_5', 'da_records_ut_6', 'ut_rating_score', 
     'ul_rating_1', 'ul_rating_2', 'ul_rating_3', 'ul_rating_4', 'ul_rating_5', 'ul_rating_6', 'da_records_ul_1', 
     'da_records_ul_2', 'da_records_ul_3', 'da_records_ul_4', 'da_records_ul_5', 'da_records_ul_6', 'ul_rating_score', 
-    'attend_b_rating_score', 'created_at', 'updated_at'];
+    'attend_b_rating_score', 'created_at', 'updated_at', 'late_start_month', 'ut_start_month', 'ul_start_month'];
 
     public function employee()
     {

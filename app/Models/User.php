@@ -7,6 +7,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
+use App\Models\FinalGrade;
+use App\Models\Designation;
 use App\Models\EmployeeStatus;
 use App\Models\ActualAttendance;
 use Laravel\Sanctum\HasApiTokens;
@@ -97,7 +99,56 @@ class User extends Authenticatable
     }
 
     public function actual_attendance()
-{
-    return $this->hasMany(ActualAttendance::class, 'employee_id');
-}
+    {
+        return $this->hasMany(ActualAttendance::class, 'employee_id');
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'd_id', 'id');
+    }
+
+    public function final_grade()
+    {
+        return $this->hasMany(FinalGrade::class, 'employee_id');
+    }
+
+    public function scopeUserSearch($query, $search)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function ($query) use ($search) {
+            $query->where('last_name', 'LIKE', "%$search%")
+                  ->orWhere('first_name', 'LIKE', "%$search%")
+                  ->orWhere('middle_name', 'LIKE', "%$search%");
+        });
+    }
+
+    public function scopeSearchUsergroup($query, $ug)
+    {
+        if($ug){
+            $query->where('ug_id', $ug);
+        }
+        return $query;
+    }
+
+    public function scopeSearchCompany($query, $comp)
+    {
+        if (empty($comp)) {
+            return $query;
+        }
+
+        return $query->where('c_id', $comp);
+    }
+
+    public function scopeSearchLevel($query, $level)
+    {
+        if (empty($level)) {
+            return $query;
+        }
+
+        return $query->where('job_level', $level);
+    }
 }

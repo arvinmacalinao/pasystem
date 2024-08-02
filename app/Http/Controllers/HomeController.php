@@ -24,27 +24,43 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $msg        = $request->session()->pull('session_msg', '');
-        
-        $companies = Company::with('users.performanceAppraisals')->get();
-
-        $companyData = $companies->map(function ($company) {
+        $msg = $request->session()->pull('session_msg', '');
+    
+        // Get current month and determine the period
+        $currentMonth = date('m');
+        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+    
+        // Get all companies with their users
+        $companies = Company::with(['users' => function($query) use ($period_id) {
+            // Filter users by job level 1-10
+            $query->whereBetween('job_level', [1, 10]);
+        }])->get();
+    
+        $companyData = $companies->map(function ($company) use ($period_id) {
+            // Get all employees with job levels 1-10
             $totalEmployees = $company->users->count();
-            $ratedEmployees = $company->users->filter(function ($user) {
-                return $user->performanceAppraisals->isNotEmpty();
+        
+            // Get the number of rated employees
+            $ratedEmployees = $company->users->filter(function ($user) use ($period_id) {
+                if ($user->job_level <= 9) {
+                    return $user->final_grade->where('period_id', $period_id)->isNotEmpty();
+                } elseif ($user->job_level >= 10) {
+                    return $user->final_grade->isNotEmpty();
+                }
+                return false;
             })->count();
-            $lastRating = $company->users->flatMap->performanceAppraisals->sortByDesc('created_at')->first();
-            $ratingPercentage = $totalEmployees > 0 ? ($ratedEmployees / $totalEmployees) * 100 : 0;
-
+        
             return [
                 'id' => $company->id,
                 'name' => $company->name,
                 'totalEmployees' => $totalEmployees,
-                'ratingPercentage' => $ratingPercentage,
-                'lastRating' => $lastRating ? $lastRating->created_at->format('Y-m-d') : 'N/A',
+                'ratedEmployees' => $ratedEmployees,
+                'ratingPercentage' => $totalEmployees > 0 ? ($ratedEmployees / $totalEmployees) * 100 : 0,
+                'lastRating' => $company->users->flatMap->performanceAppraisals->sortByDesc('created_at')->first()?->created_at->format('Y-m-d') ?? 'N/A',
             ];
         });
-
+    
         return view('home', ['companies' => $companyData, 'msg' => $msg]);
     }
+
 }

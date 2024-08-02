@@ -61,41 +61,35 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table border border-secondary text-center">
+                <!-- Dropdown to select the starting month -->
+                <div class="form-group">
+                    <label for="startMonth"><strong>Select Starting Month:</strong></label>
+                    <select class="form-control" id="startMonth" name="startMonth" onchange="updateMonths()">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                
+                <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
-                            <th><small>Month 2024</small></th>
-                            <th width="30%"><small>Actual Rating</small></th>
-                            <th width="30%"><small>Tardiness Disciplinary Action Records</small></th>
+                            <th>Month</th>
+                            <th>Rating</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            // Get the current month and year
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-            
-                            // Determine the starting month based on the current period
-                            $startMonth = ($currentMonth <= 6) ? 1 : 7;
-            
-                            // Generate rows for each month
-                            for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
-                                // Calculate the month and year
-                                $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
-            
-                                echo '<tr>';
-                                echo '<td><small>' . $month . ' ' . $year . '</small></td>';
-                                echo '<td><small><input type="number"  min="0" max="5" class="form-control" name="late_rating_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '<td><small><input type="text" class="form-control" name="da_records_late_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                        <tr class="table-secondary">
-                            <td><small>Average = Total / 6 Months</small></td>
-                            <td><small>___ / 6 =</small></td>
-                            <td><small></small></td>
-                        </tr>
+                    <tbody id="monthRows">
+                        <!-- Rows will be generated here by JavaScript -->
                     </tbody>
                 </table>
             </div>

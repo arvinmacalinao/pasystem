@@ -86,7 +86,7 @@
                         <th class="bg-body-secondary">Name</th>
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
-                        <th class="bg-body-secondary">Position</th>
+                        <th class="bg-body-secondary">Designation</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -101,7 +101,7 @@
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->alias }}</td>
                         <td>{{ $row->group->name }}</td>
-                        <td>{{ $row->role->name }}</td>
+                        <td>{{ $row->designation->name }}</td>
                         <td  class="project-actions text-right">
                             <!-- Optionally, you can add a message or leave it empty -->
                             <a class="btn btn-info btn-sm text-light" href="{{ route('team.view', ['id' => $row->id]) }}">

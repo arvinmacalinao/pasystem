@@ -27,49 +27,48 @@
             <div class="row">
                 <div class="col-md-12 ms-2 mb-2">
                 <!-- Search engine section -->
-                    <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="col-auto">
-                            <input class="form-control" type="text" placeholder="Search" name="search" id="search" maxlength="255" value="">
-                            {{-- {{ old('search', $search) }} --}}
+                <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
+                    @csrf
+                    <div class="col-auto">
+                        <input class="form-control" type="text" placeholder="Search" name="qsearch" id="qsearch" maxlength="255" value="{{ old('search', $search) }}">
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Company</span>
+                            <select class="form-control" name="qcomp" id="qcomp">
+                                <option value="">-- All --</option>
+                                @foreach($companies as $company)
+                                    <option value="{{ $company->id }}"> {{ $company->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Company</span>
-                                <select class="form-control" name="reg" id="reg">
-                                    <option value="">-- All --</option>
-                                    @foreach($companies as $company)
-									<option value="{{ $company->c_id }}">{{ $company->name }}</option>
-								@endforeach
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Department</span>
+                            <select class="form-control" name="qug" id="qug">
+                                <option value="">-- All --</option>
+                                @foreach($groups as $ugroup)
+                                    <option value="{{ $ugroup->id }}"> {{ $ugroup->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Department</span>
-                                <select class="form-control" name="sec" id="sec">
-                                    <option value="">-- All --</option>
-                                    @foreach($groups as $ugroup)
-									<option value="{{ $ugroup->ug_id }}" >{{ $ugroup->alias }}</option>
-								    @endforeach
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Job Level</span>
+                            <select class="form-control" name="qlevel" id="qlevel">
+                                <option value="">-- All --</option>
+                                @for($i = 1; $i <= 9; $i++)
+                                    <option value="{{ $i }}"> Level {{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Job Level</span>
-                                <select class="form-control" name="lev" id="lev">
-                                    <option value="">-- All --</option>
-                                    @for($i = 1; $i <= 9; $i++)
-                                        <option value="level {{ $i }}">Level {{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <input class="btn btn-primary btn-sm" type="submit" name="search-btn" id="search-btn" value="Search">
-                        </div>
-                    </form>
+                    </div>
+                    <div class="col-auto">
+                        <input class="btn btn-primary btn-sm" type="submit" name="search-btn" id="search-btn" value="Search">
+                    </div>
+                </form>                                
                 <!-- End of search engine section -->
                 </div>
                 <div class="col-md-12 ms-2 mb-0">
@@ -79,25 +78,28 @@
                     </div>
                 </div>
                 <!-- Button trigger modal -->  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+           {{-- modal --}}
+           <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="newUserModalLabel">New User Created</h5>
+                  <button type="button" class="close close-button" aria-label="Close" id="closeModalButton">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Username: <span id="newUsername">{{ session('new_user_credentials.username') }}</span></p>
+                  <p>Password: <span id="newPassword">{{ session('new_user_credentials.password') }}</span></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="copyCredentials">Copy to Clipboard</button>
+                  <button type="button" class="btn btn-secondary close-button" id="manualCloseButton">Close</button>
+                </div>
+              </div>
             </div>
+          </div>
+           {{--  --}}
             <table class="table border mb-0">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
@@ -154,9 +156,62 @@
 @endsection
 @section('scripts')
 <script>
-	$(document).ready(function() {
-		
-	});
-	</script>
+    @if(session('new_user_credentials'))
+        $(document).ready(function() {
+            $('#newUserModal').modal('show');
+        });
+    @endif
+
+    document.getElementById('copyCredentials').addEventListener('click', function() {
+        var username = document.getElementById('newUsername').textContent;
+        var password = document.getElementById('newPassword').textContent;
+        var textToCopy = `Username: ${username}\nPassword: ${password}`;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                alert('Credentials copied to clipboard');
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy credentials to clipboard.');
+            });
+        } else {
+            var tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                alert('Credentials copied to clipboard');
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy credentials to clipboard.');
+            }
+            document.body.removeChild(tempInput);
+        }
+    });
+
+document.querySelectorAll('.close-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+        $('#newUserModal').modal('hide');
+
+        fetch('/clear-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('Session cleared');
+            } else {
+                console.error('Failed to clear session');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+</script>
 @endsection
 

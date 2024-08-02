@@ -6,7 +6,7 @@
             {{ __('My profile') }}
             <div class="pull-right">
                 {{-- {{ route('user.edit', ['id' => $user->u_id]) }} --}}
-                <a class="btn btn-success btn-sm text-light" href="">
+                <a class="btn btn-success btn-sm text-light" href="{{ route('edit.profile', ['id' => $user->id]) }}">
                     <i class="fa fa-pencil">
                     </i>
                     Edit Details

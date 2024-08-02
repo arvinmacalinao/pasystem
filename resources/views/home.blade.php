@@ -20,8 +20,8 @@
                       <tr class="align-middle">
                           <th class="bg-body-secondary">#</th>
                           <th class="bg-body-secondary">Company</th>
-                          <th class="bg-body-secondary text-center">No. of Employees</th>
-                          <th class="bg-body-secondary">Ratings Done</th>
+                          <th class="bg-body-secondary text-center">No. of Employees to Rate</th>
+                          <th class="bg-body-secondary text-center">Rating Details</th>
                           <th class="bg-body-secondary text-center">Last Rating Submitted</th>
                       </tr>
                   </thead>
@@ -31,13 +31,13 @@
                               <td>{{ $index + 1 }}</td>
                               <td>{{ $company['name'] }}</td>
                               <td class="text-center">{{ $company['totalEmployees'] }}</td>
-                              <td>
-                                <div class="d-flex justify-content-between align-items-baseline">
-                                  <div class="fw-semibold">{{ round($company['ratingPercentage']) }}%</div>
-                              </div>
-                              <div class="progress progress-thin">
-                                  <div class="progress-bar bg-success" role="progressbar" style="width: {{ $company['ratingPercentage'] }}%" aria-valuenow="{{ round($company['ratingPercentage']) }}" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
+                              <td class="">
+                                <div class="d-flex flex-column">
+                                  <div class="fw-semibold"><span class="text-start">{{ $company['ratedEmployees'] }}/{{ $company['totalEmployees'] }}</span><span class="pull-right">{{ round($company['ratingPercentage'], 2) }}%</span></div>
+                                </div>
+                                <div class="progress progress-thin mt-2">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $company['ratingPercentage'] }}%" aria-valuenow="{{ round($company['ratingPercentage'], 2) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
                               </td>
                               <td class="text-center">{{ $company['lastRating'] }}</td>
                           </tr>

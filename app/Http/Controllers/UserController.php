@@ -11,7 +11,9 @@ use App\Models\UserGroup;
 use App\Models\FinalGrade;
 use App\Models\Designation;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\EmployeeStatus;
+use App\Exports\FinalGradeExport;
 use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,13 +38,19 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+        $search     = $request->input('qsearch', '');
 
-        $rows       = User::where('id', '!=', 1)->paginate(20);
+        $ug         = $request->input('qug');
+        $comp       = $request->input('qcomp', '');
+        $level      = $request->input('qlevel', '');
+
         $groups     = UserGroup::get();
         $roles      = Role::where('id', '!=', 1)->get();
         $companies  = Company::get();
 
-        return view('users.index', compact('rows', 'companies', 'roles', 'groups', 'msg'));
+        $rows       = User::where('id', '!=', 1)->UserSearch($search)->SearchCompany($comp)->SearchLevel($level)->SearchUsergroup($ug)->paginate(20);
+
+        return view('users.index', compact('rows', 'companies', 'roles', 'groups', 'msg', 'search', 'ug', 'comp', 'level'));
     }
 
     public function create(Request $request)
@@ -53,7 +61,7 @@ class UserController extends Controller
         $designations      = Designation::get();
         $companies  = Company::get();
         $statuses   = EmployeeStatus::orderby('name', 'asc')->get();
-        $supervisories = User::where('id', '!=', 1)->orderby('last_name', 'asc')->get();
+        $supervisories = User::where('job_level', '>', 3)->where('id', '!=', 1)->orderby('last_name', 'asc')->get();
 
         $id      =      0;
         $user    =      new User;
@@ -87,6 +95,10 @@ class UserController extends Controller
             $user     = User::create($request->all());
     
             $request->session()->put('session_msg', 'Record successfully added.');
+            $request->session()->put('new_user_credentials', [
+                'username' => $defaultUsername,
+                'password' => $defaultPassword,
+            ]);
         } else {
             $user     = User::where('id', $id)->first();
             if(!$user ) {
@@ -217,5 +229,18 @@ class UserController extends Controller
             $request->session()->put('session_msg', 'Account Enabled!');
             return redirect(route('employee.index'));
         }      
+    }
+
+    public function hrdownloadexcel($id)
+    {
+        $export = new FinalGradeExport($id);
+        
+        return Excel::download($export, 'final_grade.xlsx');
+    }
+
+    public function clearSession(Request $request)
+    {
+        $request->session()->forget('new_user_credentials');
+        return response()->json(['status' => 'success']);
     }
 }

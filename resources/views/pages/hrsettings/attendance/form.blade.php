@@ -10,13 +10,28 @@
 @endif
 <div class="card">
     <div class="card-body">
-        <p class="card-text">Employee Details</p>
+        <p class="card-text">Team Details</p>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">User: <strong>{{ $user->FullName }}</strong></li>
-        <li class="list-group-item">Role: <strong>{{ $user->role->name }}</strong></li>
-        <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
-    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">User: <strong>{{ $user->FullName }}</strong></li>
+                    <li class="list-group-item">Company: <strong>{{ $user->role->name }}</strong></li>
+                    <li class="list-group-item">Position: <strong>{{ $user->designation->name ?? '' }}</strong></li>
+                    <li class="list-group-item">Date Hired: <strong>{{ $user->date_hired }}</strong></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }}</strong></li>
+                    <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
+                    <li class="list-group-item">Appraisal Period: <strong>{{ $user->location }}</strong></li>
+                    <li class="list-group-item">Appraisal Year: <strong>{{ $user->location }}</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="card text-left">
     <img class="card-img-top" src="holder.js/100px180/" alt="">
@@ -89,41 +104,35 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table border border-secondary text-center">
+                <!-- Dropdown to select the starting month -->
+                <div class="form-group">
+                    <label for="late_start_month"><strong>Select Starting Month:</strong></label>
+                    <select class="form-control" id="late_start_month" name="late_start_month" onchange="updateLateMonths()">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <br>
+                <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
-                            <th><small>Month 2024</small></th>
-                            <th width="30%"><small>Actual Rating</small></th>
-                            <th width="30%"><small>Tardiness Disciplinary Action Records</small></th>
+                            <th>Month</th>
+                            <th>Rating</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            // Get the current month and year
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-            
-                            // Determine the starting month based on the current period
-                            $startMonth = ($currentMonth <= 6) ? 1 : 7;
-            
-                            // Generate rows for each month
-                            for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
-                                // Calculate the month and year
-                                $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
-            
-                                echo '<tr>';
-                                echo '<td><small>' . $month . ' ' . $year . '</small></td>';
-                                echo '<td><small><input type="number"  min="0" max="5" class="form-control" name="late_rating_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '<td><small><input type="text" class="form-control" name="da_records_late_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder=""></small></td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                        <tr class="table-secondary">
-                            <td><small>Average = Total / 6 Months</small></td>
-                            <td><small>___ / 6 =</small></td>
-                            <td><small><input type="hidden" id="late_rating_score" name="late_rating_score" value="" /></small></td>
-                        </tr>
+                    <tbody id="lateMonthRows">
+                        <!-- Rows will be generated here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -185,41 +194,35 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table border border-secondary text-center">
+                <!-- Dropdown to select the starting month -->
+                <div class="form-group">
+                    <label for="ut_start_month"><strong>Select Starting Month:</strong></label>
+                    <select class="form-control" id="ut_start_month" name="ut_start_month" onchange="updateUTMonths()">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <br>
+                <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
-                            <th><small>Month 2024</small></th>
-                            <th width="30%"><small>Actual Rating</small></th>
-                            <th width="30%"><small>Undertime Disciplinary Action Records</small></th>
+                            <th>Month</th>
+                            <th>Rating</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            // Get the current month and year
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-            
-                            // Determine the starting month based on the current period
-                            $startMonth = ($currentMonth <= 6) ? 1 : 7;
-            
-                            // Generate rows for each month
-                            for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
-                                // Calculate the month and year
-                                $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
-            
-                                echo '<tr>';
-                                echo '<td><small>' . $month . ' ' . $year . '</small></td>';
-                                echo '<td><small><input type="number"  min="0" max="5" class="form-control" name="ut_rating_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '<td><small><input type="text" class="form-control" name="da_records_ut_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder=""></small></td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                        <tr class="table-secondary">
-                            <td><small>Average = Total / 6 Months</small></td>
-                            <td><small>___ / 6 =</small></td>
-                            <td><small><input type="hidden" id="ut_rating_score" name="ut_rating_score" value="" /></small></td>
-                        </tr>
+                    <tbody id="utMonthRows">
+                        <!-- Rows will be generated here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -282,41 +285,34 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table border border-secondary text-center">
+                <div class="form-group">
+                    <label for="ul_start_month"><strong>Select Starting Month:</strong></label>
+                    <select class="form-control" id="ul_start_month" name="ul_start_month" onchange="updateULMonths()">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <br>
+                <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
-                            <th><small>Month 2024</small></th>
-                            <th width="30%"><small>Actual Rating</small></th>
-                            <th width="30%"><small>Unscheduled Leave Disciplinary Action Records</small></th>
+                            <th>Month</th>
+                            <th>Rating</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            // Get the current month and year
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-            
-                            // Determine the starting month based on the current period
-                            $startMonth = ($currentMonth <= 6) ? 1 : 7;
-            
-                            // Generate rows for each month
-                            for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
-                                // Calculate the month and year
-                                $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
-            
-                                echo '<tr>';
-                                echo '<td><small>' . $month . ' ' . $year . '</small></td>';
-                                echo '<td><small><input type="number" min="0" max="5" class="form-control" name="ul_rating_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '<td><small><input type="text" class="form-control" name="da_records_ul_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder=""></small></td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                        <tr class="table-secondary">
-                            <td><small>Average = Total / 6 Months</small></td>
-                            <td><small>___ / 6 =</small></td>
-                            <td><small><input type="hidden" id="ul  _rating_score" name="ul_rating_score" value="" /></small></td>
-                        </tr>
+                    <tbody id="ulMonthRows">
+                        <!-- Rows will be generated here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -380,41 +376,35 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table border border-secondary text-center">
+                <!-- Dropdown to select the starting month -->
+                <div class="form-group">
+                    <label for="ul_start_month"><strong>Select Starting Month:</strong></label>
+                    <select class="form-control" id="ul_start_month" name="ul_start_month" onchange="updateULMonths()">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <br>
+                <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
-                            <th><small>Month 2024</small></th>
-                            <th width="30%"><small>Actual Rating</small></th>
-                            <th width="30%"><small>Unscheduled Leave Disciplinary Action Records</small></th>
+                            <th>Month</th>
+                            <th>Rating</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            // Get the current month and year
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-            
-                            // Determine the starting month based on the current period
-                            $startMonth = ($currentMonth <= 6) ? 1 : 7;
-            
-                            // Generate rows for each month
-                            for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
-                                // Calculate the month and year
-                                $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
-            
-                                echo '<tr>';
-                                echo '<td><small>' . $month . ' ' . $year . '</small></td>';
-                                echo '<td><small><input type="number" min="0" max="5" class="form-control" name="ul_rating_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder="" required></small></td>';
-                                echo '<td><small><input type="text" class="form-control" name="da_records_ul_' . ($i - $startMonth + 1) . '" aria-describedby="helpId" placeholder=""></small></td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                        <tr class="table-secondary">
-                            <td><small>Average = Total / 6 Months</small></td>
-                            <td><small>___ / 6 =</small></td>
-                            <td><small></small></td>
-                        </tr>
+                    <tbody id="ulMonthRows">
+                        <!-- Rows will be generated here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -430,7 +420,128 @@
 </div>
 @endsection
 @section('scripts')
+<!-- Script to update the months -->
 <script>
-   
+    function updateLateMonths() {
+        const startMonth = document.getElementById('late_start_month').value;
+        const currentYear = new Date().getFullYear();
+        const monthRows = document.getElementById('lateMonthRows');
+        monthRows.innerHTML = '';
+
+        for (let i = 0; i < 6; i++) {
+            const date = new Date(currentYear, startMonth - 1 + i);
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const row = document.createElement('tr');
+
+            const monthCell = document.createElement('td');
+            monthCell.innerHTML = `<small>${month} ${year}</small>`;
+            row.appendChild(monthCell);
+
+            const ratingCell = document.createElement('td');
+            ratingCell.innerHTML = `<small><input type="number" min="0" max="5" class="form-control" name="late_rating_${i + 1}" aria-describedby="helpId" placeholder="" required></small>`;
+            row.appendChild(ratingCell);
+
+            const remarksCell = document.createElement('td');
+            remarksCell.innerHTML = `<small><input type="text" class="form-control" name="da_records_late_${i + 1}" aria-describedby="helpId" placeholder="" required></small>`;
+            row.appendChild(remarksCell);
+
+            monthRows.appendChild(row);
+        }
+
+        const averageRow = document.createElement('tr');
+        averageRow.classList.add('table-secondary');
+        averageRow.innerHTML = `
+            <td><small>Average = Total / 6 Months</small></td>
+            <td><small>___ / 6 =</small></td>
+            <td><small><input type="hidden" id="late_rating_score" name="late_rating_score" value="" /></small></td>
+        `;
+        monthRows.appendChild(averageRow);
+    }
+
+    // Initialize the table with the default starting month (January)
+    updateLateMonths();
+</script>
+<script>
+    function updateUTMonths() {
+        const startMonth = document.getElementById('ut_start_month').value;
+        const currentYear = new Date().getFullYear();
+        const monthRows = document.getElementById('utMonthRows');
+        monthRows.innerHTML = '';
+
+        for (let i = 0; i < 6; i++) {
+            const date = new Date(currentYear, startMonth - 1 + i);
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const row = document.createElement('tr');
+
+            const monthCell = document.createElement('td');
+            monthCell.innerHTML = `<small>${month} ${year}</small>`;
+            row.appendChild(monthCell);
+
+            const ratingCell = document.createElement('td');
+            ratingCell.innerHTML = `<small><input type="number" min="0" max="5" class="form-control" name="ut_rating_${i + 1}" aria-describedby="helpId" placeholder="" required></small>`;
+            row.appendChild(ratingCell);
+
+            const remarksCell = document.createElement('td');
+            remarksCell.innerHTML = `<small><input type="text" class="form-control" name="da_records_ut_${i + 1}" aria-describedby="helpId" placeholder=""></small>`;
+            row.appendChild(remarksCell);
+
+            monthRows.appendChild(row);
+        }
+
+        const averageRow = document.createElement('tr');
+        averageRow.classList.add('table-secondary');
+        averageRow.innerHTML = `
+            <td><small>Average = Total / 6 Months</small></td>
+            <td><small>___ / 6 =</small></td>
+            <td><small><input type="hidden" id="ut_rating_score" name="ut_rating_score" value="" /></small></td>
+        `;
+        monthRows.appendChild(averageRow);
+    }
+
+    // Initialize the table with the default starting month (January)
+    updateUTMonths();
+</script>
+<script>
+    function updateULMonths() {
+        const startMonth = document.getElementById('ul_start_month').value;
+        const currentYear = new Date().getFullYear();
+        const monthRows = document.getElementById('ulMonthRows');
+        monthRows.innerHTML = '';
+
+        for (let i = 0; i < 6; i++) {
+            const date = new Date(currentYear, startMonth - 1 + i);
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const row = document.createElement('tr');
+
+            const monthCell = document.createElement('td');
+            monthCell.innerHTML = `<small>${month} ${year}</small>`;
+            row.appendChild(monthCell);
+
+            const ratingCell = document.createElement('td');
+            ratingCell.innerHTML = `<small><input type="number" min="0" max="5" class="form-control" name="ul_rating_${i + 1}" aria-describedby="helpId" placeholder="" required></small>`;
+            row.appendChild(ratingCell);
+
+            const remarksCell = document.createElement('td');
+            remarksCell.innerHTML = `<small><input type="text" class="form-control" name="da_records_ul_${i + 1}" aria-describedby="helpId" placeholder=""></small>`;
+            row.appendChild(remarksCell);
+
+            monthRows.appendChild(row);
+        }
+
+        const averageRow = document.createElement('tr');
+        averageRow.classList.add('table-secondary');
+        averageRow.innerHTML = `
+            <td><small>Average = Total / 6 Months</small></td>
+            <td><small>___ / 6 =</small></td>
+            <td><small><input type="hidden" id="ul_rating_score" name="ul_rating_score" value="" /></small></td>
+        `;
+        monthRows.appendChild(averageRow);
+    }
+
+    // Initialize the table with the default starting month (January)
+    updateULMonths();
 </script>
 @endsection

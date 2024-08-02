@@ -109,7 +109,7 @@
                                 </a>
                             @else
                                 <!-- Optionally, you can add a message or leave it empty -->
-                                <a class="btn btn-info btn-sm text-light" href="">
+                                <a class="btn btn-info btn-sm text-light" href="{{ route('employee.view', ['id' => $row->id]) }}">
                                     <i class="fa fa-folder-open"></i>
                                     </i>
                                     View

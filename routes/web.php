@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeamController;
@@ -43,6 +44,8 @@ Route::middleware(['guest'])->group(function() {
     Route::any('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('my.profile');
+    Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('edit.profile');
+
 
 
     //Team
@@ -51,17 +54,20 @@ Route::middleware(['guest'])->group(function() {
     Route::post('my-subordinate/{id}appraise/{appraise_id}', [TeamController::class, 'appraise'])->name('team.appraise');
     Route::get('/subordinate/copy-rating/{id}', [TeamController::class, 'copyRating'])->name('team.copy.rating');
     Route::get('/subordinate/view/{id}', [TeamController::class, 'view'])->name('team.view');
+    Route::get('my-subordinate/download/{id}', [TeamController::class, 'download'])->name('download.pdf');
 
     /* Notification */
     Route::any('notifications', [NotificationController::class, 'index'])->name('notification.list');
     Route::get('mark-single-as-read/{notification}', [NotificationController::class, 'markSingleAsRead'])->name('mark-single-as-read');
     Route::post('mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-selected-as-read');
+
+    
     
 });
 
 // EMPLOYEE RECORD
     Route::middleware(['role:HR Admin|Superadmin'])->group(function () {
-    Route::get('employees', [UserController::class, 'index'])->name('employee.index');
+    Route::any('employees', [UserController::class, 'index'])->name('employee.index');
     Route::get('employee/add', [UserController::class, 'create'])->name('employee.add');
     Route::post('employee/store/{id}', [UserController::class, 'store'])->name('employee.store');
     Route::get('employee/edit/{id}', [UserController::class, 'edit'])->name('employee.edit');
@@ -70,6 +76,9 @@ Route::middleware(['guest'])->group(function() {
     Route::get('employee/reset/{id}', [UserController::class, 'reset'])->name('employee.reset');
     Route::get('employee/active/{id}', [UserController::class, 'active'])->name('employee.active');
     Route::get('employee/enable/{id}', [UserController::class, 'enable'])->name('employee.enable');
+    Route::get('employee/download/appraisal/{id}', [TeamController::class, 'hrdownload'])->name('employee.download.pdf');
+    Route::get('employee/download/matrix/{id}', [UserController::class, 'hrdownloadexcel'])->name('employee.download.excel');
+    Route::post('/clear-session', [UserController::class, 'clearSession'])->name('clear.session');
 
     // Fill up Attendance
     Route::get('hr-attendance', [HRAdminController::class, 'index'])->name('hr.attendance.index');
@@ -104,6 +113,8 @@ Route::middleware(['guest'])->group(function() {
     Route::post('user-groups/store/{id}', [UserGroupsController::class, 'store'])->name('ugroup.store');
     Route::get('user-groups/edit/{id}', [UserGroupsController::class, 'edit'])->name('ugroup.edit');
     Route::get('user-groups/delete/{id}', [UserGroupsController::class, 'destroy'])->name('ugroup.delete');
+
+
 });
 
 

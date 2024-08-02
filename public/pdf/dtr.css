@@ -1,0 +1,19 @@
+body, html {
+	font-size: 10px !important;
+	height: 842px !important;
+	width: 800px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.dtr-border-bottom {
+	border-bottom: solid black 1px !important;
+}
+
+#dtr-table tr td {
+	white-space: nowrap !important;
+}
+
+.page-break {
+	page-break-after: always;
+   }

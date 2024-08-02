@@ -7,11 +7,13 @@ use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\UserGroup;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\AppraisalRating;
 use App\Helpers\AppraisalHelper;
+use App\Models\ActualAttendance;
 use App\Events\FinalGradeUpdated;
 use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
@@ -77,9 +79,14 @@ class TeamController extends Controller
         $msg        = $request->session()->pull('session_msg', '');
         $user       = User::where('id', $id)->firstorFail();
 
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+
+        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+
         $appraise_id = 0;
 
-        return view('pages.rate.form', compact('msg', 'user', 'appraise_id'));
+        return view('pages.rate.form', compact('msg', 'user', 'appraise_id', 'period_id'));
     }
 
     public function appraise(Request $request, $id, $appraise_id)
@@ -121,17 +128,17 @@ class TeamController extends Controller
                 
             if ($level >= 1 && $level <= 3) {
                 $appraisal_rating_score  = [
-                    $averageRatings['jk_rating_score'] * 0.2,
-                    $averageRatings['quality_rating_score'] * 0.2,
-                    $averageRatings['quantity_rating_score'] * 0.15,
-                    $averageRatings['initiative_rating_score'] * 0.05,
-                    $averageRatings['coop_rating_score'] * 0.05,
-                    $averageRatings['comms_rating_score'] * 0.05,
-                    $averageRatings['comp_rating_score'] * 0.1,
-                    $averageRatings['attend_rating_score'] * 0.05,
+                    $averageRatings['jk_rating_score']          * 0.2,
+                    $averageRatings['quality_rating_score']     * 0.2,
+                    $averageRatings['quantity_rating_score']    * 0.15,
+                    $averageRatings['initiative_rating_score']  * 0.05,
+                    $averageRatings['coop_rating_score']        * 0.05,
+                    $averageRatings['comms_rating_score']       * 0.05,
+                    $averageRatings['comp_rating_score']        * 0.1,
+                    $averageRatings['attend_rating_score']      * 0.05,
                 ];
                 $ratingscore = array_sum($appraisal_rating_score);
-            } elseif ($level >= 4 && $level <= 6) {
+            } elseif ($level >= 4 && $level <= 5) {
                 $appraisal_rating_score  = [
                     $averageRatings['jk_rating_score'] * 0.15,
                     $averageRatings['quality_rating_score'] * 0.15,
@@ -144,7 +151,7 @@ class TeamController extends Controller
                     $averageRatings['attend_rating_score'] * 0.05,
                 ];
                 $ratingscore = array_sum($appraisal_rating_score);
-            } elseif ($level >= 7 && $level <= 8) {
+            } elseif ($level >= 6 && $level <= 7) {
                 $appraisal_rating_score  = [
                     $averageRatings['jk_rating_score'] * 0.1,
                     $averageRatings['quality_rating_score'] * 0.1,
@@ -159,7 +166,7 @@ class TeamController extends Controller
                     $averageRatings['attend_rating_score'] * 0.04,
                 ];
                 $ratingscore = array_sum($appraisal_rating_score);
-            } elseif ($level == 9) {
+            } elseif ($level >= 8 && $level <= 9) {
                 $appraisal_rating_score  = [
                     $averageRatings['jk_rating_score'] * 0.1,
                     $averageRatings['quality_rating_score'] * 0.1,
@@ -174,7 +181,7 @@ class TeamController extends Controller
                     $averageRatings['attend_rating_score'] * 0.02,
                 ];
                 $ratingscore = array_sum($appraisal_rating_score);
-            } elseif ($level == 10) {
+            } elseif ($level >= 10 && $level <= 11) {
                 $appraisal_rating_score  = [
                     $averageRatings['management_rating_score'] * 0.4,
                     $averageRatings['pm_rating_score'] * 0.1,
@@ -321,5 +328,56 @@ class TeamController extends Controller
             'employee_id' => $employeeId,
             'message' => 'You can now rate this user: ' . $employee->FullName,
         ]);
+    }
+
+    public function download(Request $request, $id)
+    {
+        $msg                = $request->session()->pull('session_msg', '');
+        $evaluator          = Auth::id();
+        $appraisal          = PerformanceAppraisal::where('id', $id)->where('evaluator_id', $evaluator)->first();
+        $ratings            = AppraisalRating::where('appraisal_id', $appraisal->id)->first();
+        $attendance         = ActualAttendance::where('employee_id', $appraisal->employee_id)->where('period_id', $appraisal->period_id)->whereYear('created_at', $appraisal->evaluation_date)->first();
+            
+        if($appraisal->appraisalRating->form_id == 1){
+            return view('pdf.form1', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 2){
+            return view('pdf.form2', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 3){
+            return view('pdf.form3', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 4){
+            return view('pdf.form4', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 5){
+            return view('pdf.form5', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+       
+    }
+
+    public function hrdownload(Request $request, $id)
+    {
+        $msg                = $request->session()->pull('session_msg', '');
+        $appraisal          = PerformanceAppraisal::where('id', $id)->first();
+        $ratings            = AppraisalRating::where('appraisal_id', $appraisal->id)->first();
+        $attendance         = ActualAttendance::where('employee_id', $appraisal->employee_id)->where('period_id', $appraisal->period_id)->whereYear('created_at', $appraisal->evaluation_date)->first();
+            
+        if($appraisal->appraisalRating->form_id == 1){
+            return view('pdf.form1', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 2){
+            return view('pdf.form2', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 3){
+            return view('pdf.form3', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 4){
+            return view('pdf.form4', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+        elseif($appraisal->appraisalRating->form_id == 5){
+            return view('pdf.form5', compact('msg', 'appraisal', 'ratings', 'attendance'));
+        }
+       
     }
 }
