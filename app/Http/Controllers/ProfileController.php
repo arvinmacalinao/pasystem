@@ -61,7 +61,7 @@ class ProfileController extends Controller
 
         if(!$user) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('auth.profile'));
+            return redirect()->back();
         }
         return view('auth.edit', compact('id', 'msg', 'statuses', 'user', 'designations', 'companies', 'roles', 'groups', 'supervisories'));
     }
@@ -73,11 +73,11 @@ class ProfileController extends Controller
         
         if(!$user ) {
             $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('auth.profile'));
+            return redirect()->back();
         }   
         $user->update($request->all());
         $request->session()->put('session_msg', 'Record updated.');
 
-        return redirect(route('auth.profile'));
+        return redirect()->back();
     }
 }

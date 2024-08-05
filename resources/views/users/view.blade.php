@@ -5,12 +5,7 @@
         <div class="card-header">
             <div class="pull-right">
                 {{-- {{ route('user.edit', ['id' => $employee->u_id]) }} --}}
-                <a class="btn btn-info btn-sm text-light" href="">
-                    <i class="fa fa-pencil">
-                    </i>
-                    User Details
-                </a>
-                <a class="btn btn-primary btn-sm text-light" href="{{ url()->previous() }}" title="Back"><span class="fa fa-caret-left"></span> Back</a>
+                <a class="btn btn-primary btn-sm text-light" href="{{ route('employee.index') }}" title="Back"><span class="fa fa-caret-left"></span> Back</a>
             </div> 
             <div class="card-body">
                 <div class="flex-grow-1">
@@ -44,7 +39,16 @@
                             <div class="col-md-4"></div>
                         </div>
                         <hr>
-                        <h4>Account Details</h4>
+                        <h4>Account Details
+                            <div class="pull-right">
+                                <a class="btn btn-danger btn-sm text-light" href="{{ route('employee.resetpassword', ['id' => $employee->id]) }}">
+                                    <i class="fa fa-refresh">
+                                    </i>
+                                    Reset Password
+                                </a>
+                            </div>
+                        </h4>
+                        
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-2">
@@ -52,8 +56,14 @@
                                     <input placeholder="Username" class="form-control" type="text" maxlength="255" name="username" id="username" value="{{ $employee->username }}" readonly>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="mb-2">
+                                    <label class="form-label fw-bold" for="password">Password</label>
+                                    <input placeholder="Password" class="form-control" type="password" maxlength="255" name="password" id="password" value="{{ $employee->password }}" readonly>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-8"></div>
+                        <div class="col-md-2"></div>
                         <div class="col-md-2"></div>
                         </div>
                         <br>
@@ -172,4 +182,85 @@
             </div>
         </div> 
     </div>
+    {{-- modal --}}
+    <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newUserModalLabel">Password Successfully Reset</h5>
+              <button type="button" class="close close-button" aria-label="Close" id="closeModalButton">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Username: <span id="newUsername">{{ session('new_user_credentials.username') }}</span></p>
+              <p>Password: <span id="newPassword">{{ session('new_user_credentials.password') }}</span></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="copyCredentials">Copy to Clipboard</button>
+              <button type="button" class="btn btn-secondary close-button" id="manualCloseButton">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+@endsection
+@section('scripts')
+<script>
+    @if(session('new_user_credentials'))
+        $(document).ready(function() {
+            $('#newUserModal').modal('show');
+        });
+    @endif
+
+    document.getElementById('copyCredentials').addEventListener('click', function() {
+        var username = document.getElementById('newUsername').textContent;
+        var password = document.getElementById('newPassword').textContent;
+        var textToCopy = `Username: ${username}\nPassword: ${password}`;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                alert('Credentials copied to clipboard');
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy credentials to clipboard.');
+            });
+        } else {
+            var tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                alert('Credentials copied to clipboard');
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy credentials to clipboard.');
+            }
+            document.body.removeChild(tempInput);
+        }
+    });
+
+document.querySelectorAll('.close-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+        $('#newUserModal').modal('hide');
+
+        fetch('/clear-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('Session cleared');
+            } else {
+                console.error('Failed to clear session');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+</script>
 @endsection

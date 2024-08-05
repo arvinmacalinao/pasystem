@@ -243,4 +243,35 @@ class UserController extends Controller
         $request->session()->forget('new_user_credentials');
         return response()->json(['status' => 'success']);
     }
+
+    public function resetpassword(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if(!$user) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
+        } else {
+
+            $firstname = $user->first_name;
+            $lastname = $user->last_name;
+            $dateHired = $user->date_hired;
+
+            // Extract the year from the date_hired
+            $yearHired = date('Y', strtotime($dateHired));
+
+            // Create default user pass
+            $defaultUsername = strtolower(substr($firstname, 0, 1) . $lastname);
+            $defaultPassword = strtoupper(substr($firstname, 0, 1)) . strtoupper(substr($lastname, 0, 1)) . 'cherry' . $yearHired;
+
+            $user->update(['password' => $defaultPassword]);
+
+            $request->session()->put('new_user_credentials', [
+                'username' => $defaultUsername,
+                'password' => $defaultPassword,
+            ]);
+
+            $request->session()->put('session_msg', 'Password successfully reset!');
+            return redirect()->back();
+        }      
+    }
 }

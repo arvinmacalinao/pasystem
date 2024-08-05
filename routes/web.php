@@ -45,6 +45,7 @@ Route::middleware(['guest'])->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('my.profile');
     Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('edit.profile');
+    Route::post('/profile/store/{id}', [ProfileController::class, 'store'])->name('store.profile');
 
 
 
@@ -76,6 +77,7 @@ Route::middleware(['guest'])->group(function() {
     Route::get('employee/reset/{id}', [UserController::class, 'reset'])->name('employee.reset');
     Route::get('employee/active/{id}', [UserController::class, 'active'])->name('employee.active');
     Route::get('employee/enable/{id}', [UserController::class, 'enable'])->name('employee.enable');
+    Route::get('employee/resetpassword/{id}', [UserController::class, 'resetpassword'])->name('employee.resetpassword');
     Route::get('employee/download/appraisal/{id}', [TeamController::class, 'hrdownload'])->name('employee.download.pdf');
     Route::get('employee/download/matrix/{id}', [UserController::class, 'hrdownloadexcel'])->name('employee.download.excel');
     Route::post('/clear-session', [UserController::class, 'clearSession'])->name('clear.session');

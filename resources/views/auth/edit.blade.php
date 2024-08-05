@@ -25,7 +25,7 @@
         <!-- End -->
 		<div class="flex-grow-1">
             <br>
-			<form method="POST" action="{{ route('employee.store', ['id' => $id]) }}" enctype="multipart/form-data">
+			<form method="POST" action="{{ route('store.profile', ['id' => $id]) }}" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
 					<div class="col-md-4">
