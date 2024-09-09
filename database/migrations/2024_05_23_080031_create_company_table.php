@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('company', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('alias', 255);
+            $table->string('alias', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

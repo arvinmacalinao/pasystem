@@ -95,8 +95,7 @@
         </div>
     </div>
     <footer class="footer">
-        <div><a href="https://coreui.io">CTI </a><a href="https://coreui.io">MIS/IT Unit</a> &copy; 2024 all rights reserved.</div>
-        <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/bootstrap/ui-components/"> Dreamhost</a></div>
+        <div><a href="https://coreui.io">CTI </a><a href="https://coreui.io">MIS/IT Department</a> &copy; 2024 all rights reserved.</div>
     </footer>
 </div>
 @include('subviews.confirmation_modal')

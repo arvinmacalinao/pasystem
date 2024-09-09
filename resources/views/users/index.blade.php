@@ -108,6 +108,7 @@
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
                         <th class="bg-body-secondary">Position</th>
+                        <th class="bg-body-secondary">Status</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -120,9 +121,10 @@
                     <tr style="background-color: {{ $row->u_active == 1 ? 'white' : 'grey' }};">
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->FullName }}</td>
-                        <td>{{ $row->company->alias }}</td>
-                        <td>{{ $row->group->name }}</td>
-                        <td>{{ $row->role->name }}</td>
+                        <td>{{ $row->company->alias ?? '' }}</td>
+                        <td>{{ $row->group->name ?? '' }}</td>
+                        <td>{{ $row->role->name ?? '' }}</td>
+                        <td>{{ $row->status->name ?? '' }}</td>
                         @if($row->u_active == 1)
                         <td  class="project-actions text-right">
                             <a class="btn btn-info btn-sm text-light" href="{{ route('employee.view', ['id' => $row->id]) }}">

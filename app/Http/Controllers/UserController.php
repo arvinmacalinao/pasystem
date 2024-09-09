@@ -11,11 +11,13 @@ use App\Models\UserGroup;
 use App\Models\FinalGrade;
 use App\Models\Designation;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Models\EmployeeStatus;
+use App\Events\FinalGradeUpdated;
 use App\Exports\FinalGradeExport;
 use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\UserValidation;
 
 class UserController extends Controller
 {
@@ -69,8 +71,10 @@ class UserController extends Controller
         return view('users.form', compact('id', 'statuses', 'designations', 'user', 'msg', 'companies', 'roles', 'groups', 'supervisories'));
     }
 
-    public function store(Request $request, $id)
+    public function store(UserValidation $request, $id)
     {
+        $input      = $request->validated();
+
         $enable = $request->input('u_enabled');
         $company = $request->input('c_id');
         $firstname = $request->input('first_name');
@@ -187,6 +191,7 @@ class UserController extends Controller
             {
                 $final_grade1->appraisal1_id = null;
                 $final_grade1->appraisal1_score = null;
+                $final_grade1->final_score = null;
                 $final_grade1->update();
             }
 
@@ -194,6 +199,7 @@ class UserController extends Controller
             {
                 $final_grade2->appraisal2_id = null;
                 $final_grade2->appraisal2_score = null;
+                $final_grade2->final_score = null;
                 $final_grade2->update();
             }    
            
@@ -203,7 +209,7 @@ class UserController extends Controller
              event(new FinalGradeUpdated($appraisal->employee_id));
             
             $request->session()->put('session_msg', 'Appraisal Reset Successfull!');
-            return redirect(route('employee.index'));
+            return redirect()->back();
         }        
     }
     public function active(Request $request, $id)

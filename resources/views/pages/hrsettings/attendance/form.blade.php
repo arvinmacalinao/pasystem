@@ -17,8 +17,8 @@
             <div class="col-md-6">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">User: <strong>{{ $user->FullName }}</strong></li>
-                    <li class="list-group-item">Company: <strong>{{ $user->role->name }}</strong></li>
-                    <li class="list-group-item">Position: <strong>{{ $user->designation->name ?? '' }}</strong></li>
+                    <li class="list-group-item">Company: <strong>{{ $user->company->name ?? '' }}</strong></li>
+                    <li class="list-group-item">Designation: <strong>{{ $user->designation->name ?? '' }}</strong></li>
                     <li class="list-group-item">Date Hired: <strong>{{ $user->date_hired }}</strong></li>
                 </ul>
             </div>
@@ -26,8 +26,8 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
-                    <li class="list-group-item">Appraisal Period: <strong>{{ $user->location }}</strong></li>
-                    <li class="list-group-item">Appraisal Year: <strong>{{ $user->location }}</strong></li>
+                    <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
+                    <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
         </div>
@@ -128,7 +128,7 @@
                         <tr>
                             <th>Month</th>
                             <th>Rating</th>
-                            <th>Remarks</th>
+                            <th>Disiplinary Action Records</th>
                         </tr>
                     </thead>
                     <tbody id="lateMonthRows">
@@ -218,7 +218,7 @@
                         <tr>
                             <th>Month</th>
                             <th>Rating</th>
-                            <th>Remarks</th>
+                            <th>Disiplinary Action Records</th>
                         </tr>
                     </thead>
                     <tbody id="utMonthRows">
@@ -308,7 +308,7 @@
                         <tr>
                             <th>Month</th>
                             <th>Rating</th>
-                            <th>Remarks</th>
+                            <th>Disiplinary Action Records</th>
                         </tr>
                     </thead>
                     <tbody id="ulMonthRows">
@@ -400,7 +400,7 @@
                         <tr>
                             <th>Month</th>
                             <th>Rating</th>
-                            <th>Remarks</th>
+                            <th>Disiplinary Action Records</th>
                         </tr>
                     </thead>
                     <tbody id="ulMonthRows">

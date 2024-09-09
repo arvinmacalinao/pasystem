@@ -22,8 +22,13 @@ class UpdateFinalGrade
     {
         $employee_id = $event->employee_id;
         $currentMonth = now()->month;
-        $year = now()->year;
-        $period_id = $currentMonth >= 2 && $currentMonth <= 7 ? 1 : 2;
+        $year = date('Y');
+
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+        } else {
+            $period_id = 2; // Previous year for Period 2 (July-December)
+        }
 
         // Get the evaluator IDs
         $immediateSupervisor = User::where('id', $employee_id)->pluck('is_id')->first();
@@ -48,12 +53,11 @@ class UpdateFinalGrade
             ->whereYear('created_at', $year)
             ->first();
         
-        if(!$attendance){
-            $attendance_score = 0;
-        }
-        else{
-            $attendance_score = $attendance->attend_b_rating_score;
-        }
+            if ($attendance === null) {
+                $attendance_score = 0;
+            } else {
+                $attendance_score = $attendance->attend_b_rating_score;
+            }
 
             // Calculate appraisal scores
             $appraisal1_score = $appraisal1 ? ($appraisal1->appraisalRating->appraisal_rating_score + $attendance_score): null;

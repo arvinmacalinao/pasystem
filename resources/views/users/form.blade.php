@@ -31,7 +31,7 @@
 					<div class="col-md-4">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="first_name">First Name<span class="text-danger">*</span></label>
-							<input placeholder="First Name" class="form-control form-control-sm @error('first_name') is-invalid @enderror" type="text" maxlength="255" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" style="">
+							<input placeholder="First Name" class="form-control form-control-sm @error('first_name') is-invalid @enderror" type="text" maxlength="255" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" style="" required>
 							<div class="invalid-feedback">@error('first_name') {{ $errors->first('first_name') }} @enderror</div>
 						</div>
 					</div>
@@ -58,13 +58,13 @@
 					</div>
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="employee_code">Employee Code<span class="text-danger">*</span></label>
-							<input placeholder="Employee Code" class="form-control form-control-sm @error('employee_code') is-invalid @enderror" type="text" maxlength="255" name="employee_code" id="employee_code" value="{{ old('employee_code', $user->employee_code) }}" style="">
+							<input placeholder="Employee Code" class="form-control form-control-sm @error('employee_code') is-invalid @enderror" type="text" maxlength="255" name="employee_code" id="employee_code" value="{{ old('employee_code', $user->employee_code) }}" style="" required>
 							<div class="invalid-feedback">@error('employee_code') {{ $errors->first('employee_code') }} @enderror</div>
 					</div>
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="d_id">Designation<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('d_id') is-invalid @enderror" name="d_id">
+							<select class="form-control select2 @error('d_id') is-invalid @enderror" name="d_id" >
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($designations as $designation)
 									<option value="{{ $designation->id }}" {{ old('d_id', $user->d_id) == $designation->id ? 'selected' : '' }}>{{ $designation->name }}</option>
@@ -76,7 +76,7 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="job_level">Job Level<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('job_level') is-invalid @enderror" name="job_level">
+							<select class="form-control select2 @error('job_level') is-invalid @enderror" name="job_level" required>
 								<option value="" selected disabled>-- Please select --</option>
 								@for($i = 1; $i <= 12; $i++)
     								<option value="{{ $i }}" {{ old('job_level', $user->job_level) == $i ? 'selected' : '' }}>Level {{ $i }}</option>
@@ -88,7 +88,7 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="es_id">Employment Status<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('es_id') is-invalid @enderror" name="es_id">
+							<select class="form-control select2 @error('es_id') is-invalid @enderror" name="es_id" required>
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($statuses as $status)
 									<option value="{{ $status->id }}" {{ old('es_id', $user->es_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
@@ -100,7 +100,7 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="ug_id">Department<span class="text-danger">*</span></label>
-							<select class="form-control form-control-sm @error('ug_id') is-invalid @enderror select2" name="ug_id">
+							<select class="form-control form-control-sm @error('ug_id') is-invalid @enderror select2" name="ug_id" required>
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($groups as $group)
 									<option value="{{ $group->id }}" {{ old('ug_id', $user->ug_id) == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
@@ -112,7 +112,7 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="c_id">Company<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('c_id') is-invalid @enderror" name="c_id">
+							<select class="form-control select2 @error('c_id') is-invalid @enderror" name="c_id" required>
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($companies as $company)
 									<option value="{{ $company->id }}" {{ old('c_id', $user->c_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -124,7 +124,7 @@
 					<div class="col-md-3">
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="r_id">Permission<span class="text-danger">*</span></label>
-							<select class="form-control select2 @error('r_id') is-invalid @enderror" name="r_id">
+							<select class="form-control select2 @error('r_id') is-invalid @enderror" name="r_id" required>
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($roles as $role)
 									<option value="{{ $role->id }}" {{ old('r_id', $user->r_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
@@ -136,7 +136,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_hired">Date Hired<span class="text-danger">*</span></label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $user->date_hired) }}">
+							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $user->date_hired) }}" required>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -187,7 +187,7 @@
 							<select class="form-control form-control-sm @error('is_id') is-invalid @enderror select2" name="is_id">
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($supervisories as $visor)
-									<option value="{{ $visor->id }}" {{ old('is_id', $user->is_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->alias ."/". $visor->designation->name }}</option>
+									<option value="{{ $visor->id }}" {{ old('is_id', $user->is_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->name ?? '' ."/". $visor->designation->name ?? ''}}</option>
 								@endforeach
 							</select>
 							<div class="invalid-feedback">@error('is_id') {{ $errors->first('is_id') }} @enderror</div>
@@ -199,7 +199,7 @@
 							<select class="form-control form-control-sm @error('fr_id') is-invalid @enderror select2" name="fr_id">
 								<option value="" selected disabled>-- Please select --</option>
 								@foreach($supervisories as $visor)
-									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->alias ."/". $visor->designation->name }}</option>
+									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->name ?? '' ."/". $visor->designation->name ?? '' }}</option>
 								@endforeach
 							</select>
 							<div class="invalid-feedback">@error('fr_id') {{ $errors->first('fr_id') }} @enderror</div>

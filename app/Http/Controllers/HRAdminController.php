@@ -37,7 +37,11 @@ class HRAdminController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
         // Determine the period_id based on the current month
-        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+            } else {
+                $period_id = 2; // Previous year for Period 2 (July-December)
+            }
 
         // Fetch users with filled-up performance appraisals
         $rows = User::whereNot('job_level', 10)->whereHas('performanceAppraisals', function ($query) {
@@ -52,7 +56,6 @@ class HRAdminController extends Controller
         foreach ($rows as $row) {
             $row->has_been_rated = ActualAttendance::where('employee_id', $row->id)
                                                         ->where('period_id', $period_id)
-                                                        ->whereYear('created_at', $currentYear)
                                                         ->exists();
         }
 
@@ -64,13 +67,61 @@ class HRAdminController extends Controller
         $msg        = $request->session()->pull('session_msg', '');
         $user       = User::where('id', $id)->firstorFail();
 
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+            } else {
+                $period_id = 2; // Previous year for Period 2 (July-December)
+                $currentYear -= 1; // Subtract 1 from the current year for Period 2
+            }
+
         $attendance_id = 0;
 
-        return view('pages.hrsettings.attendance.form', compact('msg', 'user', 'attendance_id'));
+        return view('pages.hrsettings.attendance.form', compact('msg', 'user', 'attendance_id', 'period_id', 'currentYear'));
     }
 
     public function store(Request $request, $id, $attendance_id)
     {   
+        $request->validate([
+    'late_rating_1' => 'nullable|integer|between:1,5',
+    'late_rating_2' => 'nullable|integer|between:1,5',
+    'late_rating_3' => 'nullable|integer|between:1,5',
+    'late_rating_4' => 'nullable|integer|between:1,5',
+    'late_rating_5' => 'nullable|integer|between:1,5',
+    'da_records_late_1' => 'nullable|integer|between:1,5',
+    'da_records_late_2' => 'nullable|integer|between:1,5',
+    'da_records_late_3' => 'nullable|integer|between:1,5',
+    'da_records_late_4' => 'nullable|integer|between:1,5',
+    'da_records_late_5' => 'nullable|integer|between:1,5',
+    'da_records_late_6' => 'nullable|integer|between:1,5',
+    'ut_rating_1' => 'nullable|integer|between:1,5',
+    'ut_rating_2' => 'nullable|integer|between:1,5',
+    'ut_rating_3' => 'nullable|integer|between:1,5',
+    'ut_rating_4' => 'nullable|integer|between:1,5',
+    'ut_rating_5' => 'nullable|integer|between:1,5',
+    'ut_rating_6' => 'nullable|integer|between:1,5',
+    'da_records_ut_1' => 'nullable|integer|between:1,5',
+    'da_records_ut_2' => 'nullable|integer|between:1,5',
+    'da_records_ut_3' => 'nullable|integer|between:1,5',
+    'da_records_ut_4' => 'nullable|integer|between:1,5',
+    'da_records_ut_5' => 'nullable|integer|between:1,5',
+    'da_records_ut_6' => 'nullable|integer|between:1,5',
+    'ul_rating_1' => 'nullable|integer|between:1,5',
+    'ul_rating_2' => 'nullable|integer|between:1,5',
+    'ul_rating_3' => 'nullable|integer|between:1,5',
+    'ul_rating_4' => 'nullable|integer|between:1,5',
+    'ul_rating_5' => 'nullable|integer|between:1,5',
+    'ul_rating_6' => 'nullable|integer|between:1,5',
+    'da_records_ul_1' => 'nullable|integer|between:1,5',
+    'da_records_ul_2' => 'nullable|integer|between:1,5',
+    'da_records_ul_3' => 'nullable|integer|between:1,5',
+    'da_records_ul_4' => 'nullable|integer|between:1,5',
+    'da_records_ul_5' => 'nullable|integer|between:1,5',
+    'da_records_ul_6' => 'nullable|integer|between:1,5',
+]);
+
         $employee_level = User::where('id', $id)->first();
         
         $userid = auth()->id();
@@ -89,6 +140,15 @@ class HRAdminController extends Controller
 
 
         if($attendance_id == 0){
+
+            $currentYear = date('Y');
+            $currentMonth = date('m');
+            // Determine the period_id based on the current month
+            if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+        } else {
+            $period_id = 2; // Previous year for Period 2 (July-December)
+        }
 
             $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
             $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories);
@@ -116,7 +176,7 @@ class HRAdminController extends Controller
             // dd($attend_b_rating_score, $level, $averageRatings, $ratingscore);
             
             // Create a new record in the ActualAttendance table
-            $request->request->add(['employee_id' => $id, 'encoder_id' => $userid, 'period_id' => 1]);
+            $request->request->add(['employee_id' => $id, 'encoder_id' => $userid, 'period_id' => $period_id]);
             $actual_attendance = ActualAttendance::create($request->all());
 
             // Dispatch the FinalGradeUpdated event

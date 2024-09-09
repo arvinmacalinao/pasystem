@@ -113,7 +113,7 @@ class FinalGradeExport implements WithEvents
                     $sheet->setCellValue('B7', $user->designation->name);
                     $sheet->setCellValue('B8', $job_rank);
 
-                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
+                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 2) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('C14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('C15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -124,7 +124,7 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C20', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C21', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 1) {
+                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 2) {
                         $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -162,7 +162,7 @@ class FinalGradeExport implements WithEvents
                     $sheet->setCellValue('B7', $user->designation->name);
                     $sheet->setCellValue('B8', $job_rank);
 
-                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
+                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 3) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('C14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('C15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -175,7 +175,7 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C22', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C23', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 1) {
+                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 3) {
                         $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -215,7 +215,7 @@ class FinalGradeExport implements WithEvents
                     $sheet->setCellValue('B7', $user->designation->name);
                     $sheet->setCellValue('B8', $job_rank);
 
-                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
+                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 4) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('C14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('C15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -228,7 +228,7 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C22', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C23', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 1) {
+                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 4) {
                         $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
                         $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
                         $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
@@ -263,7 +263,7 @@ class FinalGradeExport implements WithEvents
                     $sheet->setCellValue('B7', $user->designation->name);
                     $sheet->setCellValue('B8', $job_rank);
 
-                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
+                    if($appraisal1 && $appraisal1->appraisalRating->form_id == 5) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->management_rating_score);
                         $sheet->setCellValue('C14', $appraisal1->appraisalRating->pm_rating_score);
                         $sheet->setCellValue('C15', $appraisal1->appraisalRating->ps_rating_score);

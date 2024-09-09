@@ -40,6 +40,15 @@ class TeamController extends Controller
     {
         $msg        = $request->session()->pull('session_msg', '');
 
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+        // Determine the period_id based on the current month
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+        $period_id = 1; // Current year for Period 1 (January-June)
+        } else {
+            $period_id = 2; // Previous year for Period 2 (July-December)
+        }
+
         // Assuming the authenticated user is the supervisor
         $user = auth()->user();
         $evaluatorId = $user->id;
@@ -60,12 +69,22 @@ class TeamController extends Controller
             // Check if each subordinate has been rated by the evaluator
             $row->has_been_rated = PerformanceAppraisal::where('employee_id', $row->id)
                                                        ->where('evaluator_id', $evaluatorId)
+                                                       ->where('period_id', $period_id)
+                                                       ->whereYear('created_at', $currentYear)
                                                        ->first();
 
             // Check if the immediate supervisor has rated the employee
             $row->immediate_supervisor_rated = PerformanceAppraisal::where('employee_id', $row->id)
             ->where('evaluator_id', $row->is_id)
             ->wherenot('evaluator_id', $user->id)
+            ->where('period_id', $period_id)
+            ->whereYear('created_at', $currentYear)
+            ->first();
+
+            //check if the user has attendance
+            $row->has_attendance = ActualAttendance::where('employee_id', $row->id)
+            ->where('period_id', $period_id)
+            ->whereYear('created_at', $currentYear)
             ->first();
 
             $row->is_final_rater = User::where('id', $row->id)->where('fr_id', $user->id)->first();
@@ -82,11 +101,17 @@ class TeamController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+        // Determine the period_id based on the current month
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+        } else {
+            $period_id = 2; // Previous year for Period 2 (July-December)
+            $currentYear -= 1;
+        }
 
         $appraise_id = 0;
 
-        return view('pages.rate.form', compact('msg', 'user', 'appraise_id', 'period_id'));
+        return view('pages.rate.form', compact('msg', 'user', 'appraise_id', 'period_id', 'currentYear'));
     }
 
     public function appraise(Request $request, $id, $appraise_id)
@@ -98,7 +123,12 @@ class TeamController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+        // Determine the period_id based on the current month
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $period_id = 1; // Current year for Period 1 (January-June)
+        } else {
+            $period_id = 2; // Previous year for Period 2 (July-December)
+        }
 
         if($appraise_id == 0){
 
@@ -287,6 +317,13 @@ class TeamController extends Controller
 
         $rows           = PerformanceAppraisal::where('employee_id', $employee->id)->where('evaluator_id', $auth_id)->orderby('created_at', 'desc')->orderby('period_id', 'asc')->paginate(20);
 
+        foreach ($rows as $row) {
+            //check if the user has attendance
+            $row->has_attendance = ActualAttendance::where('employee_id', $employee->id)
+            ->where('period_id', $row->period_id)
+            ->first();
+        }
+
         return view('pages.team.view', compact('msg', 'rows', 'id', 'employee'));
     }
 
@@ -333,8 +370,9 @@ class TeamController extends Controller
     public function download(Request $request, $id)
     {
         $msg                = $request->session()->pull('session_msg', '');
-        $evaluator          = Auth::id();
-        $appraisal          = PerformanceAppraisal::where('id', $id)->where('evaluator_id', $evaluator)->first();
+        // $evaluator          = Auth::id();
+        // $appraisal          = PerformanceAppraisal::where('id', $id)->where('evaluator_id', $evaluator)->first();
+        $appraisal          = PerformanceAppraisal::where('id', $id)->first();
         $ratings            = AppraisalRating::where('appraisal_id', $appraisal->id)->first();
         $attendance         = ActualAttendance::where('employee_id', $appraisal->employee_id)->where('period_id', $appraisal->period_id)->whereYear('created_at', $appraisal->evaluation_date)->first();
             

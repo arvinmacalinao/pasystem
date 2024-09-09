@@ -87,6 +87,7 @@
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
                         <th class="bg-body-secondary">Designation</th>
+                        <th class="bg-body-secondary">Employement Status</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -102,6 +103,7 @@
                         <td>{{ $row->company->alias }}</td>
                         <td>{{ $row->group->name }}</td>
                         <td>{{ $row->designation->name }}</td>
+                        <td>{{ $row->status->name }}</td>
                         <td  class="project-actions text-right">
                             <!-- Optionally, you can add a message or leave it empty -->
                             <a class="btn btn-info btn-sm text-light" href="{{ route('team.view', ['id' => $row->id]) }}">
@@ -118,6 +120,7 @@
                                             <i class="fa fa-pencil"></i> Rate
                                         </a>
                                         @if ($row->immediate_supervisor_rated)
+                                        <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
                                         <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
                                             <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
                                         </a>

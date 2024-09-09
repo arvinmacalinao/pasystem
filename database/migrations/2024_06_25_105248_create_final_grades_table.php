@@ -16,14 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('appraisal1_id')->nullable();
             $table->unsignedBigInteger('appraisal2_id')->nullable();
-            $table->unsignedBigInteger('attendance_id');
+            $table->unsignedBigInteger('attendance_id')->nullable();
             $table->bigInteger('period_id')->unsigned()->nullable();
             
             $table->year('year');
             $table->decimal('appraisal1_score', 8, 2)->nullable();
             $table->decimal('appraisal2_score', 8, 2)->nullable();
-            $table->decimal('attendance_score', 8, 2);
-            $table->decimal('final_score', 8, 2);
+            $table->decimal('attendance_score', 8, 2)->nullable();
+            $table->decimal('final_score', 8, 2)->nullable();
             $table->timestamps();
             
             $table->foreign('period_id')->references('id')->on('appraisal_period');

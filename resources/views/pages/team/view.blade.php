@@ -6,8 +6,8 @@
         <p class="card-text">Team Details</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">User: <strong>{{ $employee->FullName }}</strong></li>
-        <li class="list-group-item">Role: <strong>{{ $employee->role->name }}</strong></li>
+        <li class="list-group-item">Name: <strong>{{ $employee->FullName }}</strong></li>
+        <li class="list-group-item">Designation: <strong>{{ $employee->designation->name }}</strong></li>
         <li class="list-group-item">Location: <strong>{{ $employee->location }}</strong></li>
     </ul>
     <div class="card-footer">
@@ -68,9 +68,12 @@
                             }
                             ?>
                             </td>
+                            @if (!$row->has_attendance)
+                            @else
                             <td  class="project-actions text-right">
                                 <a class="btn btn-success btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> Download</a>
                             </td>
+                            @endif
                         </tr>
                     </tbody>
                     @endforeach

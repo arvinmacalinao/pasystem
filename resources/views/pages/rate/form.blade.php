@@ -27,7 +27,7 @@
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
-                    <li class="list-group-item">Appraisal Year: <strong>{{ date('Y') }}</strong></li>
+                    <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
         </div>
@@ -41,13 +41,13 @@
         {{-- Technical/Professional/Specialist Rank & File Form --}}
         @include('pages.rate.subform2')
     @elseif(($user->job_level >= 6 && $user->job_level <= 7))
-        {{-- Technical/Professional/Specialist Rank & File Form --}}
+        {{-- Supervisors/Senior Supervisors --}}
         @include('pages.rate.subform3')
     @elseif(($user->job_level >= 8 && $user->job_level <= 9))
-    {{-- Technical/Professional/Specialist Rank & File Form --}}
+    {{-- Assistant Managers/Managers --}}
     @include('pages.rate.subform4')
     @elseif(($user->job_level >= 10 && $user->job_level <= 11))
-    {{-- Technical/Professional/Specialist Rank & File Form --}}
+    {{-- Senior Managers and Executives --}}
     @include('pages.rate.subform5')
     @endif
 @endsection
