@@ -9,12 +9,21 @@
 </div>
 @endif
 <!-- End -->
+{{-- <div class="card mb-4">
+        <div class="card-header">
+        {{ __('Organizational Chart') }}
+        </div>
+        <div class="card-body"><div class="col-md-12 ms-2 mb-0">
+            <img src="{{ asset('images/vinochart.png') }}" width="1260" height="720">
+        </div>
+    </div>
+</div> --}}
     <div class="card mb-4">
         <div class="card-header">
             {{ __('Dashboard') }}
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
+        <div class="card-body"><div class="col-md-12 ms-2 mb-0">
+            <div class="table-responsive">
               <table class="table border mb-0">
                   <thead class="fw-semibold text-nowrap">
                       <tr class="align-middle">
@@ -47,4 +56,5 @@
           </div>
       </div>
     </div>
+
 @endsection

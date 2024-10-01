@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-           {{--  --}}
+          <div class="table-responsive">
             <table class="table border mb-0">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
@@ -122,7 +122,7 @@
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->alias ?? '' }}</td>
-                        <td>{{ $row->group->name ?? '' }}</td>
+                        <td>{{ $row->group->alias ?? '' }}</td>
                         <td>{{ $row->role->name ?? '' }}</td>
                         <td>{{ $row->status->name ?? '' }}</td>
                         @if($row->u_active == 1)
@@ -140,6 +140,12 @@
                             <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
+                            @if($row->es_id == 3)
+                            @else
+                            <a class="btn btn-warning btn-sm row-delete-btn text-light" href="{{ route('employee.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
+                                <i class="fa fa-trash"></i> To Rate
+                            </a>
+                            @endif
                         </td>
                         @else
                         <td>
@@ -154,6 +160,7 @@
                 </tbody>
                 @endforeach
             </table>
+        </div>
     </div>
 @endsection
 @section('scripts')

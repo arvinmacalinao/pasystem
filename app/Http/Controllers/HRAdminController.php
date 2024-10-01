@@ -79,48 +79,56 @@ class HRAdminController extends Controller
 
         $attendance_id = 0;
 
-        return view('pages.hrsettings.attendance.form', compact('msg', 'user', 'attendance_id', 'period_id', 'currentYear'));
+        if($user->es_id != 3){
+            return view('pages.hrsettings.attendance.form2', compact('msg', 'user', 'attendance_id', 'period_id', 'currentYear'));
+        }
+        else{
+            return view('pages.hrsettings.attendance.form', compact('msg', 'user', 'attendance_id', 'period_id', 'currentYear'));
+        }
+        
     }
 
     public function store(Request $request, $id, $attendance_id)
     {   
-        $request->validate([
-    'late_rating_1' => 'nullable|integer|between:1,5',
-    'late_rating_2' => 'nullable|integer|between:1,5',
-    'late_rating_3' => 'nullable|integer|between:1,5',
-    'late_rating_4' => 'nullable|integer|between:1,5',
-    'late_rating_5' => 'nullable|integer|between:1,5',
-    'da_records_late_1' => 'nullable|integer|between:1,5',
-    'da_records_late_2' => 'nullable|integer|between:1,5',
-    'da_records_late_3' => 'nullable|integer|between:1,5',
-    'da_records_late_4' => 'nullable|integer|between:1,5',
-    'da_records_late_5' => 'nullable|integer|between:1,5',
-    'da_records_late_6' => 'nullable|integer|between:1,5',
-    'ut_rating_1' => 'nullable|integer|between:1,5',
-    'ut_rating_2' => 'nullable|integer|between:1,5',
-    'ut_rating_3' => 'nullable|integer|between:1,5',
-    'ut_rating_4' => 'nullable|integer|between:1,5',
-    'ut_rating_5' => 'nullable|integer|between:1,5',
-    'ut_rating_6' => 'nullable|integer|between:1,5',
-    'da_records_ut_1' => 'nullable|integer|between:1,5',
-    'da_records_ut_2' => 'nullable|integer|between:1,5',
-    'da_records_ut_3' => 'nullable|integer|between:1,5',
-    'da_records_ut_4' => 'nullable|integer|between:1,5',
-    'da_records_ut_5' => 'nullable|integer|between:1,5',
-    'da_records_ut_6' => 'nullable|integer|between:1,5',
-    'ul_rating_1' => 'nullable|integer|between:1,5',
-    'ul_rating_2' => 'nullable|integer|between:1,5',
-    'ul_rating_3' => 'nullable|integer|between:1,5',
-    'ul_rating_4' => 'nullable|integer|between:1,5',
-    'ul_rating_5' => 'nullable|integer|between:1,5',
-    'ul_rating_6' => 'nullable|integer|between:1,5',
-    'da_records_ul_1' => 'nullable|integer|between:1,5',
-    'da_records_ul_2' => 'nullable|integer|between:1,5',
-    'da_records_ul_3' => 'nullable|integer|between:1,5',
-    'da_records_ul_4' => 'nullable|integer|between:1,5',
-    'da_records_ul_5' => 'nullable|integer|between:1,5',
-    'da_records_ul_6' => 'nullable|integer|between:1,5',
-]);
+        // $request->validate([
+        //     'late_rating_1' => 'nullable|integer|between:1,5',
+        //     'late_rating_2' => 'nullable|integer|between:1,5',
+        //     'late_rating_3' => 'nullable|integer|between:1,5',
+        //     'late_rating_4' => 'nullable|integer|between:1,5',
+        //     'late_rating_5' => 'nullable|integer|between:1,5',
+        //     'da_records_late_1' => 'nullable|integer|between:0,5',
+        //     'da_records_late_2' => 'nullable|integer|between:0,5',
+        //     'da_records_late_3' => 'nullable|integer|between:0,5',
+        //     'da_records_late_4' => 'nullable|integer|between:0,5',
+        //     'da_records_late_5' => 'nullable|integer|between:0,5',
+        //     'da_records_late_6' => 'nullable|integer|between:0,5',
+        //     'ut_rating_1' => 'nullable|integer|between:,5',
+        //     'ut_rating_2' => 'nullable|integer|between:,5',
+        //     'ut_rating_3' => 'nullable|integer|between:,5',
+        //     'ut_rating_4' => 'nullable|integer|between:,5',
+        //     'ut_rating_5' => 'nullable|integer|between:,5',
+        //     'ut_rating_6' => 'nullable|integer|between:,5',
+        //     'da_records_ut_1' => 'nullable|integer|between:0,5',
+        //     'da_records_ut_2' => 'nullable|integer|between:0,5',
+        //     'da_records_ut_3' => 'nullable|integer|between:0,5',
+        //     'da_records_ut_4' => 'nullable|integer|between:0,5',
+        //     'da_records_ut_5' => 'nullable|integer|between:0,5',
+        //     'da_records_ut_6' => 'nullable|integer|between:0,5',
+        //     'ul_rating_1' => 'nullable|integer|between:1,5',
+        //     'ul_rating_2' => 'nullable|integer|between:1,5',
+        //     'ul_rating_3' => 'nullable|integer|between:1,5',
+        //     'ul_rating_4' => 'nullable|integer|between:1,5',
+        //     'ul_rating_5' => 'nullable|integer|between:1,5',
+        //     'ul_rating_6' => 'nullable|integer|between:1,5',
+        //     'da_records_ul_1' => 'nullable|integer|between:0,5',
+        //     'da_records_ul_2' => 'nullable|integer|between:0,5',
+        //     'da_records_ul_3' => 'nullable|integer|between:0,5',
+        //     'da_records_ul_4' => 'nullable|integer|between:0,5',
+        //     'da_records_ul_5' => 'nullable|integer|between:0,5',
+        //     'da_records_ul_6' => 'nullable|integer|between:0,5',
+        // ]);
+
+        $endMonth = $request->input('end_month');
 
         $employee_level = User::where('id', $id)->first();
         
@@ -149,9 +157,9 @@ class HRAdminController extends Controller
         } else {
             $period_id = 2; // Previous year for Period 2 (July-December)
         }
-
+            $endmonth = $request->get('');
             $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
-            $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories);
+            $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories, $endMonth);
 
              // Merge the average ratings into the request data
             $request->merge($averageRatings);

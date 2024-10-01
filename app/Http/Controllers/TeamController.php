@@ -88,6 +88,9 @@ class TeamController extends Controller
             ->first();
 
             $row->is_final_rater = User::where('id', $row->id)->where('fr_id', $user->id)->first();
+
+
+            $row->forevaluation = User::where('id', $row->id)->whereNot('es_id', 3)->first();
         }
 
         return view('pages.team.index', compact('rows', 'companies', 'roles', 'groups', 'msg'));
@@ -111,7 +114,15 @@ class TeamController extends Controller
 
         $appraise_id = 0;
 
-        return view('pages.rate.form', compact('msg', 'user', 'appraise_id', 'period_id', 'currentYear'));
+        if($user->es_id != 3)
+        {
+            return view('pages.rate.form2', compact('msg', 'user', 'appraise_id', 'period_id', 'currentYear'));
+        }
+        else
+        {
+            return view('pages.rate.form', compact('msg', 'user', 'appraise_id', 'period_id', 'currentYear'));
+        }
+
     }
 
     public function appraise(Request $request, $id, $appraise_id)

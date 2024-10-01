@@ -17,7 +17,7 @@
             <div class="col-md-6">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">User: <strong>{{ $user->FullName }}</strong></li>
-                    <li class="list-group-item">Company: <strong>{{ $user->company->name ?? ''}}</strong></li>
+                    <li class="list-group-item">Company: <strong>{{ $user->role->name }}</strong></li>
                     <li class="list-group-item">Position: <strong>{{ $user->designation->name ?? '' }}</strong></li>
                     <li class="list-group-item">Date Hired: <strong>{{ $user->date_hired }}</strong></li>
                 </ul>
@@ -26,7 +26,17 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
-                    <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
+                    @php
+                        $date_hired = \Carbon\Carbon::parse($user->date_hired); 
+                        $month_range1 = $date_hired->format('M'); 
+
+                        if($user->es_id == 1) {
+                            $month_range2 = $date_hired->addMonths(3)->format('M'); // Add 3 months for es_id = 1
+                        } elseif($user->es_id == 2) {
+                            $month_range2 = $date_hired->addMonths(6)->format('M'); // Add 6 months for es_id = 2
+                        }
+                    @endphp
+                    <li class="list-group-item">Appraisal Period: <strong>{{ $month_range1 }} - {{ $month_range2 }}</strong></li>
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>

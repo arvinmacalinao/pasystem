@@ -92,14 +92,21 @@ class LoginController extends Controller
     
         // Attempt to log in
         if (Auth::attempt($credentials)) {
+            // Check if this is the first login and redirect to change password page
+            $user = Auth::user();
+            if ($user->first_login) {
+                return redirect()->route('password.form');
+            }
+            
+            // If not the first login, redirect to the intended page or home
             return redirect(route('home'));
         }
     
-         // If login fails, redirect back to the login form with an error message
+        // If login fails, redirect back to the login form with an error message
         return redirect(route('users.loginform'))->with([
             'message' => 'Invalid Username or Password!',
         ]);
-    }
+    }    
     
     public function logout() {
         Auth::logout();
@@ -107,7 +114,7 @@ class LoginController extends Controller
         return redirect(route('users.loginform'));
     }
 
-    public function registerform (Request $request) {
+    public function registerform(Request $request) {
         $msg = $request->session()->pull('session_msg', '');
 
         return view('auth.register', compact('msg'));

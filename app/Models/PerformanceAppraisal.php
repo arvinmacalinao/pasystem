@@ -13,8 +13,16 @@ class PerformanceAppraisal extends Model
 
     protected $table = 'performance_appraisals';
 	protected $fillable = [
-		'id', 'employee_id', 'evaluator_id', 'evaluation_date', 'period_id', 'evaluator_remarks', 
-		'employee_remarks', 'created_at', 'updated_at', 'deleted_at'
+		'id', 
+        'employee_id', 
+        'evaluator_id', 
+        'evaluation_date', 
+        'period_id', 
+        'evaluator_remarks', 
+		'employee_remarks', 
+        'created_at', 
+        'updated_at', 
+        'deleted_at'
 	];
 
 	public function user()

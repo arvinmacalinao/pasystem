@@ -50,7 +50,7 @@
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
                         <th class="bg-body-secondary text-center">#</th>
-                        <th class="bg-body-secondary">Usergroup Name</th>
+                        <th class="bg-body-secondary">Department Name</th>
                         <th class="bg-body-secondary">Alias</th>
                         <th class="bg-body-secondary">Description</th>
                         <th class="bg-body-secondary"></th>

@@ -47,7 +47,8 @@ Route::middleware(['guest'])->group(function() {
     Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('edit.profile');
     Route::post('/profile/store/{id}', [ProfileController::class, 'store'])->name('store.profile');
 
-
+    Route::get('/change-password', [ProfileController::class, 'Changepasswordform'])->name('password.form');
+    Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('password.change');
 
     //Team
     Route::get('my-subordinate', [TeamController::class, 'index'])->name('team.index');
@@ -62,8 +63,9 @@ Route::middleware(['guest'])->group(function() {
     Route::get('mark-single-as-read/{notification}', [NotificationController::class, 'markSingleAsRead'])->name('mark-single-as-read');
     Route::post('mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-selected-as-read');
 
-    
-    
+    /* Job Level */
+    Route::get('/job-level', [HomeController::class, 'joblevel'])->name('job.level');
+    Route::get('/org-chart', [HomeController::class, 'orgchart'])->name('org.chart');
 });
 
 // EMPLOYEE RECORD

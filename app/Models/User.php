@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\JobLevel;
 use App\Models\UserGroup;
 use App\Models\FinalGrade;
 use App\Models\Designation;
@@ -62,6 +63,11 @@ class User extends Authenticatable
     public function group()
     {
         return $this->belongsTo(UserGroup::class, 'ug_id', 'id');
+    }
+
+    public function joblevel()
+    {
+        return $this->belongsTo(JobLevel::class, 'job_level', 'id');
     }
     
     public function role()

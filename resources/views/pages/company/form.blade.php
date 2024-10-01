@@ -42,6 +42,11 @@
 							<div class="invalid-feedback">@error('alias') {{ $errors->first('alias') }} @enderror</div>
 						</div>
 					</div>
+					<div class="col-md-12">
+						<label class="form-label fw-bold" for="	orgchart_file" >Org Chart</label>
+						<input class="form-control @error('orgchart_file') is-invalid @enderror" type="file" id="orgchart_file" name="orgchart_file">
+						<div class="invalid-feedback">@error('orgchart_file') {{ $errors->first('orgchart_file') }} @enderror</div>
+					</div>
                 </div>
                 @if(Str::contains(Request::url(), 'add') || Str::contains(Request::url(), 'edit'))
 				<div class="mb-2 text-end">

@@ -26,7 +26,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
-                    <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
+                    <li class="list-group-item">Appraisal Period: <strong><span id="monthRangeText"></span></strong></li>
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
@@ -46,6 +46,42 @@
     <form method="POST" action="{{ route('hr.attendance.store', ['id' => $user->id, 'attendance_id' => $attendance_id]) }}" enctype="multipart/form-data">
         @csrf
     @if($user->job_level != 10)
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Dropdown to select the starting month -->
+            <div class="form-group">
+                <label for="start_month"><strong>Select Starting Month:</strong></label>
+                <select class="form-control" id="start_month" name="start_month" onchange="updateLateMonths(); updateUTMonths(); updateULMonths();">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="form-group">
+                <label for="end_month"><strong>Month Number:</strong></label>
+                <select class="form-control" id="end_month" name="end_month" onchange="updateLateMonths(); updateUTMonths(); updateULMonths();">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+        </div>
+    </div>
         {{-- PUNCTUALITY RECORD --}}
         <div class="text-center">
             <div class="card text-white bg-secondary mb-3">
@@ -104,24 +140,6 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <!-- Dropdown to select the starting month -->
-                <div class="form-group">
-                    <label for="late_start_month"><strong>Select Starting Month:</strong></label>
-                    <select class="form-control" id="late_start_month" name="late_start_month" onchange="updateLateMonths()">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
                 <br>
                 <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
@@ -194,24 +212,6 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <!-- Dropdown to select the starting month -->
-                <div class="form-group">
-                    <label for="ut_start_month"><strong>Select Starting Month:</strong></label>
-                    <select class="form-control" id="ut_start_month" name="ut_start_month" onchange="updateUTMonths()">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
                 <br>
                 <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
@@ -285,23 +285,6 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="form-group">
-                    <label for="ul_start_month"><strong>Select Starting Month:</strong></label>
-                    <select class="form-control" id="ul_start_month" name="ul_start_month" onchange="updateULMonths()">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
                 <br>
                 <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
@@ -377,24 +360,6 @@
             </div>
             <div class="col-md-8">
                 <!-- Dropdown to select the starting month -->
-                <div class="form-group">
-                    <label for="ul_start_month"><strong>Select Starting Month:</strong></label>
-                    <select class="form-control" id="ul_start_month" name="ul_start_month" onchange="updateULMonths()">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-                <br>
                 <table width="100%" class="table table-bordered border-dark text-center">
                     <thead>
                         <tr>
@@ -423,12 +388,31 @@
 <!-- Script to update the months -->
 <script>
     function updateLateMonths() {
-        const startMonth = document.getElementById('late_start_month').value;
+        const startMonth = document.getElementById('start_month').value;
+        const endMonth = document.getElementById('end_month').value;
+        
+        // Convert the string values to integers
+        const startMonthNum = parseInt(startMonth, 10);
+        const endMonthNum = parseInt(endMonth, 10);
+
+        // Perform the numeric addition
+        const sum = startMonthNum + endMonthNum;
+
         const currentYear = new Date().getFullYear();
         const monthRows = document.getElementById('lateMonthRows');
+        const displayRange = document.getElementById('monthRangeText');
         monthRows.innerHTML = '';
 
-        for (let i = 0; i < 6; i++) {
+         // Get the start and end months in words
+        const startMonthDate = new Date(currentYear, startMonth - 1);
+        const endMonthDate = new Date(currentYear, sum -2);
+        const startMonthWord = startMonthDate.toLocaleString('default', { month: 'long' });
+        const endMonthWord = endMonthDate.toLocaleString('default', { month: 'long' });
+
+        // Update the display range text (e.g., January - March)
+        displayRange.textContent = `${startMonthWord} - ${endMonthWord}`;
+
+        for (let i = 0; i < endMonth; i++) {
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -452,8 +436,8 @@
         const averageRow = document.createElement('tr');
         averageRow.classList.add('table-secondary');
         averageRow.innerHTML = `
-            <td><small>Average = Total / 6 Months</small></td>
-            <td><small>___ / 6 =</small></td>
+            <td><small>Average = Total / ${endMonth} Months</small></td>
+            <td><small>___ / ${endMonth} =</small></td>
             <td><small><input type="hidden" id="late_rating_score" name="late_rating_score" value="" /></small></td>
         `;
         monthRows.appendChild(averageRow);
@@ -464,12 +448,13 @@
 </script>
 <script>
     function updateUTMonths() {
-        const startMonth = document.getElementById('ut_start_month').value;
+        const startMonth = document.getElementById('start_month').value;
         const currentYear = new Date().getFullYear();
+        const endMonth = document.getElementById('end_month').value;
         const monthRows = document.getElementById('utMonthRows');
         monthRows.innerHTML = '';
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < endMonth; i++) {
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -493,8 +478,8 @@
         const averageRow = document.createElement('tr');
         averageRow.classList.add('table-secondary');
         averageRow.innerHTML = `
-            <td><small>Average = Total / 6 Months</small></td>
-            <td><small>___ / 6 =</small></td>
+            <td><small>Average = Total / ${endMonth} Months</small></td>
+            <td><small>___ / ${endMonth} =</small></td>
             <td><small><input type="hidden" id="ut_rating_score" name="ut_rating_score" value="" /></small></td>
         `;
         monthRows.appendChild(averageRow);
@@ -505,12 +490,13 @@
 </script>
 <script>
     function updateULMonths() {
-        const startMonth = document.getElementById('ul_start_month').value;
+        const startMonth = document.getElementById('start_month').value;
         const currentYear = new Date().getFullYear();
+        const endMonth = document.getElementById('end_month').value;
         const monthRows = document.getElementById('ulMonthRows');
         monthRows.innerHTML = '';
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < endMonth; i++) {
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -534,8 +520,8 @@
         const averageRow = document.createElement('tr');
         averageRow.classList.add('table-secondary');
         averageRow.innerHTML = `
-            <td><small>Average = Total / 6 Months</small></td>
-            <td><small>___ / 6 =</small></td>
+            <td><small>Average = Total / ${endMonth} Months</small></td>
+            <td><small>___ / ${endMonth} =</small></td>
             <td><small><input type="hidden" id="ul_rating_score" name="ul_rating_score" value="" /></small></td>
         `;
         monthRows.appendChild(averageRow);

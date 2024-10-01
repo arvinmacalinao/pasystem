@@ -231,19 +231,19 @@
 	$(document).ready(function() {
 		$('.datehired').datepicker({
 			autoclose: true,
-			format: "yyyy-mm-dd",
+			format: "mm-dd-yyyy",
 			todayBtn: true,
 			todayHighlight: true
 		});
 		$('.dateseparated').datepicker({
 			autoclose: true,
-			format: "yyyy-mm-dd",
+			format: "mm-dd-yyyy",
 			todayBtn: true,
 			todayHighlight: true
 		});
 		$('.dateregular').datepicker({
 			autoclose: true,
-			format: "yyyy-mm-dd",
+			format: "mm-dd-yyyy",
 			todayBtn: true,
 			todayHighlight: true
 		});

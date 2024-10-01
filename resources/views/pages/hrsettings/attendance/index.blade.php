@@ -87,6 +87,7 @@
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
                         <th class="bg-body-secondary">Position</th>
+                        <th class="bg-body-secondary">Employement Status</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -101,7 +102,8 @@
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->alias }}</td>
                         <td>{{ $row->group->name }}</td>
-                        <td>{{ $row->role->name }}</td>
+                        <td>{{ $row->designation->name }}</td>
+                        <td>{{ $row->status->name }}</td>
                         <td  class="project-actions text-right">
                             @if (!$row->has_been_rated)
                                 <a class="btn btn-warning btn-sm text-light" href="{{ route('hr.attendance.rate', ['id' => $row->id]) }}">

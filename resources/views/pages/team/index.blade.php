@@ -79,16 +79,17 @@
                     </div>
                 </div>
             </div>
+        <div class="table-responsive">  
             <table class="table border mb-0">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
                         <th class="bg-body-secondary text-center">#</th>
-                        <th class="bg-body-secondary">Name</th>
-                        <th class="bg-body-secondary">Company</th>
-                        <th class="bg-body-secondary">Department</th>
-                        <th class="bg-body-secondary">Designation</th>
-                        <th class="bg-body-secondary">Employement Status</th>
-                        <th class="bg-body-secondary"></th>
+                        <th width="15%" class="bg-body-secondary">Name</th>
+                        <th width="10%"class="bg-body-secondary">Company</th>
+                        <th width="10%" class="bg-body-secondary">Department</th>
+                        <th width="10%" class="bg-body-secondary">Designation</th>
+                        <th width="10%" class="bg-body-secondary">Employement Status</th>
+                        <th width="50%" class="bg-body-secondary"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,7 +102,7 @@
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->alias }}</td>
-                        <td>{{ $row->group->name }}</td>
+                        <td>{{ $row->group->alias }}</td>
                         <td>{{ $row->designation->name }}</td>
                         <td>{{ $row->status->name }}</td>
                         <td  class="project-actions text-right">
@@ -111,43 +112,81 @@
                                 </i>
                                 View
                             </a>
-                            @if($row->is_final_rater)
-                                @if(!$row->immediate_supervisor_rated)
-                                        <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
-                                    @else
-                                    @if (!$row->has_been_rated)
-                                        <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
-                                            <i class="fa fa-pencil"></i> Rate
-                                        </a>
-                                        @if ($row->immediate_supervisor_rated)
-                                        <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
-                                        <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                            <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
-                                        </a>
+                            @if($row->es_id == 3)
+                                @if($row->is_final_rater)
+                                    @if(!$row->immediate_supervisor_rated)
+                                            <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
+                                        @else
+                                        @if (!$row->has_been_rated)
+                                            <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                <i class="fa fa-pencil"></i> Rate
+                                            </a>
+                                            @if ($row->immediate_supervisor_rated)
+                                            <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
+                                            <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
+                                                <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                            </a>
+                                            @endif
+                                        @else
+                                            <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                        @endif
+                                    @endif
+                                @else
+                                        @if (!$row->has_been_rated)
+                                            <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                <i class="fa fa-pencil"></i> Rate
+                                            </a>
+                                            @if ($row->immediate_supervisor_rated)
+                                            <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
+                                                <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                            </a>
+                                            @endif
+                                        @else
+                                            <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                        @endif
+                                @endif
+                            @else         
+                                @if($row->forevaluation)
+                                    @if($row->is_final_rater)
+                                        @if(!$row->immediate_supervisor_rated)
+                                                <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
+                                            @else
+                                            @if (!$row->has_been_rated)
+                                                <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                    <i class="fa fa-pencil"></i> Rate
+                                                </a>
+                                                @if ($row->immediate_supervisor_rated)
+                                                <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
+                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
+                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                                </a>
+                                                @endif
+                                            @else
+                                                <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                            @endif
                                         @endif
                                     @else
-                                        <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                            @if (!$row->has_been_rated)
+                                                <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                    <i class="fa fa-pencil"></i> Rate
+                                                </a>
+                                                @if ($row->immediate_supervisor_rated)
+                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
+                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                                </a>
+                                                @endif
+                                            @else
+                                                <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                            @endif
                                     @endif
                                 @endif
-                            @else
-                                    @if (!$row->has_been_rated)
-                                        <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
-                                            <i class="fa fa-pencil"></i> Rate
-                                        </a>
-                                        @if ($row->immediate_supervisor_rated)
-                                        <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                            <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
-                                        </a>
-                                        @endif
-                                    @else
-                                        <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
-                                    @endif
                             @endif
                         </td>
                     </tr>
                 </tbody>
                 @endforeach
             </table>
+        </div>
     </div>
 @endsection
 @section('scripts')

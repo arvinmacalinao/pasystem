@@ -7,6 +7,16 @@
             {{ __('Dashboard') }}
         </a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('org.chart') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-briefcase') }}"></use>
+            </svg>
+            {{ __('Organizational Chart') }}
+        </a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{{ route('team.index') }}">
             <svg class="nav-icon">
@@ -17,11 +27,11 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('hr.attendance.index') }}">
+        <a class="nav-link" href="{{ route('job.level') }}">
             <svg class="nav-icon">
-                <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-bar-chart') }}"></use>
             </svg>
-            {{ __('Attendance Encoding') }}
+            {{ __('Job Level') }}
         </a>
     </li>
     
@@ -29,6 +39,16 @@
     <li class="text-center">
         <h4>HR Settings</h4>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('hr.attendance.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
+            </svg>
+            {{ __('Attendance Encoding') }}
+        </a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{{ route('employee.index') }}">
             <svg class="nav-icon">

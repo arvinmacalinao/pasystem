@@ -80,4 +80,28 @@ class ProfileController extends Controller
 
         return redirect()->back();
     }
+
+    public function changepasswordform(Request $request)
+    {
+        return view('auth.password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        // Validate the new password
+        $request->validate([
+            'password' => 'required|string|confirmed|min:8',
+        ]);
+
+        // Update the password
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->first_login = false; // Mark first login as false after password change
+        $user->save();
+
+        // Redirect back to the dashboard with a success message
+        $request->session()->put('session_msg', 'Password changed successfully.');
+
+        return redirect()->route('home');
+    }
 }

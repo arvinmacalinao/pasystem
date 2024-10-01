@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Company;
+use App\Models\UserGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -34,7 +37,7 @@ class HomeController extends Controller
         $companies = Company::with(['users' => function($query) use ($period_id) {
             // Filter users by job level 1-10
             $query->whereBetween('job_level', [1, 10]);
-        }])->get();
+        }])->paginate(10);
     
         $companyData = $companies->map(function ($company) use ($period_id) {
             // Get all employees with job levels 1-10
@@ -61,6 +64,33 @@ class HomeController extends Controller
         });
     
         return view('home', ['companies' => $companyData, 'msg' => $msg]);
+    }
+
+    public function joblevel(Request $request)
+    {
+        $msg = $request->session()->pull('session_msg', '');
+
+        return view('job_level', compact('msg'));
+    }
+
+    public function orgchart(Request $request)
+    {
+        $msg = $request->session()->pull('session_msg', '');
+
+        $user = User::where('id', Auth::id())->first();
+
+        $ugroup = UserGroup::where('id', $user->ug_id)->first();
+
+        $company = Company::where('id', $user->c_id)->first();
+
+        // Retrieve subordinates for both immediate supervisor and final rater
+        $subordinatesAsIS = User::where('is_id', $user->id)->pluck('ug_id');
+        $subordinatesAsFR = User::where('fr_id', $user->id)->pluck('ug_id');
+        
+        // Combine the queries using union and remove duplicates with unique()
+        $rows = $subordinatesAsIS->merge($subordinatesAsFR)->unique()->sort()->values();
+
+        return view('org_chart', compact('msg', 'user', 'ugroup', 'company', 'rows'));
     }
 
 }
