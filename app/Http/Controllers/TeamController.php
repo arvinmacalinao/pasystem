@@ -90,7 +90,7 @@ class TeamController extends Controller
             $row->is_final_rater = User::where('id', $row->id)->where('fr_id', $user->id)->first();
 
 
-            $row->forevaluation = User::where('id', $row->id)->whereNot('es_id', 3)->first();
+            $row->forevaluation = User::where('id', $row->id)->whereNot('es_id', 3)->where('force_rate', true)->first();
         }
 
         return view('pages.team.index', compact('rows', 'companies', 'roles', 'groups', 'msg'));
@@ -134,12 +134,19 @@ class TeamController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        // Determine the period_id based on the current month
-        if ($currentMonth >= 7 && $currentMonth <= 12) {
-            $period_id = 1; // Current year for Period 1 (January-June)
-        } else {
-            $period_id = 2; // Previous year for Period 2 (July-December)
+        if($employee_level->es_id == 3)
+        {
+            // Determine the period_id based on the current month
+            if ($currentMonth >= 7 && $currentMonth <= 12) {
+                $period_id = 1; // Current year for Period 1 (January-June)
+            } else {
+                $period_id = 2; // Previous year for Period 2 (July-December)
+            }
         }
+        else{
+            $period_id = 3;
+        }
+        
 
         if($appraise_id == 0){
 
@@ -151,6 +158,12 @@ class TeamController extends Controller
                 'period_id' => $period_id,
                 'evaluator_remarks' => $request->input('evaluator_remarks'),
                 'employee_remarks' => $request->input('employee_remarks'),
+                'period' => $request->input('period'),
+                'name' => $request->input('name'),
+                'company' => $request->input('company'),
+                'group' => $request->input('group'),
+                'designation' => $request->input('designation'),
+                'job_rank' => $request->input('job_rank'),
             ]);
     
              // Compute the average ratings

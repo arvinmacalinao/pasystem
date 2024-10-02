@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_user_groups', function (Blueprint $table) {
+        Schema::create('company_user_groups_orgchart', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('c_id'); // Company ID
             $table->unsignedBigInteger('ug_id'); // User Group ID
-            $table->foreign('c_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('c_id')->references('id')->on('company')->onDelete('cascade');
             $table->foreign('ug_id')->references('id')->on('user_groups')->onDelete('cascade');
+            $table->string('orgchart_file', 255)->nullable();
+            $table->string('orgchart_filename', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_user_groups');
+        Schema::dropIfExists('company_user_groups_orgchart');
     }
 };

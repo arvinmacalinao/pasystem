@@ -12,18 +12,7 @@ class PerformanceAppraisal extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'performance_appraisals';
-	protected $fillable = [
-		'id', 
-        'employee_id', 
-        'evaluator_id', 
-        'evaluation_date', 
-        'period_id', 
-        'evaluator_remarks', 
-		'employee_remarks', 
-        'created_at', 
-        'updated_at', 
-        'deleted_at'
-	];
+	protected $fillable = ['id', 'employee_id', 'evaluator_id', 'evaluation_date', 'period_id', 'evaluator_remarks', 'employee_remarks', 'period', 'name', 'company', 'group', 'designation', 'job_rank', 'created_at', 'updated_at', 'deleted_at'];
 
 	public function user()
     {

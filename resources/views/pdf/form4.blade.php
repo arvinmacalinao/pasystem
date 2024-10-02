@@ -24,19 +24,19 @@
 					<br>
 					<tr>
 						<td class="text-left"><h5><strong>NAME OF EMPLOYEE:</strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->user->FullName  }}</h5></td>
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->name  }}</h5></td>
 						<td class="text-left"><h5><strong>NAME OF EVALUATOR: <br></strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->evaluator->FullName  }}</h5></td>
 					</tr>
 					<tr>
 						<td class="text-end"><h5><strong>POSITION TITLE:</strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->user->designation->name  }}</h5></td>
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->designation  }}</h5></td>
 						<td class="text-end"><h5><strong>POSITION TITLE: <br></strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->user->designation->name  }}</h5></td>
 					</tr>
 					<tr>
 						<td class="text-end"><h5><strong>REVIEW PERIOD:</strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->period_id == 1 ? 'Jan-June' : 'July-Dec'}} {{ date('Y', strtotime($appraisal->evaluation_date)) }}</h5></td>
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->period }} {{ date('Y', strtotime($appraisal->evaluation_date)) }}</h5></td>
 						<td class="text-end"><h5><strong>DATE EVALUATED:<br></strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ date('M-d-y', strtotime($appraisal->evaluation_date)) }}</h5></td>
 					</tr>

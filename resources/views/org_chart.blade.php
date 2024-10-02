@@ -9,7 +9,7 @@
 </div>
 @endif
 <!-- End -->
-@if($user->job_level < 10)
+@if($user->job_level > 10)
 <div class="row">
     <div class="col-md-6">
         <div class="card mb-4">
@@ -18,7 +18,7 @@
             </div>
                 <div class="card-body">
                     @if($company->orgchart_file)
-                    <a href="">
+                    <a target="_blank" href="{{ $company->c_orgchart() }}">
                         <img src="{{ $company->c_orgchart() }}" alt="Organizational Chart" class="img-fluid">
                     </a>
                     @else
@@ -28,20 +28,17 @@
             </div>
     </div>
     @foreach($rows as $ug_id)
-        @php
-            // Fetch the UserGroup model based on ug_id
-            $ugroup = \App\Models\UserGroup::find($ug_id);
-        @endphp
-
-        @if($ugroup)
+        @if($ug_id)
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        {{ __('Organizational Chart for ' . $ugroup->name) }}
+                        {{ __('Organizational Chart for ' . $ug_id->usergroups->name ?? '') }}
                     </div>
                     <div class="card-body">
                         @if($ugroup->orgchart_file)
+                        <a target="_blank" href="{{ $ugroup->orgchart() }}">
                             <img src="{{ $ugroup->orgchart() }}" alt="Organizational Chart" class="img-fluid">
+                        </a>
                         @else
                             <p>Organizational chart not available.</p>
                         @endif
@@ -59,8 +56,10 @@
             </div>
             <div class="card-body">
                 @if($company->orgchart_file)
-                    <img src="{{ $company->c_orgchart() }}" alt="Organizational Chart" class="img-fluid">
-                @else
+                    <a target="_blank" href="{{ $company->c_orgchart() }}">
+                        <img src="{{ $company->c_orgchart() }}" alt="Organizational Chart" class="img-fluid">
+                    </a>
+                    @else
                     <p>Organizational chart not available.</p>
                 @endif
             </div>
@@ -69,11 +68,13 @@
     <div class="col-md-6">
         <div class="card mb-4">
             <div class="card-header">
-                {{ __('Organizational Chart for ' . $ugroup->name) }}
+                {{ __('Organizational Chart for ' . $companyusergrouporgchart->usergroups->name ?? '') }}
             </div>
             <div class="card-body">
-                @if($ugroup->orgchart_file)
-                    <img src="{{ $ugroup->orgchart() }}" alt="Organizational Chart" class="img-fluid">
+                @if($companyusergrouporgchart->orgchart_file)
+                        <a target="_blank" href="{{ $companyusergrouporgchart->orgchart() }}">
+                            <img src="{{ $companyusergrouporgchart->orgchart() }}" alt="Organizational Chart" class="img-fluid">
+                        </a>
                 @else
                     <p>Organizational chart not available.</p>
                 @endif

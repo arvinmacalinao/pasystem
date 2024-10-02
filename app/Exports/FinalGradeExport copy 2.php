@@ -44,6 +44,7 @@ class FinalGradeExport implements WithEvents
                 $level = $user->job_level;
 
                 if ($level >= 1 && $level <= 3) {
+                    $job_rank = 'Rank and File';
                     $templatePath = storage_path('app/templates/PAMatrix_RankandFile.xlsx');
 
                     $appraisal1 = PerformanceAppraisal::find($finalGrade->appraisal1_id);
@@ -58,12 +59,12 @@ class FinalGradeExport implements WithEvents
                     $sheet = $spreadsheet->getActiveSheet();
 
                     // Insert data into specific cells
-                    $sheet->setCellValue('B3', $appraisal1->period);
-                    $sheet->setCellValue('B4', $appraisal1->name);
-                    $sheet->setCellValue('B5', $appraisal1->company);
-                    $sheet->setCellValue('B6', $appraisal1->group);
-                    $sheet->setCellValue('B7', $appraisal1->designation);
-                    $sheet->setCellValue('B8', $appraisal1->job_rank);
+                    $sheet->setCellValue('B3', $period . ' - ' . $finalGrade->year);
+                    $sheet->setCellValue('B4', $user->FullName);
+                    $sheet->setCellValue('B5', $user->company->name);
+                    $sheet->setCellValue('B6', $user->group->name);
+                    $sheet->setCellValue('B7', $user->designation->name);
+                    $sheet->setCellValue('B8', $job_rank);
 
                     if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
@@ -90,6 +91,7 @@ class FinalGradeExport implements WithEvents
                 $sheet->setCellValue('E21', $attendb_rating_score);
 
                 } elseif ($level >= 4 && $level <= 5) {
+                    $job_rank = 'Technical/Professional/Specialist Rank and File';
                     $templatePath = storage_path('app/templates/PAMatrix_Tech.Prof.SpecRankandFile.xlsx');
 
                     $appraisal1 = PerformanceAppraisal::find($finalGrade->appraisal1_id);
@@ -104,12 +106,12 @@ class FinalGradeExport implements WithEvents
                     $sheet = $spreadsheet->getActiveSheet();
 
                     // Insert data into specific cells
-                    $sheet->setCellValue('B3', $appraisal1->period);
-                    $sheet->setCellValue('B4', $appraisal1->name);
-                    $sheet->setCellValue('B5', $appraisal1->company);
-                    $sheet->setCellValue('B6', $appraisal1->group);
-                    $sheet->setCellValue('B7', $appraisal1->designation);
-                    $sheet->setCellValue('B8', $appraisal1->job_rank);
+                    $sheet->setCellValue('B3', $period . ' - ' . $finalGrade->year);
+                    $sheet->setCellValue('B4', $user->FullName);
+                    $sheet->setCellValue('B5', $user->company->name);
+                    $sheet->setCellValue('B6', $user->group->name);
+                    $sheet->setCellValue('B7', $user->designation->name);
+                    $sheet->setCellValue('B8', $job_rank);
 
                     if($appraisal1 && $appraisal1->appraisalRating->form_id == 2) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
@@ -138,6 +140,7 @@ class FinalGradeExport implements WithEvents
                 $sheet->setCellValue('E22', $attendb_rating_score);
 
                 } elseif ($level >= 6 && $level <= 7) {
+                    $job_rank = 'Supervisors/Senior Supervisors';
                     $templatePath = storage_path('app/templates/PAMatrix_Sup.xlsx');
 
                     $appraisal1 = PerformanceAppraisal::find($finalGrade->appraisal1_id);
@@ -152,12 +155,12 @@ class FinalGradeExport implements WithEvents
                     $sheet = $spreadsheet->getActiveSheet();
 
                     // Insert data into specific cells
-                    $sheet->setCellValue('B3', $appraisal1->period);
-                    $sheet->setCellValue('B4', $appraisal1->name);
-                    $sheet->setCellValue('B5', $appraisal1->company);
-                    $sheet->setCellValue('B6', $appraisal1->group);
-                    $sheet->setCellValue('B7', $appraisal1->designation);
-                    $sheet->setCellValue('B8', $appraisal1->job_rank);
+                    $sheet->setCellValue('B3', $period . ' - ' . $finalGrade->year);
+                    $sheet->setCellValue('B4', $user->FullName);
+                    $sheet->setCellValue('B5', $user->company->name);
+                    $sheet->setCellValue('B6', $user->group->name);
+                    $sheet->setCellValue('B7', $user->designation->name);
+                    $sheet->setCellValue('B8', $job_rank);
 
                     if($appraisal1 && $appraisal1->appraisalRating->form_id == 3) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
@@ -190,6 +193,7 @@ class FinalGradeExport implements WithEvents
                 $sheet->setCellValue('E24', $attendb_rating_score);
 
                 } elseif ($level >= 8 && $level <= 9) {
+                    $job_rank = 'Assistant Managers/Managers';
                     $templatePath = storage_path('app/templates/PAMatrix_Managers.xlsx');
 
                     $appraisal1 = PerformanceAppraisal::find($finalGrade->appraisal1_id);
@@ -204,12 +208,12 @@ class FinalGradeExport implements WithEvents
                     $sheet = $spreadsheet->getActiveSheet();
 
                     // Insert data into specific cells
-                    $sheet->setCellValue('B3', $appraisal1->period);
-                    $sheet->setCellValue('B4', $appraisal1->name);
-                    $sheet->setCellValue('B5', $appraisal1->company);
-                    $sheet->setCellValue('B6', $appraisal1->group);
-                    $sheet->setCellValue('B7', $appraisal1->designation);
-                    $sheet->setCellValue('B8', $appraisal1->job_rank);
+                    $sheet->setCellValue('B3', $period . ' - ' . $finalGrade->year);
+                    $sheet->setCellValue('B4', $user->FullName);
+                    $sheet->setCellValue('B5', $user->company->name);
+                    $sheet->setCellValue('B6', $user->group->name);
+                    $sheet->setCellValue('B7', $user->designation->name);
+                    $sheet->setCellValue('B8', $job_rank);
 
                     if($appraisal1 && $appraisal1->appraisalRating->form_id == 4) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->jk_rating_score);
@@ -241,6 +245,7 @@ class FinalGradeExport implements WithEvents
                 $sheet->setCellValue('E24', $attendb_rating_score);
 
                 } elseif ($level >= 10 && $level <= 11) {
+                    $job_rank = 'Senior Managers and Executives';
                     $templatePath = storage_path('app/templates/PAMatrix_Sr.Manager.Executive.xlsx');
 
                     $appraisal1 = PerformanceAppraisal::find($finalGrade->appraisal1_id);
@@ -251,12 +256,12 @@ class FinalGradeExport implements WithEvents
                     $sheet = $spreadsheet->getActiveSheet();
 
                     // Insert data into specific cells
-                    $sheet->setCellValue('B3', $appraisal1->period);
-                    $sheet->setCellValue('B4', $appraisal1->name);
-                    $sheet->setCellValue('B5', $appraisal1->company);
-                    $sheet->setCellValue('B6', $appraisal1->group);
-                    $sheet->setCellValue('B7', $appraisal1->designation);
-                    $sheet->setCellValue('B8', $appraisal1->job_rank);
+                    $sheet->setCellValue('B3', $period . ' - ' . $finalGrade->year);
+                    $sheet->setCellValue('B4', $user->FullName);
+                    $sheet->setCellValue('B5', $user->company->name);
+                    $sheet->setCellValue('B6', $user->group->name);
+                    $sheet->setCellValue('B7', $user->designation->name);
+                    $sheet->setCellValue('B8', $job_rank);
 
                     if($appraisal1 && $appraisal1->appraisalRating->form_id == 5) {
                         $sheet->setCellValue('C13', $appraisal1->appraisalRating->management_rating_score);

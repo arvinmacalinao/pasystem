@@ -108,6 +108,7 @@
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
                         <th class="bg-body-secondary">Position</th>
+                        <th class="bg-body-secondary">Date Hired</th>
                         <th class="bg-body-secondary">Status</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
@@ -124,6 +125,7 @@
                         <td>{{ $row->company->alias ?? '' }}</td>
                         <td>{{ $row->group->alias ?? '' }}</td>
                         <td>{{ $row->role->name ?? '' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($row->date_hired)->format('M-d-Y') }}</td>
                         <td>{{ $row->status->name ?? '' }}</td>
                         @if($row->u_active == 1)
                         <td  class="project-actions text-right">
@@ -142,9 +144,11 @@
                             </a>
                             @if($row->es_id == 3)
                             @else
-                            <a class="btn btn-warning btn-sm row-delete-btn text-light" href="{{ route('employee.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
-                                <i class="fa fa-trash"></i> To Rate
-                            </a>
+                            @if($row->force_rate == false)
+                                <a class="btn btn-warning btn-sm text-light" href="{{ route('employee.force_rate', ['id' => $row->id]) }}"  title="Force Rate">
+                                <i class="fa fa-check"></i> To Rate
+                                </a>
+                            @endif
                             @endif
                         </td>
                         @else

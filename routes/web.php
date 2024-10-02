@@ -14,6 +14,7 @@ use App\Http\Controllers\UserGroupsController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\OrchartUserGroupsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,7 @@ Route::middleware(['guest'])->group(function() {
     Route::get('employee/reset/{id}', [UserController::class, 'reset'])->name('employee.reset');
     Route::get('employee/active/{id}', [UserController::class, 'active'])->name('employee.active');
     Route::get('employee/enable/{id}', [UserController::class, 'enable'])->name('employee.enable');
+    Route::get('employee/force_rate/{id}', [UserController::class, 'force_rate'])->name('employee.force_rate');
     Route::get('employee/resetpassword/{id}', [UserController::class, 'resetpassword'])->name('employee.resetpassword');
     Route::get('employee/download/appraisal/{id}', [TeamController::class, 'hrdownload'])->name('employee.download.pdf');
     Route::get('employee/download/matrix/{id}', [UserController::class, 'hrdownloadexcel'])->name('employee.download.excel');
@@ -117,6 +119,13 @@ Route::middleware(['guest'])->group(function() {
     Route::post('user-groups/store/{id}', [UserGroupsController::class, 'store'])->name('ugroup.store');
     Route::get('user-groups/edit/{id}', [UserGroupsController::class, 'edit'])->name('ugroup.edit');
     Route::get('user-groups/delete/{id}', [UserGroupsController::class, 'destroy'])->name('ugroup.delete');
+
+    // Orgchart Group
+    Route::get('orgchat/user-groups', [OrchartUserGroupsController::class, 'index'])->name('ugroup.orgchart.index');
+    Route::get('orgchat/user-groups/add', [OrchartUserGroupsController::class, 'create'])->name('ugroup.orgchart.add');
+    Route::post('orgchat/user-groups/store/{id}', [OrchartUserGroupsController::class, 'store'])->name('ugroup.orgchart.store');
+    Route::get('orgchat/user-groups/edit/{id}', [OrchartUserGroupsController::class, 'edit'])->name('ugroup.orgchart.edit');
+    Route::get('orgchat/user-groups/delete/{id}', [OrchartUserGroupsController::class, 'destroy'])->name('ugroup.orgchart.delete');
 
 
 });

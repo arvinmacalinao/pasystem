@@ -136,7 +136,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_hired">Date Hired<span class="text-danger">*</span></label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $user->date_hired) }}" required>
+							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', \Carbon\Carbon::parse($user->date_hired)->format('m-d-Y')) }}" required>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -149,7 +149,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_regular">Date Regular (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', $user->date_regular) }}">
+							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', \Carbon\Carbon::parse($user->date_regular)->format('m-d-Y')) }}">
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -162,7 +162,7 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_separated">Date Separated (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated">
+							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated" value="{{ old('date_separated', \Carbon\Carbon::parse($user->date_separated)->format('m-d-Y')) }}"> 
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">

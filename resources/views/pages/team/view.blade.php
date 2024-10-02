@@ -40,7 +40,7 @@
                         <tr class="align-middle">
                             <th class="bg-body-secondary text-center">#</th>
                             <th class="bg-body-secondary">Year</th>
-                            <th class="bg-body-secondary">Semester</th>
+                            <th class="bg-body-secondary">Period</th>
                             <th class="bg-body-secondary">Grade</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
@@ -54,7 +54,7 @@
                         <tr>
                             <td class="text-center">{{ $ctr++ }}</td>
                             <td>{{ \Carbon\Carbon::parse($row->evaluation_date)->format('Y') }}</td>
-                            <td>{{ $row->period_id == 1 ? 'Jan-June' : 'July-December' }}</td>
+                            <td>{{ $row->period }}</td>
                             <td>
                                 <?php
                             $appraisal1Score = App\Models\FinalGrade::firstWhere('appraisal1_id', $row->id);

@@ -24,16 +24,24 @@ class UpdateFinalGrade
         $currentMonth = now()->month;
         $year = date('Y');
 
-        if ($currentMonth >= 7 && $currentMonth <= 12) {
-            $period_id = 1; // Current year for Period 1 (January-June)
-        } else {
-            $period_id = 2; // Previous year for Period 2 (July-December)
-        }
-
         // Get the evaluator IDs
+        $employee = User::where('id', $employee_id)->first();
         $immediateSupervisor = User::where('id', $employee_id)->pluck('is_id')->first();
         $finalRater = User::where('id', $employee_id)->pluck('fr_id')->first();
         $employee_level = User::where('id', $employee_id)->pluck('job_level')->first();
+
+        if($employee->es_id == 3)
+        {
+            if ($currentMonth >= 7 && $currentMonth <= 12) {
+                $period_id = 1; // Current year for Period 1 (January-June)
+            } else {
+                $period_id = 2; // Previous year for Period 2 (July-December)
+            }
+        }
+        else{
+            $period = 3;
+        }
+
 
         // Fetch relevant data (e.g., performance appraisals, attendance)
         $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)

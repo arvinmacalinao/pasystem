@@ -77,6 +77,15 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('ugroup.orgchart.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-industry') }}"></use>
+            </svg>
+            {{ __('Department Orgcharts') }}
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('designation.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>

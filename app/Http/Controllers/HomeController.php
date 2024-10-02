@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
 use Illuminate\Http\Request;
+use App\Models\CompanyUserGroup;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -83,14 +84,31 @@ class HomeController extends Controller
 
         $company = Company::where('id', $user->c_id)->first();
 
-        // Retrieve subordinates for both immediate supervisor and final rater
-        $subordinatesAsIS = User::where('is_id', $user->id)->pluck('ug_id');
-        $subordinatesAsFR = User::where('fr_id', $user->id)->pluck('ug_id');
+        // // Retrieve subordinates for both immediate supervisor and final rater
+        // $subordinatesAsIS = User::where('is_id', $user->id)->pluck('ug_id');
+        // $subordinatesAsFR = User::where('fr_id', $user->id)->pluck('ug_id');
         
-        // Combine the queries using union and remove duplicates with unique()
-        $rows = $subordinatesAsIS->merge($subordinatesAsFR)->unique()->sort()->values();
+        // // Combine the queries using union and remove duplicates with unique()
+        // $rows = $subordinatesAsIS->merge($subordinatesAsFR)->unique()->sort()->values();
 
-        return view('org_chart', compact('msg', 'user', 'ugroup', 'company', 'rows'));
+        // Retrieve subordinates' ug_id and c_id for both immediate supervisor and final rater
+       // Retrieve subordinates' ug_id and c_id for both immediate supervisor and final rater as two separate collections
+        $subordinatesAsIS = User::where('is_id', $user->id)->select('ug_id', 'c_id')->get();
+        $subordinatesAsFR = User::where('fr_id', $user->id)->select('ug_id', 'c_id')->get();
+
+        // Combine the collections manually into one array
+        $allSubordinates = $subordinatesAsIS->concat($subordinatesAsFR)->unique(function ($item) {
+            return $item->ug_id . '_' . $item->c_id;
+        });
+        
+        // Now fetch the CompanyUserGroup entries for those combined `ug_id` and `c_id` values
+        $rows = CompanyUserGroup::whereIn('ug_id', $allSubordinates->pluck('ug_id'))
+        ->whereIn('c_id', $allSubordinates->pluck('c_id'))
+        ->get();
+
+        $companyusergrouporgchart = CompanyUserGroup::where('c_id', $user->c_id)->where('ug_id', $user->ug_id)->first();
+
+        return view('org_chart', compact('msg', 'user', 'ugroup', 'company', 'rows', 'companyusergrouporgchart'));
     }
 
 }

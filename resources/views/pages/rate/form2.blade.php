@@ -27,16 +27,35 @@
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     @php
-                        $date_hired = \Carbon\Carbon::parse($user->date_hired); 
-                        $month_range1 = $date_hired->format('M'); 
+                    $date_hired = \Carbon\Carbon::parse($user->date_hired); 
+                    $month_range1 = $date_hired->format('M'); 
 
-                        if($user->es_id == 1) {
-                            $month_range2 = $date_hired->addMonths(3)->format('M'); // Add 3 months for es_id = 1
-                        } elseif($user->es_id == 2) {
-                            $month_range2 = $date_hired->addMonths(6)->format('M'); // Add 6 months for es_id = 2
-                        }
+                    // Initialize the month range dropdown options
+                    $months = [
+                        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                    ];
+
+                    // Determine month_range2 based on es_id
+                    if ($user->es_id == 1) {
+                        $month_range2 = $date_hired->addMonths(3)->format('M'); // Add 3 months for es_id = 1
+                    } elseif ($user->es_id == 2) {
+                        $month_range2 = $date_hired->addMonths(5)->format('M'); // Add 6 months for es_id = 2
+                    }
                     @endphp
-                    <li class="list-group-item">Appraisal Period: <strong>{{ $month_range1 }} - {{ $month_range2 }}</strong></li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <strong>Appraisal Period:</strong> 
+                        <span class="ml-2">&nbsp;{{ $month_range1 }} - </span>
+                    
+                        <!-- Inline dropdown for selecting month -->
+                        <select name="month_range2" class="form-control form-control-sm ml-2 w-auto">
+                            @foreach($months as $month)
+                                <option value="{{ $month }}" {{ $month == $month_range2 ? 'selected' : '' }}>
+                                    {{ $month }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </li>
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
@@ -101,6 +120,12 @@
     alert('Please fill in all required fields.');
   }
 });
+
+function updatePeriodValue() {
+        var monthRange1 = '{{ $month_range1 }}';
+        var monthRange2 = document.getElementById('month_range2').value;
+        document.getElementById('period').value = monthRange1 + ' - ' + monthRange2;
+    }
 
 </script>
 @if($user->job_level >= 1 && $user->job_level <= 3)

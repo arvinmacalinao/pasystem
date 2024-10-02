@@ -1622,7 +1622,11 @@
           <div class="d-grid gap-2">
             <input type="hidden" id="appraisal_rating_score" name="appraisal_rating_score" value="" />
             <input type="hidden" id="form_id" name="form_id" value="1" />
-            <input type="hidden" id="period" name="period" value="{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}" />
+            @if($user->es_id == 3)
+                <input type="hidden" id="period" name="period" value="{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}" />
+            @else
+            <input type="hidden" id="period" name="period" value="{{ $month_range1 }} - {{ $month_range2 }}" />
+            @endif
             <input type="hidden" id="name" name="name" value="{{ $user->FullName }}" />
             <input type="hidden" id="company" name="company" value="{{ $user->company->name ?? '' }}" />
             <input type="hidden" id="group" name="group" value="{{ $user->group->name ?? '' }}" />

@@ -80,6 +80,8 @@ class UserController extends Controller
         $firstname = $request->input('first_name');
         $lastname = $request->input('last_name');
         $dateHired = $request->input('date_hired'); // Assuming date_hired is in 'YYYY-MM-DD' format
+
+        
             
         // Extract the year from the date_hired
         $yearHired = date('Y', strtotime($dateHired));
@@ -88,38 +90,53 @@ class UserController extends Controller
         $defaultUsername = strtolower(substr($firstname, 0, 1) . $lastname);
         $defaultPassword = strtoupper(substr($firstname, 0, 1)) . strtoupper(substr($lastname, 0, 1)) . 'cherry' . $yearHired;
         
-        if($id == 0) {
-            $request->request->add(
-                [
-                    'created_by' => Auth::id(), 
-                    'username' => $defaultUsername,
-                    'password' => bcrypt($defaultPassword),
-                ]
-            );
-            $user     = User::create($request->all());
-    
-            $request->session()->put('session_msg', 'Record successfully added.');
-            $request->session()->put('new_user_credentials', [
-                'username' => $defaultUsername,
-                'password' => $defaultPassword,
-            ]);
-        } else {
-            $user     = User::where('id', $id)->first();
-            if(!$user ) {
-                $request->session()->put('session_msg', 'Record not found!');
-                return redirect(route('employee.index'));
-            }
-            $checkboxFields = ['u_enabled', 'u_active'];
+        // Convert the date fields to the correct format
+        $dateHired = $request->input('date_hired') ? Carbon::createFromFormat('m-d-Y', $request->input('date_hired'))->format('Y-m-d') : null;
+        $dateSeparated = $request->input('date_separated') ? Carbon::createFromFormat('m-d-Y', $request->input('date_separated'))->format('Y-m-d') : null;
+        $dateRegular = $request->input('date_regular') ? Carbon::createFromFormat('m-d-Y', $request->input('date_regular'))->format('Y-m-d') : null;
 
-                foreach ($checkboxFields as $field) {
-                    $value = $request->has($field) ? 1 : 0;
-                    $user->$field = $value;
-            }
-                
-            $user->update($request->all());
+        // Add these formatted dates back into the request data
+        $request->merge([
+            'date_hired' => $dateHired,
+            'date_separated' => $dateSeparated,
+            'date_regular' => $dateRegular,
+        ]);
 
-            $request->session()->put('session_msg', 'Record updated.');
+        if ($id == 0) {
+        $request->request->add([
+            'created_by' => Auth::id(),
+            'username' => $defaultUsername,
+            'password' => bcrypt($defaultPassword),
+        ]);
+        
+        // Create new user with formatted dates
+        $user = User::create($request->all());
+
+        $request->session()->put('session_msg', 'Record successfully added.');
+        $request->session()->put('new_user_credentials', [
+            'username' => $defaultUsername,
+            'password' => $defaultPassword,
+        ]);
+            } else {
+        $user = User::where('id', $id)->first();
+        
+        if (!$user) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
         }
+
+        $checkboxFields = ['u_enabled', 'u_active'];
+
+        foreach ($checkboxFields as $field) {
+            $value = $request->has($field) ? 1 : 0;
+            $user->$field = $value;
+        }
+
+        // Update existing user with formatted dates
+        $user->update($request->all());
+
+        $request->session()->put('session_msg', 'Record updated.');
+    }
 
         return redirect(route('employee.index'));
     }
@@ -224,6 +241,7 @@ class UserController extends Controller
             return redirect(route('employee.index'));
         }      
     }
+    
     public function enable(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
@@ -278,6 +296,19 @@ class UserController extends Controller
 
             $request->session()->put('session_msg', 'Password successfully reset!');
             return redirect()->back();
+        }      
+    }
+
+    public function force_rate(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if(!$user) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('employee.index'));
+        } else {
+            $user->update(['force_rate' => 1]);
+            $request->session()->put('session_msg', 'Passed to Supervisor!');
+            return redirect(route('employee.index'));
         }      
     }
 }

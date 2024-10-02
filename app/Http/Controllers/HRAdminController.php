@@ -34,29 +34,46 @@ class HRAdminController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+
+        $groups     = UserGroup::get();
+        $roles      = Role::where('id', '!=', 1)->get();
+        $companies  = Company::get();
+
         $currentYear = date('Y');
         $currentMonth = date('m');
         // Determine the period_id based on the current month
-        if ($currentMonth >= 7 && $currentMonth <= 12) {
-            $period_id = 1; // Current year for Period 1 (January-June)
-            } else {
-                $period_id = 2; // Previous year for Period 2 (July-December)
-            }
 
         // Fetch users with filled-up performance appraisals
         $rows = User::whereNot('job_level', 10)->whereHas('performanceAppraisals', function ($query) {
             $query->whereNotNull('employee_id'); // Ensure 'employee_id' exists
         })->orderby('created_at', 'desc')->paginate();
 
-        $groups     = UserGroup::get();
-        $roles      = Role::where('id', '!=', 1)->get();
-        $companies  = Company::get();
         
         // Check if each subordinate has been rated by the evaluator
         foreach ($rows as $row) {
-            $row->has_been_rated = ActualAttendance::where('employee_id', $row->id)
-                                                        ->where('period_id', $period_id)
-                                                        ->exists();
+
+            if($row->es_id == 3){
+                if ($currentMonth >= 7 && $currentMonth <= 12) {
+                    $period_id = 1; // Current year for Period 1 (January-June)
+                    } else {
+                        $period_id = 2; // Previous year for Period 2 (July-December)
+                    }
+    
+                
+    
+                $row->has_been_rated = ActualAttendance::where('employee_id', $row->id)
+                                                            ->where('period_id', $period_id)
+                                                            ->exists();
+            }
+            else{
+                $period_id = 3;
+                $row->has_been_rated = ActualAttendance::where('employee_id', $row->id)
+                                                            ->where('period_id', $period_id)->whereHas('employee', function ($query) {
+                                                                $query->where('force_rate', 1); // Ensure 'employee_id' exists
+                                                            })->exists();
+            }
+
+            
         }
 
         return view('pages.hrsettings.attendance.index', compact('rows','msg', 'groups', 'roles', 'companies'));
@@ -70,12 +87,19 @@ class HRAdminController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        if ($currentMonth >= 7 && $currentMonth <= 12) {
-            $period_id = 1; // Current year for Period 1 (January-June)
+        
+        if($user->es_id == 3)
+        {
+            // Determine the period_id based on the current month
+            if ($currentMonth >= 7 && $currentMonth <= 12) {
+                $period_id = 1; // Current year for Period 1 (January-June)
             } else {
                 $period_id = 2; // Previous year for Period 2 (July-December)
-                $currentYear -= 1; // Subtract 1 from the current year for Period 2
             }
+        }
+        else{
+            $period_id = 3;
+        }
 
         $attendance_id = 0;
 
@@ -151,12 +175,19 @@ class HRAdminController extends Controller
 
             $currentYear = date('Y');
             $currentMonth = date('m');
-            // Determine the period_id based on the current month
-            if ($currentMonth >= 7 && $currentMonth <= 12) {
-            $period_id = 1; // Current year for Period 1 (January-June)
-        } else {
-            $period_id = 2; // Previous year for Period 2 (July-December)
-        }
+
+            if($employee_level->es_id == 3)
+            {
+                // Determine the period_id based on the current month
+                if ($currentMonth >= 7 && $currentMonth <= 12) {
+                    $period_id = 1; // Current year for Period 1 (January-June)
+                } else {
+                    $period_id = 2; // Previous year for Period 2 (July-December)
+                }
+            }
+            else{
+                $period_id = 3;
+            }
             $endmonth = $request->get('');
             $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
             $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories, $endMonth);
