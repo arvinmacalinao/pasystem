@@ -106,9 +106,11 @@
                                 <tr class="align-middle">
                                     <th class="bg-body-secondary text-center">#</th>
                                     <th class="bg-body-secondary">Year</th>
-                                    <th class="bg-body-secondary">Semester</th>
+                                    <th class="bg-body-secondary">Review Period</th>
                                     <th class="bg-body-secondary">Immediate Supervisor Grade</th>
-                                    <th class="bg-body-secondary">Final Rater Grade</th>
+                                    @if($employee->fr_id != null)
+                                        <th class="bg-body-secondary">Final Rater Grade</th>
+                                    @endif
                                     <th class="bg-body-secondary">Final Grade</th>
                                     <th class="bg-body-secondary"></th>
                                 </tr>
@@ -122,7 +124,7 @@
                                 <tr>
                                     <td class="text-center">{{ $ctr++ }}</td>
                                     <td>{{ \Carbon\Carbon::parse($row->created_at)->format('Y') }}</td>
-                                    <td>{{ $row->period_id == 1 ? '1st Semester' : '2nd Semester' }}</td>
+                                    <td>{{ $row->appraisal1->period ?? '' }}</td>
                                     @if($row->appraisal1)
                                     <td class="" style="vertical-align: middle"><small>score:</small> {{ $row->appraisal1_score ?? ''}} <small>
                                         <br>rated by: {{$row->appraisal1->evaluator->FullName ?? ''}}</small>
@@ -134,59 +136,100 @@
                                     @else
                                         <td><small>Not yet rated</small></td>
                                     @endif
-                                    @if($row->appraisal2_id)
-                                    {{-- <td text-center><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
-                                        <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>  
-                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i>
-                                        </a>
-                                        <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
-                                    </td> --}}
-                                    <td class="" style="vertical-align: middle"><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
-                                        <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>
-                                        <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i>
-                                        </a>
-                                        <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
-                                    </td>   
-                                    @else
-                                        <td><small>Not yet rated</small></td>
+                                    @if($employee->fr_id !== null)
+                                        @if($row->appraisal2_id)
+                                        {{-- <td text-center><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
+                                            <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>  
+                                            <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                        </td> --}}
+                                        <td class="" style="vertical-align: middle"><small>score:</small> {{ $row->appraisal2_score ?? ''}} <small>
+                                            <br>rated by: {{$row->appraisal2->evaluator->FullName ?? ''}}</small>
+                                            <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                        </td>   
+                                        @else
+                                            <td><small>Not yet rated</small></td>
+                                        @endif
                                     @endif
                                     <td>{{ $row->final_score ?? '-'}}</small></td>
-                                    @if($employee->job_level >= 1 && $employee->job_level <= 3)
+                                    @if($employee->fr_id == null)
+                                        @if($employee->job_level >= 1 && $employee->job_level <= 3)
                                         {{-- Rank & File --}}
-                                        @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
+                                        @if($row->appraisal1_id !== null && $row->attendance_id !== null)
                                         <td  class="project-actions text-right">
                                             <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
                                         </td>
                                         @endif
-                                    @elseif(($employee->job_level >= 4 && $employee->job_level <= 5))
+                                        @elseif(($employee->job_level >= 4 && $employee->job_level <= 5))
+                                            {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                            @if($row->appraisal1_id !== null && $row->attendance_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @elseif(($employee->job_level >= 6 && $employee->job_level <= 7))
+                                            {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                            @if($row->appraisal1_id !== null && $row->attendance_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @elseif(($employee->job_level >= 8 && $employee->job_level <= 9))
+                                        {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                        @if($row->appraisal1_id !== null && $row->attendance_id !== null)
+                                        <td  class="project-actions text-right">
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                        </td>
+                                        @endif
+                                        @elseif(($employee->job_level >= 10 && $employee->job_level <= 11))
+                                        {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                            @if($row->appraisal1_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if($employee->job_level >= 1 && $employee->job_level <= 3)
+                                            {{-- Rank & File --}}
+                                            @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @elseif(($employee->job_level >= 4 && $employee->job_level <= 5))
+                                            {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                            @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @elseif(($employee->job_level >= 6 && $employee->job_level <= 7))
+                                            {{-- Technical/Professional/Specialist Rank & File Form --}}
+                                            @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
+                                        @elseif(($employee->job_level >= 8 && $employee->job_level <= 9))
                                         {{-- Technical/Professional/Specialist Rank & File Form --}}
                                         @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
                                         <td  class="project-actions text-right">
                                             <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
                                         </td>
                                         @endif
-                                    @elseif(($employee->job_level >= 6 && $employee->job_level <= 7))
+                                        @elseif(($employee->job_level >= 10 && $employee->job_level <= 11))
                                         {{-- Technical/Professional/Specialist Rank & File Form --}}
-                                        @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
-                                        <td  class="project-actions text-right">
-                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
-                                        </td>
-                                        @endif
-                                    @elseif(($employee->job_level >= 8 && $employee->job_level <= 9))
-                                    {{-- Technical/Professional/Specialist Rank & File Form --}}
-                                    @if($row->appraisal2_id !== null && $row->appraisal1_id !== null && $row->attendance_id !== null)
-                                    <td  class="project-actions text-right">
-                                        <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
-                                    </td>
-                                    @endif
-                                    @elseif(($employee->job_level >= 10 && $employee->job_level <= 11))
-                                    {{-- Technical/Professional/Specialist Rank & File Form --}}
-                                        @if($row->appraisal1_id !== null)
-                                        <td  class="project-actions text-right">
-                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
-                                        </td>
+                                            @if($row->appraisal1_id !== null)
+                                            <td  class="project-actions text-right">
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span></a>
+                                            </td>
+                                            @endif
                                         @endif
                                     @endif
                                 </tr>

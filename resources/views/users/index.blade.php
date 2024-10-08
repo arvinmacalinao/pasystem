@@ -122,8 +122,8 @@
                     <tr style="background-color: {{ $row->u_active == 1 ? 'white' : 'grey' }};">
                         <td class="text-center">{{ $ctr++ }}</td>
                         <td>{{ $row->FullName }}</td>
-                        <td>{{ $row->company->alias ?? '' }}</td>
-                        <td>{{ $row->group->alias ?? '' }}</td>
+                        <td>{{ $row->company->name ?? '' }}</td>
+                        <td>{{ $row->group->name ?? '' }}</td>
                         <td>{{ $row->role->name ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($row->date_hired)->format('M-d-Y') }}</td>
                         <td>{{ $row->status->name ?? '' }}</td>
@@ -145,7 +145,7 @@
                             @if($row->es_id == 3)
                             @else
                             @if($row->force_rate == false)
-                                <a class="btn btn-warning btn-sm text-light" href="{{ route('employee.force_rate', ['id' => $row->id]) }}"  title="Force Rate">
+                                <a class="btn btn-warning btn-sm text-light mt-1" href="{{ route('employee.force_rate', ['id' => $row->id]) }}"  title="Force Rate">
                                 <i class="fa fa-check"></i> To Rate
                                 </a>
                             @endif
@@ -153,7 +153,7 @@
                         </td>
                         @else
                         <td>
-                            <a class="btn btn-success btn-sm text-light" href="{{ route('employee.active', ['id' => $row->id]) }}">
+                            <a class="btn btn-success btn-sm text-light mt-1" href="{{ route('employee.active', ['id' => $row->id]) }}">
                                 <i class="fa fa-pencil"></i>
                                 </i>
                                 Mark as Active

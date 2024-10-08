@@ -28,37 +28,51 @@
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     @php
                     $date_hired = \Carbon\Carbon::parse($user->date_hired); 
-                    $month_range1 = $date_hired->format('M'); 
-
-                    // Initialize the month range dropdown options
-                    $months = [
-                        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                    $start_month = $date_hired->format('n'); // Get the month as an integer (1-12)
+            
+                    // Initialize the month range dropdown options with integer values
+                    $months = range(1, 12);
+                    $monthNames = [
+                        1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 
+                        5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 
+                        9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
                     ];
-
-                    // Determine month_range2 based on es_id
+            
+                    // Determine end_month based on es_id
                     if ($user->es_id == 1) {
-                        $month_range2 = $date_hired->addMonths(3)->format('M'); // Add 3 months for es_id = 1
+                        $end_month = $date_hired->addMonths(2)->format('n'); // Add 3 months for es_id = 1
                     } elseif ($user->es_id == 2) {
-                        $month_range2 = $date_hired->addMonths(5)->format('M'); // Add 6 months for es_id = 2
+                        $end_month = $date_hired->addMonths(4)->format('n'); // Add 5 months for es_id = 2
+                    } else {
+                        $end_month = $date_hired->addMonths(2)->format('n'); // Default: Add 3 months
                     }
                     @endphp
                     <li class="list-group-item d-flex align-items-center">
                         <strong>Appraisal Period:</strong> 
-                        <span class="ml-2">&nbsp;{{ $month_range1 }} - </span>
-                    
-                        <!-- Inline dropdown for selecting month -->
-                        <select name="month_range2" class="form-control form-control-sm ml-2 w-auto">
+                        
+                        <!-- Dropdown for selecting start_month (1-12) -->
+                        <select name="start_month_value" id="start_month_value" class="form-control form-control-sm ml-2 w-auto">
                             @foreach($months as $month)
-                                <option value="{{ $month }}" {{ $month == $month_range2 ? 'selected' : '' }}>
-                                    {{ $month }}
+                                <option value="{{ $month }}" {{ $month == $start_month ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                </option>
+                            @endforeach
+                        </select>
+            
+                        <span class="ml-2">&nbsp;-&nbsp;</span>
+            
+                        <!-- Dropdown for selecting end_month (1-12) -->
+                        <select name="end_month_value" id="end_month_value" class="form-control form-control-sm ml-2 w-auto">
+                            @foreach($months as $month)
+                                <option value="{{ $month }}" {{ $month == $end_month ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($month)->format('F') }}
                                 </option>
                             @endforeach
                         </select>
                     </li>
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
-            </div>
+            </div>            
         </div>
     </div>
 </div>
@@ -82,51 +96,84 @@
 @endsection
 @section('scripts')
 <script>
-     document.querySelector('form').addEventListener('submit', function(event) {
-  // Prevent form submission
-  event.preventDefault();
+   document.addEventListener('DOMContentLoaded', function () {
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', function(event) {
+            // Prevent form submission
+            event.preventDefault();
 
-  let hasErrors = false;
-  const tabs = document.querySelectorAll('.nav-link');
-  const tabContents = document.querySelectorAll('.tab-pane');
-  
-  tabs.forEach(tab => tab.classList.remove('text-danger'));
-  tabContents.forEach(content => content.classList.remove('border-danger'));
+            let hasErrors = false;
+            const tabs = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-pane');
 
-  // Check each tab for empty required fields
-  tabContents.forEach((tabContent, index) => {
-    const invalidFields = tabContent.querySelectorAll('input:required:invalid, textarea:required:invalid');
-    if (invalidFields.length > 0) {
-      hasErrors = true;
+            // Clear previous error indicators
+            tabs.forEach(tab => tab.classList.remove('text-danger'));
+            tabContents.forEach(content => content.classList.remove('border-danger'));
 
-      // Highlight the tab with errors
-      tabs[index].classList.add('text-danger');
+            // Check each tab for empty required fields
+            tabContents.forEach((tabContent, index) => {
+                const invalidFields = tabContent.querySelectorAll('input:required:invalid, textarea:required:invalid');
+                if (invalidFields.length > 0) {
+                    hasErrors = true;
 
-      // Add some indicator to show the field with an error (optional)
-      tabContent.classList.add('border-danger');
+                    // Highlight the tab with errors
+                    tabs[index].classList.add('text-danger');
 
-      // Show the first tab with an error
-      if (hasErrors && index === 0) {
-        new coreui.Tab(tabs[index]).show();
-      }
-    }
-  });
+                    // Add some indicator to show the field with an error (optional)
+                    tabContent.classList.add('border-danger');
 
-  // If there are no errors, submit the form
-  if (!hasErrors) {
-    this.submit();
-  } else {
-    // Optionally, display a message or focus the first invalid field
-    alert('Please fill in all required fields.');
-  }
-});
+                    // Show the first tab with an error
+                    if (hasErrors && index === 0) {
+                        new coreui.Tab(tabs[index]).show();
+                    }
+                }
+            });
 
-function updatePeriodValue() {
-        var monthRange1 = '{{ $month_range1 }}';
-        var monthRange2 = document.getElementById('month_range2').value;
-        document.getElementById('period').value = monthRange1 + ' - ' + monthRange2;
-    }
+            // If there are no errors, submit the form
+            if (!hasErrors) {
+                console.log("Form is valid, submitting...");
+                this.submit();
+            } else {
+                // Optionally, display a message or focus the first invalid field
+                alert('Please fill in all required fields.');
+            }
+        });
 
+        // Elements for month selection and period input
+        const startMonthSelect = document.getElementById('start_month_value');
+        const endMonthSelect = document.getElementById('end_month_value');
+        const periodInput = document.getElementById('period');
+        const startmonthInput = document.getElementById('start_month');
+        const endmonthInput = document.getElementById('end_month');
+
+        if (startMonthSelect && endMonthSelect && periodInput) {
+            const monthNames = {
+                1: 'January', 2: 'February', 3: 'March', 4: 'April', 
+                5: 'May', 6: 'June', 7: 'July', 8: 'August', 
+                9: 'September', 10: 'October', 11: 'November', 12: 'December'
+            };
+
+            function updatePeriod() {
+                const startMonth = startMonthSelect.value;
+                const endMonth = endMonthSelect.value;
+                const startMonthName = monthNames[startMonth];
+                const endMonthName = monthNames[endMonth];
+                periodInput.value = startMonthName + ' - ' + endMonthName;
+                startmonthInput.value = startMonth;
+                endmonthInput.value = endMonth;
+                console.log("Updated period:", periodInput.value, startmonthInput.value, endmonthInput.value); // Log the updated value
+            }
+
+            // Attach event listeners to the dropdowns
+            startMonthSelect.addEventListener('change', updatePeriod);
+            endMonthSelect.addEventListener('change', updatePeriod);
+
+            // Initialize the period value on page load
+            updatePeriod();
+        } else {
+            console.error("Required elements not found in the DOM.");
+        }
+    });
 </script>
 @if($user->job_level >= 1 && $user->job_level <= 3)
 <script>

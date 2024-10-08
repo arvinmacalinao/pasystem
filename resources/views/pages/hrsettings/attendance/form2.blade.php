@@ -50,20 +50,20 @@
         <div class="col-md-6">
             <!-- Dropdown to select the starting month -->
             <div class="form-group">
+                @php
+                    $date_hired = \Carbon\Carbon::parse($user->date_hired); 
+                    $start_month = $date_hired->format('n'); // Get the month as an integer (1-12)
+            
+                    // Initialize the month range dropdown options with integer values
+                    $months = range(1, 12);
+                    @endphp
                 <label for="start_month"><strong>Select Starting Month:</strong></label>
                 <select class="form-control" id="start_month" name="start_month" onchange="updateLateMonths(); updateUTMonths(); updateULMonths();">
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
+                    @foreach($months as $month)
+                                <option value="{{ $month }}" {{ $month == $start_month ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                </option>
+                    @endforeach
                 </select>
             </div>
             

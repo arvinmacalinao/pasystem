@@ -88,7 +88,7 @@
                         <th width="10%"class="bg-body-secondary">Company</th>
                         <th width="10%" class="bg-body-secondary">Department</th>
                         <th width="10%" class="bg-body-secondary">Designation</th>
-                        <th width="10%" class="bg-body-secondary">Employement Status</th>
+                        <th width="10%" class="bg-body-secondary">Employment Status</th>
                         <th width="50%" class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -100,11 +100,11 @@
                 @foreach ($rows as $row)
                     <tr>
                         <td class="text-center">{{ $ctr++ }}</td>
-                        <td>{{ $row->FullName }}</td>
-                        <td>{{ $row->company->alias }}</td>
-                        <td>{{ $row->group->alias }}</td>
-                        <td>{{ $row->designation->name }}</td>
-                        <td>{{ $row->status->name }}</td>
+                        <td>{{ $row->FullName ?? '' }}</td>
+                        <td>{{ $row->company->name ?? '' }}</td>
+                        <td>{{ $row->group->name ?? '' }}</td>
+                        <td>{{ $row->designation->name ?? '' }}</td>
+                        <td>{{ $row->status->name ?? '' }}</td>
                         <td  class="project-actions text-right">
                             <!-- Optionally, you can add a message or leave it empty -->
                             <a class="btn btn-info btn-sm text-light" href="{{ route('team.view', ['id' => $row->id]) }}">
@@ -147,18 +147,18 @@
                                 @endif
                             @else         
                                 @if($row->forevaluation)
-                                    @if($row->is_final_rater)
-                                        @if(!$row->immediate_supervisor_rated)
+                                    @if($row->is_final_rater1)
+                                        @if(!$row->immediate_supervisor_rated1)
                                                 <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
                                             @else
-                                            @if (!$row->has_been_rated)
+                                            @if (!$row->has_been_rated1)
                                                 <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
                                                     <i class="fa fa-pencil"></i> Rate
                                                 </a>
-                                                @if ($row->immediate_supervisor_rated)
-                                                <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
-                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                                @if ($row->immediate_supervisor_rated1)
+                                                <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated1->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
+                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}">
+                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
                                                 </a>
                                                 @endif
                                             @else
@@ -166,13 +166,13 @@
                                             @endif
                                         @endif
                                     @else
-                                            @if (!$row->has_been_rated)
+                                            @if (!$row->has_been_rated1)
                                                 <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
                                                     <i class="fa fa-pencil"></i> Rate
                                                 </a>
-                                                @if ($row->immediate_supervisor_rated)
-                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                                @if ($row->immediate_supervisor_rated1)
+                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}">
+                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
                                                 </a>
                                                 @endif
                                             @else

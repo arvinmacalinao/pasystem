@@ -67,6 +67,7 @@
     </div>
     <div class="col-md-6">
         <div class="card mb-4">
+            @if($companyusergrouporgchart)
             <div class="card-header">
                 {{ __('Organizational Chart for ' . $companyusergrouporgchart->usergroups->name ?? '') }}
             </div>
@@ -76,9 +77,14 @@
                             <img src="{{ $companyusergrouporgchart->orgchart() }}" alt="Organizational Chart" class="img-fluid">
                         </a>
                 @else
-                    <p>Organizational chart not available.</p>
+                    <p>Organizational chart not available as of this moment.</p>
                 @endif
             </div>
+            @else
+            <div class="card-header">
+                {{ __('Organizational Chart for this Group is not available') }}
+            </div>
+            @endif
         </div>
     </div>
 </div>

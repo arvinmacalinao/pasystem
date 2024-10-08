@@ -136,7 +136,16 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_hired">Date Hired<span class="text-danger">*</span></label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', \Carbon\Carbon::parse($user->date_hired)->format('m-d-Y')) }}" required>
+							@if($user->date_hired)
+								@php
+									$date_hired = \Carbon\Carbon::parse($user->date_hired)->format('m-d-Y');
+								@endphp
+							@else
+								@php
+									$date_hired = null;
+								@endphp
+							@endif
+							<input type="text" class="form-control datehired" id="datehired" name="date_hired" value="{{ old('date_hired', $date_hired) }}" required>
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -149,7 +158,16 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_regular">Date Regular (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', \Carbon\Carbon::parse($user->date_regular)->format('m-d-Y')) }}">
+							@if($user->date_regular)
+								@php
+									$date_regular = \Carbon\Carbon::parse($user->date_regular)->format('m-d-Y');
+								@endphp
+							@else
+								@php
+									$date_regular = null;
+								@endphp
+							@endif
+							<input type="text" class="form-control dateregular" id="dateregular" name="date_regular" value="{{ old('date_regular', $date_regular) }}">
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -162,7 +180,16 @@
 					<div class="col-md-3">
 						<label class="form-label fw-bold" for="date_separated">Date Separated (if applicable)</label>
 						<div class="input-group date" id="">
-							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated" value="{{ old('date_separated', \Carbon\Carbon::parse($user->date_separated)->format('m-d-Y')) }}"> 
+							@if($user->date_separated)
+								@php
+									$date_separated = \Carbon\Carbon::parse($user->date_separated)->format('m-d-Y');
+								@endphp
+							@else
+								@php
+									$date_separated = null;
+								@endphp
+							@endif
+							<input type="text" class="form-control dateseparated" id="dateseparated" name="date_separated" value="{{ old('date_separated', $date_separated) }}"> 
 							<span class="input-group-append">
 								<span class="input-group-text bg-white d-block">
 									<svg class="icon icon-lg">
@@ -197,7 +224,7 @@
 						<div class="mb-2">
 							<label class="form-label fw-bold" for="fr_id">Final Rater</label>
 							<select class="form-control form-control-sm @error('fr_id') is-invalid @enderror select2" name="fr_id">
-								<option value="" selected disabled>-- Please select --</option>
+								<option value="" selected>-- Please select --</option>
 								@foreach($supervisories as $visor)
 									<option value="{{ $visor->id }}" {{ old('fr_id', $user->fr_id) == $visor->id ? 'selected' : '' }}>{{ $visor->last_name . ", " . $visor->first_name . "-" . $visor->company->name ?? '' ."/". $visor->designation->name ?? '' }}</option>
 								@endforeach

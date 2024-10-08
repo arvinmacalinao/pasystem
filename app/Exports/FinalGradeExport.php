@@ -75,16 +75,32 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C19', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C20', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 1) {
-                        $sheet->setCellValue('E13', $appraisal2->appraisalRating->jk_rating_score);
-                        $sheet->setCellValue('E14', $appraisal2->appraisalRating->quality_rating_score);
-                        $sheet->setCellValue('E15', $appraisal2->appraisalRating->quantity_rating_score);
-                        $sheet->setCellValue('E16', $appraisal2->appraisalRating->initiative_rating_score);
-                        $sheet->setCellValue('E17', $appraisal2->appraisalRating->coop_rating_score);
-                        $sheet->setCellValue('E18', $appraisal2->appraisalRating->comms_rating_score);
-                        $sheet->setCellValue('E19', $appraisal2->appraisalRating->comp_rating_score);
-                        $sheet->setCellValue('E20', $appraisal2->appraisalRating->attend_rating_score);
+                    if($user->fr_id == null){
+                        if($appraisal1 && $appraisal1->appraisalRating->form_id == 1) {
+                            $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal1->appraisalRating->initiative_rating_score);
+                            $sheet->setCellValue('E17', $appraisal1->appraisalRating->coop_rating_score);
+                            $sheet->setCellValue('E18', $appraisal1->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E19', $appraisal1->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E20', $appraisal1->appraisalRating->attend_rating_score);
+                        }
                     }
+                    else
+                    {
+                        if($appraisal2 && $appraisal2->appraisalRating->form_id == 1) {
+                            $sheet->setCellValue('E13', $appraisal2->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal2->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal2->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal2->appraisalRating->initiative_rating_score);
+                            $sheet->setCellValue('E17', $appraisal2->appraisalRating->coop_rating_score);
+                            $sheet->setCellValue('E18', $appraisal2->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E19', $appraisal2->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E20', $appraisal2->appraisalRating->attend_rating_score);
+                        }
+                    }
+                    
 
                 $sheet->setCellValue('C21', $attendb_rating_score);
                 $sheet->setCellValue('E21', $attendb_rating_score);
@@ -122,16 +138,31 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C20', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C21', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 2) {
-                        $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
-                        $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
-                        $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
-                        $sheet->setCellValue('E16', $appraisal1->appraisalRating->ps_rating_score);
-                        $sheet->setCellValue('E17', $appraisal1->appraisalRating->inno_rating_score);
-                        $sheet->setCellValue('E18', $appraisal1->appraisalRating->tw_rating_score);
-                        $sheet->setCellValue('E19', $appraisal1->appraisalRating->comms_rating_score);
-                        $sheet->setCellValue('E20', $appraisal1->appraisalRating->comp_rating_score);
-                        $sheet->setCellValue('E21', $appraisal1->appraisalRating->attend_rating_score);
+                    if($user->fr_id == null){
+                        if($appraisal1 && $appraisal1->appraisalRating->form_id == 2) {
+                            $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal1->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E17', $appraisal1->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E18', $appraisal1->appraisalRating->tw_rating_score);
+                            $sheet->setCellValue('E19', $appraisal1->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E20', $appraisal1->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E21', $appraisal1->appraisalRating->attend_rating_score);
+                        }
+                    }
+                    else{
+                        if($appraisal2 && $appraisal2->appraisalRating->form_id == 2) {
+                            $sheet->setCellValue('E13', $appraisal2->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal2->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal2->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal2->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E17', $appraisal2->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E18', $appraisal2->appraisalRating->tw_rating_score);
+                            $sheet->setCellValue('E19', $appraisal2->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E20', $appraisal2->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E21', $appraisal2->appraisalRating->attend_rating_score);
+                        }
                     }
 
                 $sheet->setCellValue('C22', $attendb_rating_score);
@@ -172,18 +203,35 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C22', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C23', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 3) {
-                        $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
-                        $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
-                        $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
-                        $sheet->setCellValue('E16', $appraisal1->appraisalRating->pm_rating_score);
-                        $sheet->setCellValue('E17', $appraisal1->appraisalRating->ps_rating_score);
-                        $sheet->setCellValue('E18', $appraisal1->appraisalRating->judgment_rating_score);
-                        $sheet->setCellValue('E19', $appraisal1->appraisalRating->leadership_rating_score);
-                        $sheet->setCellValue('E20', $appraisal1->appraisalRating->inno_rating_score);
-                        $sheet->setCellValue('E21', $appraisal1->appraisalRating->comms_rating_score);
-                        $sheet->setCellValue('E22', $appraisal1->appraisalRating->comp_rating_score);
-                        $sheet->setCellValue('E23', $appraisal1->appraisalRating->attend_rating_score);
+                    if($user->fr_id == null){
+                        if($appraisal1 && $appraisal1->appraisalRating->form_id == 3) {
+                            $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal1->appraisalRating->pm_rating_score);
+                            $sheet->setCellValue('E17', $appraisal1->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E18', $appraisal1->appraisalRating->judgment_rating_score);
+                            $sheet->setCellValue('E19', $appraisal1->appraisalRating->leadership_rating_score);
+                            $sheet->setCellValue('E20', $appraisal1->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E21', $appraisal1->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E22', $appraisal1->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E23', $appraisal1->appraisalRating->attend_rating_score);
+                        }
+                    }
+                    else{
+                        if($appraisal2 && $appraisal2->appraisalRating->form_id == 3) {
+                            $sheet->setCellValue('E13', $appraisal2->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal2->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal2->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal2->appraisalRating->pm_rating_score);
+                            $sheet->setCellValue('E17', $appraisal2->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E18', $appraisal2->appraisalRating->judgment_rating_score);
+                            $sheet->setCellValue('E19', $appraisal2->appraisalRating->leadership_rating_score);
+                            $sheet->setCellValue('E20', $appraisal2->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E21', $appraisal2->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E22', $appraisal2->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E23', $appraisal2->appraisalRating->attend_rating_score);
+                        }
                     }
 
                 $sheet->setCellValue('C24', $attendb_rating_score);
@@ -224,18 +272,35 @@ class FinalGradeExport implements WithEvents
                         $sheet->setCellValue('C22', $appraisal1->appraisalRating->comp_rating_score);
                         $sheet->setCellValue('C23', $appraisal1->appraisalRating->attend_rating_score);
                     }
-                    if($appraisal2 && $appraisal2->appraisalRating->form_id == 4) {
-                        $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
-                        $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
-                        $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
-                        $sheet->setCellValue('E16', $appraisal1->appraisalRating->pm_rating_score);
-                        $sheet->setCellValue('E17', $appraisal1->appraisalRating->ps_rating_score);
-                        $sheet->setCellValue('E18', $appraisal1->appraisalRating->judgment_rating_score);
-                        $sheet->setCellValue('E19', $appraisal1->appraisalRating->leadership_rating_score);
-                        $sheet->setCellValue('E20', $appraisal1->appraisalRating->inno_rating_score);
-                        $sheet->setCellValue('E21', $appraisal1->appraisalRating->comms_rating_score);
-                        $sheet->setCellValue('E22', $appraisal1->appraisalRating->comp_rating_score);
-                        $sheet->setCellValue('E23', $appraisal1->appraisalRating->attend_rating_score);
+                    if($user->fr_id == null){
+                        if($appraisal1 && $appraisal1->appraisalRating->form_id == 4) {
+                            $sheet->setCellValue('E13', $appraisal1->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal1->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal1->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal1->appraisalRating->pm_rating_score);
+                            $sheet->setCellValue('E17', $appraisal1->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E18', $appraisal1->appraisalRating->judgment_rating_score);
+                            $sheet->setCellValue('E19', $appraisal1->appraisalRating->leadership_rating_score);
+                            $sheet->setCellValue('E20', $appraisal1->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E21', $appraisal1->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E22', $appraisal1->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E23', $appraisal1->appraisalRating->attend_rating_score);
+                        }
+                    }
+                    else{
+                        if($appraisal2 && $appraisal2->appraisalRating->form_id == 4) {
+                            $sheet->setCellValue('E13', $appraisal2->appraisalRating->jk_rating_score);
+                            $sheet->setCellValue('E14', $appraisal2->appraisalRating->quality_rating_score);
+                            $sheet->setCellValue('E15', $appraisal2->appraisalRating->quantity_rating_score);
+                            $sheet->setCellValue('E16', $appraisal2->appraisalRating->pm_rating_score);
+                            $sheet->setCellValue('E17', $appraisal2->appraisalRating->ps_rating_score);
+                            $sheet->setCellValue('E18', $appraisal2->appraisalRating->judgment_rating_score);
+                            $sheet->setCellValue('E19', $appraisal2->appraisalRating->leadership_rating_score);
+                            $sheet->setCellValue('E20', $appraisal2->appraisalRating->inno_rating_score);
+                            $sheet->setCellValue('E21', $appraisal2->appraisalRating->comms_rating_score);
+                            $sheet->setCellValue('E22', $appraisal2->appraisalRating->comp_rating_score);
+                            $sheet->setCellValue('E23', $appraisal2->appraisalRating->attend_rating_score);
+                        }
                     }
                 $sheet->setCellValue('C24', $attendb_rating_score);
                 $sheet->setCellValue('E24', $attendb_rating_score);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use Carbon\Carbon;
 use App\Models\Company;
 use App\Models\UserGroup;
 use Illuminate\Support\Str;
@@ -92,5 +93,33 @@ class OrchartUserGroupsController extends Controller
             $request->session()->put('session_msg', 'Record updated.');
         }        
         return redirect(route('ugroup.orgchart.index'));
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $msg        = $request->session()->pull('session_msg', '');
+        $ugrouporgchart       = CompanyUserGroup::where('id', $id)->first();
+        $groups     = UserGroup::get();
+        $companies  = Company::get();
+
+        if(!$ugrouporgchart) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('ugroup.orgchart.index'));
+        }
+        return view('pages.ugroup.orgchart.form', compact('id', 'msg', 'ugrouporgchart', 'groups', 'companies'));
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $ugrouporgchart = CompanyUserGroup::where('id', $id)->first();
+        if(!$ugrouporgchart) {
+            $request->session()->put('session_msg', 'Record not found!');
+            return redirect(route('ugroup.orgchart.index'));
+        } else {
+            $ugrouporgchart->delete();
+            
+            $request->session()->put('session_msg', 'Record deleted!');
+            return redirect(route('ugroup.orgchart.index'));
+        }        
     }
 }

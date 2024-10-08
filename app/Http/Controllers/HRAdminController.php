@@ -176,21 +176,33 @@ class HRAdminController extends Controller
             $currentYear = date('Y');
             $currentMonth = date('m');
 
+            
+
             if($employee_level->es_id == 3)
             {
                 // Determine the period_id based on the current month
                 if ($currentMonth >= 7 && $currentMonth <= 12) {
                     $period_id = 1; // Current year for Period 1 (January-June)
+                    $start_month = 1;
+                    $end_month = 6;
+                    $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
+                    $averageRatings = AppraisalHelper::computeAttendanceRatings1($request, $categories);
                 } else {
                     $period_id = 2; // Previous year for Period 2 (July-December)
+                    $start_month = 7;
+                    $end_month = 12;
+                    $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
+                    $averageRatings = AppraisalHelper::computeAttendanceRatings1($request, $categories);
                 }
             }
             else{
                 $period_id = 3;
+                $start_month = $request->input('start_month');
+                $numberofmonths = $request->input('end_month');
+                $end_month = $start_month - 1 + $numberofmonths;
+                $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
+                $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories, $endMonth);
             }
-            $endmonth = $request->get('');
-            $categories = $this->getCategoriesBasedOnJobLevel($employee_level->job_level);
-            $averageRatings = AppraisalHelper::computeAttendanceRatings($request, $categories, $endMonth);
 
              // Merge the average ratings into the request data
             $request->merge($averageRatings);
@@ -215,7 +227,7 @@ class HRAdminController extends Controller
             // dd($attend_b_rating_score, $level, $averageRatings, $ratingscore);
             
             // Create a new record in the ActualAttendance table
-            $request->request->add(['employee_id' => $id, 'encoder_id' => $userid, 'period_id' => $period_id]);
+            $request->request->add(['employee_id' => $id, 'encoder_id' => $userid, 'period_id' => $period_id, 'start_month' => $start_month, 'end_month' => $end_month]);
             $actual_attendance = ActualAttendance::create($request->all());
 
             // Dispatch the FinalGradeUpdated event

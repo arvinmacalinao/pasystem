@@ -2189,15 +2189,19 @@
               <input type="hidden" id="form_id" name="form_id" value="4" />
               @if($user->es_id == 3)
               <input type="hidden" id="period" name="period" value="{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}" />
+              <input type="hidden" id="start_month" name="start_month" value="{{ $period_id == 1 ? 1 : 7 }}" />
+              <input type="hidden" id="end_month" name="end_month" value="{{ $period_id == 1 ? 6 : 12 }}" />
           @else
-          <input type="hidden" id="period" name="period" value="{{ $month_range1 }} - {{ $month_range2 }}" />
+          <input type="hidden" id="period" name="period" value="" />
+          <input type="hidden" id="start_month" name="start_month" value="" />
+                <input type="hidden" id="end_month" name="end_month" value="" />
           @endif
             <input type="hidden" id="name" name="name" value="{{ $user->FullName }}" />
             <input type="hidden" id="company" name="company" value="{{ $user->company->name ?? '' }}" />
             <input type="hidden" id="group" name="group" value="{{ $user->group->name ?? '' }}" />
             <input type="hidden" id="designation" name="designation" value="{{ $user->designation->name ?? '' }}" />
             <input type="hidden" id="job_rank" name="job_rank" value="{{ $user->job_level }} - {{ $user->joblevel->name ?? '' }}" />
-              <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
+              <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();">
             </div>
         </div>
         {{-- end tab 11 --}}

@@ -42,6 +42,7 @@ class TeamController extends Controller
 
         $currentYear = date('Y');
         $currentMonth = date('m');
+
         // Determine the period_id based on the current month
         if ($currentMonth >= 7 && $currentMonth <= 12) {
         $period_id = 1; // Current year for Period 1 (January-June)
@@ -91,6 +92,28 @@ class TeamController extends Controller
 
 
             $row->forevaluation = User::where('id', $row->id)->whereNot('es_id', 3)->where('force_rate', true)->first();
+
+            $row->has_been_rated1 = PerformanceAppraisal::where('employee_id', $row->id)
+                                                       ->where('evaluator_id', $evaluatorId)
+                                                       ->where('period_id', 3)
+                                                       ->whereYear('created_at', $currentYear)
+                                                       ->first();
+                                                       
+            // Check if the immediate supervisor has rated the employee
+            $row->immediate_supervisor_rated1 = PerformanceAppraisal::where('employee_id', $row->id)
+            ->where('evaluator_id', $row->is_id)
+            ->wherenot('evaluator_id', $user->id)
+            ->where('period_id', 3)
+            ->whereYear('created_at', $currentYear)
+            ->first();
+
+            //check if the user has attendance
+            $row->has_attendance1 = ActualAttendance::where('employee_id', $row->id)
+            ->where('period_id', 3)
+            ->whereYear('created_at', $currentYear)
+            ->first();
+
+            $row->is_final_rater1 = User::where('id', $row->id)->where('fr_id', $user->id)->first();
         }
 
         return view('pages.team.index', compact('rows', 'companies', 'roles', 'groups', 'msg'));
@@ -159,6 +182,8 @@ class TeamController extends Controller
                 'evaluator_remarks' => $request->input('evaluator_remarks'),
                 'employee_remarks' => $request->input('employee_remarks'),
                 'period' => $request->input('period'),
+                'start_month' => $request->input('start_month'),
+                'end_month' => $request->input('end_month'),
                 'name' => $request->input('name'),
                 'company' => $request->input('company'),
                 'group' => $request->input('group'),
@@ -312,6 +337,14 @@ class TeamController extends Controller
                 'period_id' => $supervisorAppraisal->period_id,
                 'evaluator_remarks' => $supervisorAppraisal->evaluator_remarks,
                 'employee_remarks' => $supervisorAppraisal->employee_remarks,
+                'start_month' => $supervisorAppraisal->start_month,
+                'end_month' => $supervisorAppraisal->end_month,
+                'period' => $supervisorAppraisal->period,
+                'name' => $supervisorAppraisal->name,
+                'company' => $supervisorAppraisal->company,
+                'group' => $supervisorAppraisal->group,
+                'designation' => $supervisorAppraisal->designation,
+                'job_rank' => $supervisorAppraisal->job_rank,
                 // Add other fields as necessary
             ]);
 

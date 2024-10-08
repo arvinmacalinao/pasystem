@@ -39,16 +39,41 @@ class UpdateFinalGrade
             }
         }
         else{
-            $period = 3;
+            $period_id = 3;
         }
 
-
-        // Fetch relevant data (e.g., performance appraisals, attendance)
-        $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
+        if($period_id == 3){
+            $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
             ->where('evaluator_id', $immediateSupervisor)
             ->where('period_id', $period_id)
             ->whereYear('evaluation_date', $year)
             ->first();
+            
+            if($appraisal1){
+                $attendance = ActualAttendance::where('employee_id', $employee_id)
+                ->where('period_id', $period_id)
+                ->where('start_month', $appraisal1->start_month)
+                ->where('end_month', $appraisal1->end_month)
+                ->whereYear('created_at', $year)
+                ->first();
+    
+                $appraisal2 = PerformanceAppraisal::where('employee_id', $employee_id)
+                    ->where('evaluator_id', $finalRater)
+                    ->where('period_id', $period_id)
+                    ->where('start_month', $appraisal1->start_month)
+                    ->where('end_month', $appraisal1->end_month)
+                    ->whereYear('evaluation_date', $year)
+                    ->first();
+                }
+            }
+        else
+        {
+            // Fetch relevant data (e.g., performance appraisals, attendance)
+        $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
+        ->where('evaluator_id', $immediateSupervisor)
+        ->where('period_id', $period_id)
+        ->whereYear('evaluation_date', $year)
+        ->first();
 
         $appraisal2 = PerformanceAppraisal::where('employee_id', $employee_id)
             ->where('evaluator_id', $finalRater)
@@ -57,9 +82,12 @@ class UpdateFinalGrade
             ->first();
 
         $attendance = ActualAttendance::where('employee_id', $employee_id)
-            ->where('period_id', $period_id)
-            ->whereYear('created_at', $year)
-            ->first();
+        ->where('period_id', $period_id)
+        ->whereYear('created_at', $year)
+        ->first();
+        }
+
+        
         
             if ($attendance === null) {
                 $attendance_score = 0;
