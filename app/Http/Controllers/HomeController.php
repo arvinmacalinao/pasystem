@@ -32,13 +32,13 @@ class HomeController extends Controller
     
         // Get current month and determine the period
         $currentMonth = date('m');
-        $period_id = ($currentMonth >= 2 && $currentMonth <= 7) ? 1 : 2;
+        $period_id = ($currentMonth >= 1 && $currentMonth <= 6) ? 2 : 1; // Adjusted for period_id based on months
     
         // Get all companies with their users
-        $companies = Company::with(['users' => function($query) use ($period_id) {
+        $companies = Company::with(['users' => function($query) {
             // Filter users by job level 1-10
             $query->whereBetween('job_level', [1, 10]);
-        }])->paginate(10);
+        }])->get();
     
         $companyData = $companies->map(function ($company) use ($period_id) {
             // Get all employees with job levels 1-10
@@ -46,11 +46,13 @@ class HomeController extends Controller
         
             // Get the number of rated employees
             $ratedEmployees = $company->users->filter(function ($user) use ($period_id) {
-                if ($user->job_level <= 9) {
-                    return $user->final_grade->where('period_id', $period_id)->isNotEmpty();
-                } elseif ($user->job_level >= 10) {
-                    return $user->final_grade->isNotEmpty();
+                // Check if the employee has a final_grade of 1 for this period
+                $hasFinalGrade = $user->final_grade->where('period_id', $period_id)->first();
+                
+                if ($hasFinalGrade && $hasFinalGrade->final_grade == 1) {
+                    return true; // Rated employee with final_grade set to 1
                 }
+                
                 return false;
             })->count();
         
@@ -64,8 +66,12 @@ class HomeController extends Controller
             ];
         });
     
-        return view('home', ['companies' => $companyData, 'msg' => $msg]);
+        // Sort companies by rating percentage in descending order
+        $sortedCompanyData = $companyData->sortByDesc('ratingPercentage')->values();
+    
+        return view('home', ['companies' => $sortedCompanyData, 'msg' => $msg]);
     }
+
 
     public function joblevel(Request $request)
     {

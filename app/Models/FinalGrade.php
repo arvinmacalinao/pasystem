@@ -21,6 +21,7 @@ class FinalGrade extends Model
         'appraisal2_score',
         'attendance_score',
         'final_score',
+        'final_grade',
     ];
 
     public function employee()

@@ -106,7 +106,34 @@ class UpdateFinalGrade
                 $final_score = $appraisal1_score;
             }
 
-        // Update or create FinalGrade record
+        if ($employee->job_level >= 10 && $employee->job_level <= 11) {
+            // For job levels 10 and 11, only appraisal1 is required
+            if ($appraisal1) {
+                $final_grade = 1;
+            } else {
+                $final_grade = 0;
+            }
+        } else {
+            // For other job levels
+            if ($employee->fr_id === null) {
+                // If fr_id is null, only appraisal1 and attendance are required
+                if ($appraisal1 && $attendance) {
+                    $final_grade = 1;
+                } else {
+                    $final_grade = 0;
+                }
+            } else {
+                // If fr_id is not null, appraisal1, appraisal2, and attendance are required
+                if ($appraisal1 && $appraisal2 && $attendance) {
+                    $final_grade = 1;
+                } else {
+                    $final_grade = 0;
+                }
+            }
+        }
+            
+
+
         $finalGrade = FinalGrade::updateOrCreate(
             [
                 'employee_id' => $employee_id,
@@ -121,6 +148,7 @@ class UpdateFinalGrade
                 'appraisal2_score' => $appraisal2_score,
                 'attendance_score' => $attendance ? $attendance->attend_b_rating_score : null,
                 'final_score' => $final_score ?? null,
+                'final_grade' => $final_grade
             ]
         );
     }
