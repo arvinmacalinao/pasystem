@@ -129,23 +129,23 @@
                         <td>{{ $row->status->name ?? '' }}</td>
                         @if($row->u_active == 1)
                         <td  class="project-actions text-right">
-                            <a class="btn btn-info btn-sm text-light" href="{{ route('employee.view', ['id' => $row->id]) }}">
+                            <a class="btn btn-info btn-sm text-light mb-1" href="{{ route('employee.view', ['id' => $row->id]) }}">
                                 <i class="fa fa-folder-open"></i>
                                 </i>
                                 View
                             </a>
-                            <a class="btn btn-success btn-sm text-light" href="{{ route('employee.edit', ['id' => $row->id]) }}">
+                            <a class="btn btn-success btn-sm text-light mb-1" href="{{ route('employee.edit', ['id' => $row->id]) }}">
                                 <i class="fa fa-pencil"></i>
                                 </i>
                                 Edit
                             </a>
-                            <a class="btn btn-danger btn-sm row-delete-btn text-light" href="{{ route('employee.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
+                            <a class="btn btn-danger btn-sm row-delete-btn text-light mb-1" href="{{ route('employee.delete', ['id' => $row->id]) }}" data-msg="Delete this item?" data-text="#{{ $row->id }}" title="Delete">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
                             @if($row->es_id == 3)
                             @else
                             @if($row->force_rate == false)
-                                <a class="btn btn-warning btn-sm text-light mt-1" href="{{ route('employee.force_rate', ['id' => $row->id]) }}"  title="Force Rate">
+                                <a class="btn btn-warning btn-sm text-light mb-1" href="{{ route('employee.force_rate', ['id' => $row->id]) }}"  title="Force Rate">
                                 <i class="fa fa-check"></i> To Rate
                                 </a>
                             @endif
@@ -153,7 +153,7 @@
                         </td>
                         @else
                         <td>
-                            <a class="btn btn-success btn-sm text-light mt-1" href="{{ route('employee.active', ['id' => $row->id]) }}">
+                            <a class="btn btn-success btn-sm text-light" href="{{ route('employee.active', ['id' => $row->id]) }}">
                                 <i class="fa fa-pencil"></i>
                                 </i>
                                 Mark as Active

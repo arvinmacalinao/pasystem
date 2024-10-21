@@ -14,7 +14,7 @@ class PerformanceAppraisal extends Model
     protected $table = 'performance_appraisals';
 	protected $fillable = ['id', 'employee_id', 'evaluator_id', 'evaluation_date', 'period_id', 
     'evaluator_remarks', 'employee_remarks', 'period', 'name', 'company', 'group', 'designation', 
-    'job_rank', 'created_at', 'updated_at', 'deleted_at', 'start_month', 'end_month'];
+    'job_rank', 'created_at', 'updated_at', 'deleted_at', 'start_month', 'end_month', 'pa_file', 'pa_filename'];
 
 	public function user()
     {
@@ -30,4 +30,15 @@ class PerformanceAppraisal extends Model
     {
         return $this->hasOne(AppraisalRating::class, 'appraisal_id');
     }
+
+    public function perfomance_appraisal_file()
+	{
+	    $filePath = 'storage/pa_support/' . $this->pa_file;
+	
+	    if (file_exists(public_path($filePath))) {
+	        return asset($filePath);
+	    }
+	
+	    return null; // Return null if the file does not exist
+	}
 }

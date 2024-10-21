@@ -89,6 +89,7 @@
                         <th width="10%" class="bg-body-secondary">Department</th>
                         <th width="10%" class="bg-body-secondary">Designation</th>
                         <th width="10%" class="bg-body-secondary">Employment Status</th>
+                        <td width="1%" class="bg-body-secondary"></td>
                         <th width="50%" class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -105,6 +106,15 @@
                         <td>{{ $row->group->name ?? '' }}</td>
                         <td>{{ $row->designation->name ?? '' }}</td>
                         <td>{{ $row->status->name ?? '' }}</td>
+                        <td> 
+                            @if($row->has_da)
+                            <a href="{{ route('employee.offense.view', ['id' => $row->has_da->id]) }}">
+                                <i class="fa fa-exclamation-circle text-warning" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Has Disiplinary Action"></i>
+                            </a>
+                            @else
+                            <span></span>
+                            @endif
+                        </td>
                         <td  class="project-actions text-right">
                             <!-- Optionally, you can add a message or leave it empty -->
                             <a class="btn btn-info btn-sm text-light" href="{{ route('team.view', ['id' => $row->id]) }}">
@@ -122,10 +132,12 @@
                                                 <i class="fa fa-pencil"></i> Rate
                                             </a>
                                             @if ($row->immediate_supervisor_rated)
-                                            <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
-                                            <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
-                                                <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
-                                            </a>
+                                                @if($row->has_attendance)
+                                                <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
+                                                @endif
+                                                <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
+                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
+                                                </a>
                                             @endif
                                         @else
                                             <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
@@ -136,8 +148,8 @@
                                             <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
                                                 <i class="fa fa-pencil"></i> Rate
                                             </a>
-                                            @if ($row->immediate_supervisor_rated)
-                                            <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}">
+                                            @if ($row->immediate_supervisor_rated1)
+                                            <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
                                                 <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
                                             </a>
                                             @endif
@@ -156,10 +168,12 @@
                                                     <i class="fa fa-pencil"></i> Rate
                                                 </a>
                                                 @if ($row->immediate_supervisor_rated1)
+                                                    @if($row->has_attendance)
                                                 <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated1->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
-                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}">
-                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
-                                                </a>
+                                                    @endif
+                                                    <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
+                                                        <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
+                                                    </a>
                                                 @endif
                                             @else
                                                 <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
@@ -171,7 +185,7 @@
                                                     <i class="fa fa-pencil"></i> Rate
                                                 </a>
                                                 @if ($row->immediate_supervisor_rated1)
-                                                <a class="btn btn-success btn-sm text-light" href="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}">
+                                                <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
                                                     <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
                                                 </a>
                                                 @endif
@@ -184,6 +198,59 @@
                         </td>
                     </tr>
                 </tbody>
+                @if ($row->immediate_supervisor_rated1)
+                <div class="modal fade" id="copyRatingModal-{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="copyRatingModalLabel-{{ $row->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="copyRatingModalLabel-{{ $row->id }}">Copy Rating Confirmation</h5>
+                                <button type="button" class="close" data-coreui-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="evaluator_recommendation"><strong>EVALUATOR’S RECOMMENDATION / GENERAL ASSESSMENT</strong></label>
+                                        <textarea class="form-control" name="evaluator_recommendation" id="evaluator_recommendation" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Copy and Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @elseif($row->immediate_supervisor_rated)
+                <div class="modal fade" id="copyRatingModal-{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="copyRatingModalLabel-{{ $row->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="copyRatingModalLabel-{{ $row->id }}">Copy Rating Confirmation</h5>
+                                <button type="button" class="close" data-coreui-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="evaluator_recommendation"><strong>EVALUATOR’S RECOMMENDATION / GENERAL ASSESSMENT</strong></label>
+                                        <textarea class="form-control" name="evaluator_recommendation" id="evaluator_recommendation" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Copy and Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
             </table>
         </div>
@@ -191,6 +258,9 @@
 @endsection
 @section('scripts')
 <script>
-	
+    function openModal(id) {
+        // Use jQuery to open the modal by its ID
+        $('#copyRatingModal-' + id).modal('show');
+    }
 </script>
 @endsection

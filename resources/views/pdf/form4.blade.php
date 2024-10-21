@@ -2803,7 +2803,6 @@
 							</tr>
 						</tbody>
 				</table>
-				{{-- unscheduled leave --}}
 				<table width="100%" class="table table-bordered border-dark text-center">
 				    <tbody>
 				        <tr>
@@ -2826,52 +2825,23 @@
 				            <td style="border-top: hidden"></td>
 				            <td style="border-top: hidden"></td>
 				        </tr>
-				        <tr>
-				            <td class="text-start">0 LWOP or SL</td>
-				            <td>5</td>
-				            <td>{{ getMonthYear($attendance->ut_start_month, 0) }}</td>
-				            <td>{{ $attendance->ut_rating_1 }}</td>
-				            <td>{{ $attendance->da_records_late_1 }}</td>
-				        </tr>
-				        <tr>
-				            <td class="text-start">1x Frequency</td>
-				            <td>4</td>
-				            <td>{{ getMonthYear($attendance->ut_start_month, 1) }}</td>
-				            <td>{{ $attendance->ut_rating_2 }}</td>
-				            <td>{{ $attendance->da_records_late_2 }}</td>
-				        </tr>
-				        <tr>
-				            <td class="text-start">2x Frequency</td>
-				            <td>3</td>
-				            <td>{{ getMonthYear($attendance->ut_start_month, 2) }}</td>
-				            <td>{{ $attendance->ut_rating_3 }}</td>
-				            <td>{{ $attendance->da_records_late_3 }}</td>
-				        </tr>
-				        <tr>
-				            <td class="text-start">3x Frequency</td>
-				            <td>2</td>
-				            <td>{{ getMonthYear($attendance->ut_start_month, 3) }}</td>
-				            <td>{{ $attendance->ut_rating_4 }}</td>
-				            <td>{{ $attendance->da_records_late_4 }}</td>
-				        </tr>
-				        <tr>
-				            <td class="text-start">4x Frequency</td>
-				            <td>1</td>
-				            <td>{{ getMonthYear($attendance->ut_start_month, 4) }}</td>
-				            <td>{{ $attendance->ut_rating_5 }}</td>
-				            <td>{{ $attendance->da_records_late_5 }}</td>
-				        </tr>
-				        <tr>
-				            <td class="text-start">5x Frequency or more</td>
-				            <td>0</td>
-				            <td>{{ getMonthYear($attendance->late_start_month, 5) }}</td>
-				            <td>{{ $attendance->ut_rating_6 }}</td>
-				            <td>{{ $attendance->da_records_late_6 }}</td>
-				        </tr>
+						@for ($i = 0; $i < 6; $i++)
+						<tr>
+							<td class="text-start">{{ $i }}x Frequency</td>
+            				<td>{{ 5 - $i }}</td>
+							<td>
+								@if (isset($attendance->{'ul_rating_' . ($i + 1)}))
+								{{ getMonthYear($attendance->start_month, $i) }}
+								@endif
+							</td>
+							<td>{{ $attendance->{'ul_rating_' . ($i + 1)} }}</td>
+							<td>{{ $attendance->{'da_records_ul_' . ($i + 1)} }}</td>
+						</tr>
+						@endfor
 				        <tr>
 				            <td colspan="2"></td>
-				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ 6 MOS.</strong></td>
-				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->late_rating_score * 6 }}</u> ÷ </strong> 6 <strong> = <u>{{ $attendance->late_rating_score }}</u></strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ {{$numMonths}} MOS.</strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->ul_rating_score * $numMonths }}</u> ÷ </strong> {{ $numMonths }} <strong> = <u>{{ $attendance->ul_rating_score }}</u></strong></td>
 				            <td class="table-secondary table-bordered border-dark"></td>
 				        </tr>
 				    </tbody>

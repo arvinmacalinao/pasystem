@@ -102,6 +102,15 @@
             {{ __('Permission') }}
         </a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('employee.offenses.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-report-slash') }}"></use>
+            </svg>
+            {{ __('Disiplinary Action') }}
+        </a>
+    </li>
     
     {{-- <li class="nav-item">
         <a class="nav-link" href="">

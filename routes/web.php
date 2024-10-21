@@ -14,6 +14,7 @@ use App\Http\Controllers\UserGroupsController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EmployeeOffenseController;
 use App\Http\Controllers\OrchartUserGroupsController;
 
 /*
@@ -55,7 +56,7 @@ Route::middleware(['guest'])->group(function() {
     Route::get('my-subordinate', [TeamController::class, 'index'])->name('team.index');
     Route::get('/rate/{id}', [TeamController::class, 'rate'])->name('team.rate');
     Route::post('my-subordinate/{id}appraise/{appraise_id}', [TeamController::class, 'appraise'])->name('team.appraise');
-    Route::get('/subordinate/copy-rating/{id}', [TeamController::class, 'copyRating'])->name('team.copy.rating');
+    Route::any('/subordinate/copy-rating/{id}', [TeamController::class, 'copyRating'])->name('team.copy.rating');
     Route::get('/subordinate/view/{id}', [TeamController::class, 'view'])->name('team.view');
     Route::get('my-subordinate/download/{id}', [TeamController::class, 'download'])->name('download.pdf');
 
@@ -67,6 +68,9 @@ Route::middleware(['guest'])->group(function() {
     /* Job Level */
     Route::get('/job-level', [HomeController::class, 'joblevel'])->name('job.level');
     Route::get('/org-chart', [HomeController::class, 'orgchart'])->name('org.chart');
+
+    Route::get('employee-offenses/view/{id}', [EmployeeOffenseController::class, 'view'])->name('employee.offense.view');
+    Route::get('my-subordinate/disiplinaryaction/{id}', [TeamController::class, 'da'])->name('team.offense.record');
 });
 
 // EMPLOYEE RECORD
@@ -126,6 +130,14 @@ Route::middleware(['guest'])->group(function() {
     Route::post('orgchat/user-groups/store/{id}', [OrchartUserGroupsController::class, 'store'])->name('ugroup.orgchart.store');
     Route::get('orgchat/user-groups/edit/{id}', [OrchartUserGroupsController::class, 'edit'])->name('ugroup.orgchart.edit');
     Route::get('orgchat/user-groups/delete/{id}', [OrchartUserGroupsController::class, 'destroy'])->name('ugroup.orgchart.delete');
+
+    // Employee Offenses
+    Route::get('employee-offenses', [EmployeeOffenseController::class, 'index'])->name('employee.offenses.index');
+    Route::get('employee-offenses/add', [EmployeeOffenseController::class, 'create'])->name('employee.offense.add');
+    Route::post('employee-offenses/store/{id}', [EmployeeOffenseController::class, 'store'])->name('employee.offense.store');
+    Route::get('employee-offenses/edit/{id}', [EmployeeOffenseController::class, 'edit'])->name('employee.offense.edit');
+    Route::get('employee-offenses/delete/{id}', [EmployeeOffenseController::class, 'destroy'])->name('employee.offense.delete');
+    
 
 
 });

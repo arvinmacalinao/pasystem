@@ -86,9 +86,22 @@ class UserController extends Controller
         // Extract the year from the date_hired
         $yearHired = date('Y', strtotime($dateHired));
             
-        // Create default user pass
-        $defaultUsername = strtolower(substr($firstname, 0, 1) . $lastname);
-        $defaultPassword = strtoupper(substr($firstname, 0, 1)) . strtoupper(substr($lastname, 0, 1)) . 'cherry' . $yearHired;
+        // Function to normalize the string
+        function normalizeString($string) {
+            // Convert Ñ to lowercase ñ, remove special characters and spaces
+            $string = str_replace(['Ñ', 'ñ'], 'ñ', $string); // Handle ñ case
+            $string = preg_replace('/[^a-zA-Zñ]/', '', $string);
+            return strtolower($string);
+        }
+        
+        // Create normalized username
+        $defaultUsername = normalizeString(substr($firstname, 0, 1) . $lastname);
+        
+        // Create password with first letter of first and last name, uppercase, without special chars
+        $defaultPassword = strtoupper(substr(normalizeString($firstname), 0, 1)) 
+                 . strtoupper(substr(normalizeString($lastname), 0, 1)) 
+                 . 'cherry' 
+                 . $yearHired;
         
         // Convert the date fields to the correct format
         $dateHired = $request->input('date_hired') ? Carbon::createFromFormat('m-d-Y', $request->input('date_hired'))->format('Y-m-d') : null;

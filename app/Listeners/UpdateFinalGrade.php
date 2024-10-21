@@ -89,7 +89,7 @@ class UpdateFinalGrade
 
         
         
-            if ($attendance === null) {
+            if (!$attendance) {
                 $attendance_score = 0;
             } else {
                 $attendance_score = $attendance->attend_b_rating_score;

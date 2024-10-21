@@ -2168,7 +2168,13 @@
                           </label>       
                       </div>       
                   </div>       
-              </div>          
+              </div> 
+              <div class="col-md-12">
+                <label class="form-label fw-bold" for="pa_file" >Perfomance Appraisal Supporting Documents</label>
+                <input class="form-control @error('pa_file') is-invalid @enderror" type="file" id="pa_file"  accept=".pdf" name="pa_file">
+                <div class="invalid-feedback">@error('pa_file') {{ $errors->first('pa_file') }} @enderror</div>
+                </div> 
+                <br>         
               <div class="form-group">
                   <label for="attend_rating_remarks"><strong>Remarks</strong></label>
                   <textarea class="form-control" name="attend_rating_remarks" id="attend_rating_remarks" rows="3"></textarea>
@@ -2201,7 +2207,7 @@
             <input type="hidden" id="group" name="group" value="{{ $user->group->name ?? '' }}" />
             <input type="hidden" id="designation" name="designation" value="{{ $user->designation->name ?? '' }}" />
             <input type="hidden" id="job_rank" name="job_rank" value="{{ $user->job_level }} - {{ $user->joblevel->name ?? '' }}" />
-              <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();">
+              <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
             </div>
         </div>
         {{-- end tab 11 --}}

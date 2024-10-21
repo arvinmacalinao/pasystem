@@ -3,7 +3,14 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <p class="card-text">Team Details</p>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h4 class="card-title mb-2">Team Details</h4>
+            </div>
+            <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}" title=""><span class="fa fa-caret-left"></span> Back</a>
+            </div>
+        </div>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Name: <strong>{{ $employee->FullName }}</strong></li>
@@ -12,7 +19,14 @@
     </ul>
     <div class="card-footer">
         <div class="flex-grow-1">
-                <h4>Ratings</h4>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h4 class="card-title mb-2">Ratings</h4>
+                </div>
+                <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                    <a class="btn btn-warning btn-sm" href="{{ route('team.offense.record', ['id' => $employee->id]) }}"><span class="fa fa-exclamation-circle"></span> Disiplinary Actions</a>
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-12 ms-2 mb-2">
                     <!-- Search engine section -->

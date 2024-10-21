@@ -2298,9 +2298,9 @@
 							</tr>
 						</tbody>
 				</table>
+				{{-- punctuality --}}
 				<table width="100%" class="table table-bordered border-dark text-center">
 					<tbody>
-						{{-- punctuality --}}
 						<tr>
 							<td class="table-secondary table-bordered border-dark" colspan="5"><strong>PUNCTUALITY RECORD</strong></td>
 						</tr>
@@ -2325,7 +2325,23 @@
 							<td style="border-top: hidden"></td>
 							<td style="border-top: hidden"></td>
 						</tr>
+						@php
+						    $numMonths = $attendance->end_month - $attendance->start_month + 1;
+						@endphp
+						@for ($i = 0; $i < 6; $i++)
 						<tr>
+							<td class="text-start">{{ $i }}x Frequency</td>
+            				<td>{{ 5 - $i }}</td>
+							<td>
+								@if (isset($attendance->{'da_records_late_' . ($i + 1)}))
+								{{ getMonthYear($attendance->start_month, $i) }}
+								@endif
+							</td>
+							<td>{{ $attendance->{'late_rating_' . ($i + 1)} }}</td>
+							<td>{{ $attendance->{'da_records_late_' . ($i + 1)} }}</td>
+						</tr>
+						@endfor
+						{{-- <tr>
 				            <td class="text-start">0 Late</td>
 				            <td>5</td>
 				            <td>{{ getMonthYear($attendance->late_start_month, 0) }}</td>
@@ -2366,11 +2382,11 @@
 				            <td>{{ getMonthYear($attendance->late_start_month, 5) }}</td>
 				            <td>{{ $attendance->late_rating_6 }}</td>
 				            <td>{{ $attendance->da_records_late_6 }}</td>
-				        </tr>
+				        </tr> --}}
 						<tr>
 							<td colspan="2"></td>
-							<td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ 6 MOS.</strong></td>
-							<td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->late_rating_score * 6 }}</u> ÷ </strong> 6 <strong> = <u>{{ $attendance->late_rating_score }}</u></strong></td>
+							<td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ {{$numMonths}} MOS.</strong></td>
+							<td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->late_rating_score * $numMonths }}</u> ÷ </strong> {{ $numMonths }} <strong> = <u>{{ $attendance->late_rating_score }}</u></strong></td>
 							<td class="table-secondary table-bordered border-dark"></td>
 						</tr>
 					</tbody>
@@ -2397,7 +2413,34 @@
 				            <td style="border-top: hidden"></td>
 				            <td style="border-top: hidden"></td>
 				        </tr>
-				        <tr>
+						@php
+						$frequencyData = [
+							'0 Undertime' => 5,
+							'10 Minutes or less' => 4,
+							'11 to 30 Minutes' => 3,
+							'31 to 45 Minutes' => 2,
+							'46 to 60 Minutes' => 1,
+							'61 Minutes or more' => 0,
+						];
+						@endphp
+
+						@for ($i = 0; $i < 6; $i++)
+							<tr>
+								<!-- Static values for the frequency and rating columns -->
+								<td class="text-start">{{ array_keys($frequencyData)[$i] }}</td>
+								<td>{{ $frequencyData[array_keys($frequencyData)[$i]] }}</td>
+							
+								<!-- Dynamic values for the remaining columns -->
+								<td>
+									@if (isset($attendance->{'da_records_late_' . ($i + 1)}))
+										{{ getMonthYear($attendance->start_month, $i) }}
+									@endif
+								</td>
+								<td>{{ $attendance->{'ut_rating_' . ($i + 1)} }}</td>
+								<td>{{ $attendance->{'da_records_ut_' . ($i + 1)} }}</td>
+							</tr>
+						@endfor
+				        {{-- <tr>
 				            <td class="text-start">0 Undertime</td>
 				            <td>5</td>
 				            <td>{{ getMonthYear($attendance->ut_start_month, 0) }}</td>
@@ -2438,11 +2481,11 @@
 				            <td>{{ getMonthYear($attendance->late_start_month, 5) }}</td>
 				            <td>{{ $attendance->ut_rating_6 }}</td>
 				            <td>{{ $attendance->da_records_late_6 }}</td>
-				        </tr>
+				        </tr> --}}
 				        <tr>
 				            <td colspan="2"></td>
-				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ 6 MOS.</strong></td>
-				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->ut_rating_score * 6 }}</u> ÷ </strong> 6 <strong> = <u>{{ $attendance->ut_rating_score }}</u></strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ {{$numMonths}} MOS.</strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->ut_rating_score * $numMonths }}</u> ÷ </strong> {{ $numMonths }} <strong> = <u>{{ $attendance->ut_rating_score }}</u></strong></td>
 				            <td class="table-secondary table-bordered border-dark"></td>
 				        </tr>
 				    </tbody>
@@ -2470,7 +2513,20 @@
 				            <td style="border-top: hidden"></td>
 				            <td style="border-top: hidden"></td>
 				        </tr>
-				        <tr>
+						@for ($i = 0; $i < 6; $i++)
+						<tr>
+							<td class="text-start">{{ $i }}x Frequency</td>
+            				<td>{{ 5 - $i }}</td>
+							<td>
+								@if (isset($attendance->{'ul_rating_' . ($i + 1)}))
+								{{ getMonthYear($attendance->start_month, $i) }}
+								@endif
+							</td>
+							<td>{{ $attendance->{'ul_rating_' . ($i + 1)} }}</td>
+							<td>{{ $attendance->{'da_records_ul_' . ($i + 1)} }}</td>
+						</tr>
+						@endfor
+				        {{-- <tr>
 				            <td class="text-start">0 LWOP or SL</td>
 				            <td>5</td>
 				            <td>{{ getMonthYear($attendance->ut_start_month, 0) }}</td>
@@ -2511,11 +2567,11 @@
 				            <td>{{ getMonthYear($attendance->late_start_month, 5) }}</td>
 				            <td>{{ $attendance->ut_rating_6 }}</td>
 				            <td>{{ $attendance->da_records_late_6 }}</td>
-				        </tr>
+				        </tr> --}}
 				        <tr>
 				            <td colspan="2"></td>
-				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ 6 MOS.</strong></td>
-				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->late_rating_score * 6 }}</u> ÷ </strong> 6 <strong> = <u>{{ $attendance->late_rating_score }}</u></strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ {{$numMonths}} MOS.</strong></td>
+				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->ul_rating_score * $numMonths }}</u> ÷ </strong> {{ $numMonths }} <strong> = <u>{{ $attendance->ul_rating_score }}</u></strong></td>
 				            <td class="table-secondary table-bordered border-dark"></td>
 				        </tr>
 				    </tbody>

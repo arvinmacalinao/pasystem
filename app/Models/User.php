@@ -154,4 +154,13 @@ class User extends Authenticatable
 
         return $query->where('job_level', $level);
     }
+
+    public function getFullNameLSAttribute($value) {
+
+        $companyAlias = $this->company ? $this->company->alias : '';
+        $groupAlias = $this->group ? $this->group->alias : '';
+        $designationName = $this->designation ? $this->designation->name : '';
+
+        return ucfirst($this->last_name). ', '.ucfirst($this->first_name).' '.ucfirst(substr($this->middle_name, 0, 1)). '. (' . $companyAlias . ' - '. $groupAlias . ' - ' . $designationName .')';
+	}
 }

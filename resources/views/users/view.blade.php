@@ -11,7 +11,7 @@
         <div class="card-header">
             <div class="pull-right">
                 {{-- {{ route('user.edit', ['id' => $employee->u_id]) }} --}}
-                <a class="btn btn-primary btn-sm text-light" href="{{ route('employee.index') }}" title="Back"><span class="fa fa-caret-left"></span> Back</a>
+                <a class="btn btn-primary btn-sm text-light" href="{{ url()->previous() }}" title="Back"><span class="fa fa-caret-left"></span> Back</a>
             </div> 
             <div class="card-body">
                 <div class="flex-grow-1">
@@ -131,7 +131,16 @@
                                         <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal1_id]) }}">
                                             <i class="fa fa-refresh" aria-hidden="true"></i>
                                         </a>
-                                        <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal1_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                        @if($row->employee->job_level < 10)
+                                            @if($row->attendance)
+                                                <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal1_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                            @endif
+                                        @else
+                                                <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal1_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                        @endif
+                                        @if($row->appraisal1->pa_file != null)
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ asset('storage/pa_support/' . $row->appraisal1->pa_file) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Supporting Documents"><span class="fa fa fa-save"></span></a>
+                                        @endif
                                     </td>
                                     @else
                                         <td><small>Not yet rated</small></td>
@@ -150,7 +159,18 @@
                                             <a class="btn btn-danger btn-sm row-delete-btn text-light" title="Reset Rating" href="{{ route('employee.reset', ['id' => $row->appraisal2_id]) }}">
                                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                                             </a>
-                                            <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                            @if($row->employee->job_level < 10)
+                                                @if($row->attendance)
+                                                    <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                                @endif
+                                            @else
+                                                    <a class="btn btn-info btn-sm text-light" id="" href="{{ route('employee.download.pdf', ['id' => $row->appraisal2_id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Print Ratings"><span class="fa fa fa-print"></span></a>
+                                            @endif
+                                            @if($row->appraisal2->pa_file != null)
+                                                <a class="btn btn-success btn-sm text-light" id="" href="{{ asset('storage/pa_support/' . $row->appraisal2->pa_file) }}" name="download-list-btn" class="print-download-btn pr" target="_blank"
+                                                title="Download Supporting Documents"><span class="fa fa fa-save"></span></a>
+                                            @endif
+                                           
                                         </td>   
                                         @else
                                             <td><small>Not yet rated</small></td>
