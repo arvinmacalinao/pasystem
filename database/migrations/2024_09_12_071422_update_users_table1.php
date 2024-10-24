@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
              // Make sure job_level is an unsignedTinyInteger
-            // $table->unsignedTinyInteger('job_level')->change();
-            // $table->boolean('first_login')->default(true);
+            
+            $table->boolean('first_login')->default(true);
             // Add foreign key constraint
+            // $table->unsignedTinyInteger('job_level')->change();
             // $table->foreign('job_level')->references('id')->on('job_level')->onDelete('cascade');
             $table->boolean('force_rate')->default(false);
         });

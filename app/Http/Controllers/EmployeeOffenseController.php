@@ -18,7 +18,7 @@ class EmployeeOffenseController extends Controller
 {
     public function __construct() 
     {
-		$data = [ 'page' => 'Employee Offences' ];
+		$data = [ 'page' => 'Employee Offenses' ];
 		View::share('data', $data);
 
         $this->middleware(function ($request, $next) {  

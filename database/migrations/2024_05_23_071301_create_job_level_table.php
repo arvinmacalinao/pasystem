@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('job_level', function (Blueprint $table) {
-            $table->unsignedTinyInteger('id')->autoIncrement(); // Primary key using tinyint
-            $table->string('name'); // Name of the job level (e.g., Junior, Senior, etc.)
-            $table->timestamps(); // Created_at and updated_at timestamps
+            $table->unsignedTinyInteger('id')->autoIncrement(); 
+            $table->string('name'); 
+            $table->timestamps(); 
         });
     }
 

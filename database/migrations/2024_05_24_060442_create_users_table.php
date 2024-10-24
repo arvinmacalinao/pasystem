@@ -30,7 +30,8 @@ return new class extends Migration
             $table->foreign('is_id')->references('id')->on('users');
             $table->bigInteger('fr_id')->unsigned()->nullable();
             $table->foreign('fr_id')->references('id')->on('users');
-            $table->tinyInteger('job_level')->nullable(); 
+            $table->unsignedTinyInteger('job_level')->nullable();
+            $table->foreign('job_level')->references('id')->on('job_level')->onDelete('cascade');
             $table->bigInteger('ug_id')->unsigned()->nullable();
             $table->foreign('ug_id')->references('id')->on('user_groups');
             $table->bigInteger('r_id')->unsigned()->nullable();

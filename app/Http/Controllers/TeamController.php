@@ -504,6 +504,7 @@ class TeamController extends Controller
         $msg                = $request->session()->pull('session_msg', '');
         // $evaluator          = Auth::id();
         // $appraisal          = PerformanceAppraisal::where('id', $id)->where('evaluator_id', $evaluator)->first();
+        $user               = User::where('id', $appraisal->employee_id)->first();
         $appraisal          = PerformanceAppraisal::where('id', $id)->first();
         $ratings            = AppraisalRating::where('appraisal_id', $appraisal->id)->first();
         $attendance         = ActualAttendance::where('employee_id', $appraisal->employee_id)->where('period_id', $appraisal->period_id)->whereYear('created_at', $appraisal->evaluation_date)->first();
