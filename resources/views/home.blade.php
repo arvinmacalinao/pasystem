@@ -18,9 +18,35 @@
         </div>
     </div>
 </div> --}}
+<div class="row row-cols-1 row-cols-md-3">
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">No. of Appraisal Done today</h5>
+        <p class="card-text">{{ $appraisalsToday }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Total Number of Appraisal Done</h5>
+        <p class="card-text">{{ $totalfinalgrade }}</p>
+      </div>
+    </div>
+  </div>
+<div class="col-md-12 mb-4">
     <div class="card mb-4">
         <div class="card-header">
-            {{ __('Dashboard') }}
+            @php
+                $currentYear = date('Y');
+                $currentMonth = date('m');
+            @endphp
+            @if($currentMonth >= 7 && $currentMonth <= 12)
+                <h3>{{ __('1st Semester Ratings') }} - {{ $currentYear }}</h3>
+            @else
+                <h3>{{ __('2nd Semester Ratings') }} - {{ $currentYear - 1 }}</h3>
+            @endif
         </div>
         <div class="card-body"><div class="col-md-12 ms-2 mb-0">
             <div class="table-responsive">
@@ -56,5 +82,5 @@
           </div>
       </div>
     </div>
-
+</div>
 @endsection

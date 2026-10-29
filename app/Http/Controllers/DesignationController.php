@@ -28,10 +28,11 @@ class DesignationController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+        $search     = $request->input('qsearch', '');
 
-        $rows       = Designation::paginate(20);
+        $rows       = Designation::Search($search)->paginate(20);
 
-        return view('pages.designation.index', compact('rows', 'msg'));
+        return view('pages.designation.index', compact('rows', 'msg', 'search'));
     }
 
     public function create(Request $request)

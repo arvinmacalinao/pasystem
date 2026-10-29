@@ -42,6 +42,19 @@ class Company extends Model
 	    return null; // Return null if the file does not exist
 	}
 
+
+	public function scopeCompanySearch($query, $search)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%$search%")
+                  ->orWhere('alias', 'LIKE', "%$search%");
+        });
+    }
+
 	public function userGroups()
 	{
 	    return $this->belongsToMany(UserGroup::class, 'company_user_groups', 'c_id', 'ug_id');

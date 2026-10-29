@@ -9,12 +9,23 @@
 </div>
 @endif
 <!-- End -->
-    <div class="card mb-4">
-        <div class="card-header">
-            {{ __('Job Level') }}
-        </div>
-        <div class="card-body">
-            <img src="{{ asset('images/job_level.jpg') }}" width="1260" height="720">
-      </div>
+<div class="card mb-4">
+    <div class="card-header">
+        {{ __('Job Level') }}
     </div>
+    <div class="card-body text-center">
+        <img src="{{ asset('images/job_level.jpg') }}" class="responsive-image" alt="Job Level">
+    </div>
+</div>
+
+<style>
+.responsive-image {
+    width: 90%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+</style>
+
 @endsection

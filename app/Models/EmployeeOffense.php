@@ -49,4 +49,22 @@ class EmployeeOffense extends Model
 	
 	    return null; // Return null if the file does not exist
 	}
+
+    public function scopeEoSearch($query, $search)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function ($query) use ($search) {
+            $query->where('employee_name', 'LIKE', "%$search%")
+                  ->orWhere('company', 'LIKE', "%$search%")
+                  ->orWhere('department', 'LIKE', "%$search%")
+                  ->orWhere('position', 'LIKE', "%$search%")
+                  ->orWhere('type_of_offense', 'LIKE', "%$search%")
+                  ->orWhere('policy_violated', 'LIKE', "%$search%")
+                  ->orWhere('penalty', 'LIKE', "%$search%")
+                  ->orWhere('decision_of_case', 'LIKE', "%$search%");
+        });
+    }
 }

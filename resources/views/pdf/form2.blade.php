@@ -26,17 +26,27 @@
 						<td class="text-left"><h5><strong>NAME OF EMPLOYEE:</strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->name  }}</h5></td>
 						<td class="text-left"><h5><strong>NAME OF EVALUATOR: <br></strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->evaluator->FullName  }}</h5></td>
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->evaluator->FullName ?? ''  }}</h5></td>
 					</tr>
 					<tr>
 						<td class="text-end"><h5><strong>POSITION TITLE:</strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->designation  }}</h5></td>
 						<td class="text-end"><h5><strong>POSITION TITLE: <br></strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->user->designation->name  }}</h5></td>
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->evaluator->designation->name ?? ''  }}</h5></td>
 					</tr>
 					<tr>
 						<td class="text-end"><h5><strong>REVIEW PERIOD:</strong></h5></td>
-						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->period }} {{ date('Y', strtotime($appraisal->evaluation_date)) }}</h5></td>
+						@php
+						$currentMonth = date('m');
+        				$currentYear = date('Y');
+
+        				if ($currentMonth >= 7 && $currentMonth <= 12) {
+        				    $year = $currentYear; // Current year for Period 1 (January-June)
+        				} else {
+        				    $year = $currentYear - 1 ; // Previous year for Period 2 (July-December)
+        				}
+						@endphp
+						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ $appraisal->period }} - {{ $year }}</h5></td>
 						<td class="text-end"><h5><strong>DATE EVALUATED:<br></strong></h5></td>
 						<td width="33%" class="text-center dtr-border-bottom"><h5>{{ date('M-d-y', strtotime($appraisal->evaluation_date)) }}</h5></td>
 					</tr>
@@ -64,7 +74,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Demonstrates competency in the skills and knowledge required</td>
+							<td class="text-start" colspan="3"><strong>DEMONSTRATES</strong> competency in the skills and knowledge required</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -72,7 +82,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Demonstrates significant expertise at his/her job because of his/her in-depth knowledge and skills</td>
+							<td class="text-start" colspan="3">Demonstrates <strong>SIGNIFICANT EXPERTISE</strong> at his/her job because of his/her in-depth knowledge and skills</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -80,7 +90,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Has not demonstrated that s/he has the skills and knowledge to fulfill the responsibilities of his/her position</td>
+							<td class="text-start" colspan="3">1 - <strong>HAS NOT DEMONSTRATED</strong> that s/he has the skills and knowledge to fulfill the responsibilities of his/her position</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -88,7 +98,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Demonstrates a high level of competency in the skills and knowledge required</td>
+							<td class="text-start" colspan="3">Demonstrates a <strong>HIGH LEVEL OF COMPETENCY</strong> in the skills and knowledge required</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -96,7 +106,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Improvement is needed in certain skills and job knowledge</td>
+							<td class="text-start" colspan="3">2 - <strong>IMPROVEMENT</strong> is needed in certain skills and job knowledge</td>
 						</tr>
 						{{-- 1.2 --}}
 						<tr>
@@ -108,7 +118,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Learns and applies new skills within the expected time period</td>
+							<td class="text-start" colspan="3">Learns and applies new skills within the <strong>EXPECTED TIME PERIOD</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -116,7 +126,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">An exceptionally fast learner and able to quickly put new skills to use</td>
+							<td class="text-start" colspan="3">An <strong>EXCEPTIONALLY FAST LEARNER</strong> and able to quickly put new skills to use</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -124,7 +134,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">It takes him/her too long to learn and apply new skills</td>
+							<td class="text-start" colspan="3">1 - It takes him/her <strong>TOO LONG TO LEARN</strong> and apply new skills</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -132,7 +142,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Learns and applies new skills quickly</td>
+							<td class="text-start" colspan="3">Learns and applies new skills <strong>QUICKLY</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -140,7 +150,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">It sometimes takes him/her too long to learn and apply new skills</td>
+							<td class="text-start" colspan="3">2 - It <strong>SOMETIMES TAKES HIM/HER TOO LONG</strong> to learn and apply new skills</td>
 						</tr>
 						{{-- 1.3 --}}
 						<tr>
@@ -152,7 +162,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Knowledgeable about current developments in his/her field</td>
+							<td class="text-start" colspan="3"><strong>KNOWLEDGEABLE</strong> about current developments in his/her field</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -160,7 +170,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Reads and researches extensively, staying on top of current developments that might impact her field</td>
+							<td class="text-start" colspan="3">Reads and researches <strong>EXTENSIVELY</strong>, staying on top of current developments that might impact her field</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -168,7 +178,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Fails to keep updated about current developments in his/her field</td>
+							<td class="text-start" colspan="3">1 - <strong>FAILS TO KEEP UPDATED</strong> about current developments in his/her field</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -176,7 +186,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does an excellent job of keeping himself/herself updated about current developments in his/her field</td>
+							<td class="text-start" colspan="3">Does an <strong>EXCELLENT JOB</strong> of keeping himself/herself updated about current developments in his/her field</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -184,7 +194,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Should be more knowledgeable about current developments in his/her field</td>
+							<td class="text-start" colspan="3">2 - <strong>SHOULD BE MORE KNOWLEDGEABLE</strong> about current developments in his/her field</td>
 						</tr>
 						{{-- 1.4 --}}
 						<tr>
@@ -196,7 +206,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works within the normal scope of supervision</td>
+							<td class="text-start" colspan="3">Works within the <strong>NORMAL SCOPE OF SUPERVISION</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -204,7 +214,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Performs extremely well with very little, if any, supervision or assistance needed</td>
+							<td class="text-start" colspan="3">Performs <strong>EXTREMELY WELL</strong> with very little, if any, supervision or assistance needed</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -212,7 +222,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Needs more supervision and assistance than s/he should</td>
+							<td class="text-start" colspan="3">1 - <strong>NEEDS MORE SUPERVISION</strong> and assistance than s/he should</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -220,7 +230,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Needs a minimal amount of supervision to fulfill his/her responsibilities</td>
+							<td class="text-start" colspan="3">Needs a <strong>MINIMAL AMOUNT OF SUPERVISION</strong> to fulfill his/her responsibilities</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -228,7 +238,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Needs slightly more supervision than s/he should to fulfill his/her responsibilities</td>
+							<td class="text-start" colspan="3">2 - Needs <strong>SLIGHTLY MORE SUPERVISION</strong> than s/he should to fulfill his/her responsibilities</td>
 						</tr>
 						{{-- 1.5 --}}
 						<tr>
@@ -240,7 +250,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Displays a good understanding of how his/her job relates to other jobs & effectively uses the resources and tools available</td>
+							<td class="text-start" colspan="3">Displays a <strong>GOOD UNDERSTANDING</strong> of how his/her job relates to other jobs & effectively uses the resources and tools available</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -248,7 +258,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Has an extraordinary understanding of his/her job and the jobs of others & skillfully uses resources to maximum use</td>
+							<td class="text-start" colspan="3">Has an <strong>EXTRAORDINARY UNDERSTANDING</strong> of his/her job and the jobs of others & skillfully uses resources to maximum use</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -256,7 +266,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does not completely understand how his/her job relates to others & s/he ineffectively uses the resources available</td>
+							<td class="text-start" colspan="3">1 - <strong>DOES NOT COMPLETELY UNDERSTAND</strong> how his/her job relates to others & s/he ineffectively uses the resources available</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -264,7 +274,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Has better than usual understanding of how his/her job relates to other jobs & takes advantage of the resources available</td>
+							<td class="text-start" colspan="3"><strong>HAS BETTER THAN USUAL UNDERSTANDING</strong> of how his/her job relates to other jobs & takes advantage of the resources available</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -272,7 +282,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Would have better results if s/he understands how his/her job relates to others & has difficulty in effectively using the resources</td>
+							<td class="text-start" colspan="3">2 - <strong>WOULD HAVE BETTER RESULTS</strong> if s/he understands how his/her job relates to others & has difficulty in effectively using the resources</td>
 						</tr>
 						<tr>
 							<td colspan="2" class="text-start table-secondary table-bordered border-dark"><strong>REMARKS FOR <br>THIS AREA:</strong> {{ $ratings->jk_rating_remarks }}</td>
@@ -299,7 +309,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Work does not reflect adequate attention to accuracy and completeness</td>
+							<td class="text-start" colspan="3">1 - Work <strong>DOES NOT REFLECT ADEQUATE</strong> attention to accuracy and completeness</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -307,7 +317,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">The work s/he produces meets standards for accuracy and completeness</td>
+							<td class="text-start" colspan="3">The work s/he produces <strong>MEETS STANDARDS</strong> for accuracy and completeness</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -315,7 +325,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Sometimes the work s/he produces is less accurate and less thorough than his/her position requires</td>
+							<td class="text-start" colspan="3">2 - Sometimes the work s/he produces is <strong>LESS ACCURATE AND LESS THOROUGH</strong> than his/her position requires</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -323,7 +333,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">The quality of work s/he produces far exceeds expectations for accuracy & thoroughness</td>
+							<td class="text-start" colspan="3">The quality of work s/he produces far <strong>EXCEEDS EXPECTATIONS</strong> for accuracy & thoroughness</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -331,7 +341,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">The work s/he produces is usually highly accurate and thorough</td>
+							<td class="text-start" colspan="3">The work s/he produces is <strong>USUALLY HIGHLY ACCURATE</strong> and thorough</td>
 						</tr>
 						
 						<tr>
@@ -343,7 +353,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Displays a lack of commitment to excellence</td>
+							<td class="text-start" colspan="3">1 - Displays a <strong>LACK OF COMMITMENT</strong> to excellence</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -351,7 +361,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Regularly displays his/her commitment to excellence</td>
+							<td class="text-start" colspan="3"><strong>REGULARLY DISPLAYS</strong> his/her commitment to excellence</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -359,7 +369,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Could display more commitment to excellence</td>
+							<td class="text-start" colspan="3">2 - <strong>COULD DISPLAY MORE COMMITMENT</strong> to excellence</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -367,7 +377,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">A role model because of his/her dedication and commitment to excellence</td>
+							<td class="text-start" colspan="3">A <strong>ROLE MODEL</strong> because of his/her dedication and commitment to excellence</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -375,7 +385,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Displays a strong dedication and commitment to excellence</td>
+							<td class="text-start" colspan="3">Displays a <strong>STRONG DEDICATION AND COMMITMENT</strong> to excellence</td>
 						</tr>
 						
 						<tr>
@@ -387,7 +397,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does not actively look for ways to improve quality</td>
+							<td class="text-start" colspan="3">1 - <strong>DOES NOT ACTIVELY LOOK</strong> for ways to improve quality</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -395,7 +405,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Looks for ways to improve quality</td>
+							<td class="text-start" colspan="3"><strong>LOOKS FOR WAYS</strong> to improve quality</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -403,7 +413,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Needs to more actively look for ways to improve quality</td>
+							<td class="text-start" colspan="3">2 - <strong>NEEDS TO MORE ACTIVELY LOOK</strong> for ways to improve quality</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -411,7 +421,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Leads the organization in looking for ways to improve quality and promote quality awareness</td>
+							<td class="text-start" colspan="3"><strong>LEADS THE ORGANIZATION IN LOOKING FOR WAYS</strong> to improve quality and promote quality awareness</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -419,7 +429,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works hard to improve quality in his/her own work and promotes quality awareness throughout the organization</td>
+							<td class="text-start" colspan="3"><strong>WORKS HARD</strong> to improve quality in his/her own work and promotes quality awareness throughout the organization</td>
 						</tr>
 						
 						<tr>
@@ -431,7 +441,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">The feedback he/she receives about his/her performance is not being applied</td>
+							<td class="text-start" colspan="3">1 - The feedback he/she receives about his/her performance is <strong>NOT BEING APPLIED</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -439,7 +449,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Applies the feedback he/she receives to improve his/her performance</td>
+							<td class="text-start" colspan="3"><strong>APPLIES THE FEEDBACK</strong> he/she receives to improve his/her performance</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -447,7 +457,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Doesn’t always apply the feedback he/she receives to improve performance</td>
+							<td class="text-start" colspan="3">2 - <strong>DOESN’T ALWAYS APPLY</strong> the feedback he/she receives to improve performance</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -455,7 +465,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Proactive about seeking feedback and using it to improve her performance</td>
+							<td class="text-start" colspan="3"><strong>PROACTIVE ABOUT SEEKING FEEDBACK</strong> and using it to improve her performance</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -463,7 +473,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Often asks for feedback and uses it to improve his/her performance</td>
+							<td class="text-start" colspan="3"><strong>OFTEN ASKS FOR FEEDBACK</strong> and uses it to improve his/her performance</td>
 						</tr>
 						
 						<tr>
@@ -475,7 +485,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does an unacceptable job of monitoring his/her work to ensure quality</td>
+							<td class="text-start" colspan="3">1 - Does an <strong>UNACCEPTABLE JOB</strong> of monitoring his/her work to ensure quality</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -483,7 +493,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Monitors his/her work to meet quality standards</td>
+							<td class="text-start" colspan="3">Monitors his/her work to <strong>MEET QUALITY STANDARDS</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -491,7 +501,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">There are some quality problems because he/she does not adequately monitor his/her work</td>
+							<td class="text-start" colspan="3">2 - There are <strong>SOME QUALITY PROBLEMS</strong> because he/she does not adequately monitor his/her work</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -499,7 +509,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Has designed highly effective methods for monitoring his/her work to achieve & maintain the highest quality standards</td>
+							<td class="text-start" colspan="3">Has designed <strong>HIGHLY EFFECTIVE METHODS</strong> for monitoring his/her work to achieve & maintain the highest quality standards</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -507,7 +517,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Consistently and carefully monitors his/her work to ensure its quality</td>
+							<td class="text-start" colspan="3"><strong>CONSISTENTLY AND CAREFULLY MONITORS</strong> his/her work to ensure its quality</td>
 						</tr>
 						<tr>
 							<td colspan="2" class="text-start table-secondary table-bordered border-dark"><strong>REMARKS FOR <br>THIS AREA:</strong> {{ $ratings->quality_rating_remarks }}</td>
@@ -530,27 +540,19 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_1 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Produces less work than expected for his/her job</td>
-						</tr>
-						<tr>
-							<td width="5%">
 								@if($ratings->quantity_rating_1 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Not always as productive as expected for his/her job</td>
+							<td class="text-start" colspan="3">2 - <strong>NOT ALWAYS AS PRODUCTIVE</strong> as expected for his/her job</td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_1 == 3)
+								@if($ratings->quantity_rating_1 == 1)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Regularly produces a normal amount of work</td>
+							<td class="text-start" colspan="3">1 - Produces <strong>LESS WORK THAN EXPECTED</strong> for his/her job</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -558,7 +560,15 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Usually produces more work than expected</td>
+							<td class="text-start" colspan="3">Usually produces <strong>MORE WORK</strong> than expected</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_1 == 3)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">Regularly produces a <strong>NORMAL AMOUNT OF WORK</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -566,7 +576,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Regularly exceeds the amount of work normally expected for this job</td>
+							<td class="text-start" colspan="3"><strong>REGULARLY EXCEEDS</strong> the amount of work normally expected for this job</td>
 						</tr>
 						
 						<tr>
@@ -574,27 +584,19 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_2 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Work is not getting done within acceptable time frames</td>
-						</tr>
-						<tr>
-							<td width="5%">
 								@if($ratings->quantity_rating_2 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">It sometimes takes him/her longer than satisfactory to complete work and s/he too often misses deadlines</td>
+							<td class="text-start" colspan="3">2 - It <strong>SOMETIMES TAKES HIM/HER LONGER</strong> than satisfactory to complete work and s/he too often misses deadlines</td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_2 == 3)
+								@if($ratings->quantity_rating_2 == 1)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Completes his/her work in a timely manner and meets most deadlines</td>
+							<td class="text-start" colspan="3">1 - <strong>WORK IS NOT GETTING DONE</strong> within acceptable time frames</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -602,15 +604,24 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Often completes his/her work ahead of schedule</td>
+							<td class="text-start" colspan="3"><strong>OFTEN COMPLETES</strong> his/her work ahead of schedule</td>
 						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_2 == 3)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">Completes his/her work in a <strong>TIMELY MANNER</strong> and <strong>MEETS MOST DEADLINES</strong></td>
+						</tr>
+						
 						<tr>
 							<td width="5%">
 								@if($ratings->quantity_rating_2 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Routinely completes work ahead of schedule, always meeting his/her deadlines</td>
+							<td class="text-start" colspan="3"><strong>ROUTINELY COMPLETES WORK AHEAD OF TIME</strong>, always meeting his/her deadlines</td>
 						</tr>
 						
 						<tr>
@@ -618,27 +629,19 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_3 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Does not display much commitment to increasing productivity</td>
-						</tr>
-						<tr>
-							<td width="5%">
 								@if($ratings->quantity_rating_3 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Could do more to demonstrate his/her commitment to increasing productivity</td>
+							<td class="text-start" colspan="3">2 - <strong>COULD DO MORE TO DEMONSTRATE</strong> his/her commitment to increasing productivity</td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_3 == 3)
+								@if($ratings->quantity_rating_3 == 1)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Demonstrates a commitment to increasing productivity</td>
+							<td class="text-start" colspan="3">1 - <strong>DOES NOT DISPLAY MUCH</strong> commitment to increasing productivity</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -646,15 +649,24 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Demonstrates a strong commitment to increasing productivity</td>
+							<td class="text-start" colspan="3">Demonstrates a <strong>STRONG COMMITMENT</strong> to increasing productivity</td>
 						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_3 == 3)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3"><strong>DEMONSTRATES</strong> a commitment to increasing productivity</td>
+						</tr>
+						
 						<tr>
 							<td width="5%">
 								@if($ratings->quantity_rating_3 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Sets a good example to others in his/her dedication to increasing productivity</td>
+							<td class="text-start" colspan="3"><strong>SETS A GOOD EXAMPLE</strong> to others in his/her dedication to increasing productivity</td>
 						</tr>
 						
 						<tr>
@@ -662,27 +674,19 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_4 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">The pace at which s/he works is not adequate for this job</td>
-						</tr>
-						<tr>
-							<td width="5%">
 								@if($ratings->quantity_rating_4 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works more slowly than the position requires</td>
+							<td class="text-start" colspan="3">2 - <strong>WORKS MORE SLOWLY</strong> than the position requires</td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_4 == 3)
+								@if($ratings->quantity_rating_4 == 1)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works at the pace expected for the position</td>
+							<td class="text-start" colspan="3">1 - The pace at which s/he works is <strong>NOT ADEQUATE FOR THIS JOB</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -690,15 +694,24 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works at a faster pace than normally expected for the position</td>
+							<td class="text-start" colspan="3">Works at a <strong>FASTER PACE THAN NORMALLY</strong> expected for the position</td>
 						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_4 == 3)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3"><strong>WORKS AT THE PACE EXPECTED</strong> for the position</td>
+						</tr>
+						
 						<tr>
 							<td width="5%">
 								@if($ratings->quantity_rating_4 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Works at an exceptionally fast pace</td>
+							<td class="text-start" colspan="3">Works at an <strong>EXCEPTIONALLY FAST PACE</strong></td>
 						</tr>
 						
 						<tr>
@@ -706,19 +719,27 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->quantity_rating_5 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Too often fails to achieve established goals</td>
-						</tr>
-						<tr>
-							<td width="5%">
 								@if($ratings->quantity_rating_5 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does not always achieve his/her established goals</td>
+							<td class="text-start" colspan="3">2 - <strong>DOES NOT ALWAYS ACHIEVE</strong> his/her established goals</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_5 == 1)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">1 - <strong>TOO OFTEN FAILS</strong> to achieve established goals</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->quantity_rating_5 == 4)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3"><strong>STRIVES HARD</strong> in the achievement of established goals</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -726,23 +747,16 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Achieves most of his/her established goals</td>
+							<td class="text-start" colspan="3"><strong>ACHIEVES</strong> most of his/her established goals</td>
 						</tr>	
-						<tr>
-							<td width="5%">
-								@if($ratings->quantity_rating_5 == 4)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Strives hard in the achievement of established goals</td>
-						</tr>
+						
 						<tr>
 							<td width="5%">
 								@if($ratings->quantity_rating_5 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Consistently pushes himself/herself to achieve and surpass his/her established goals</td>
+							<td class="text-start" colspan="3"><strong>CONSISTENTLY PUSHES</strong> himself/herself to achieve and surpass his/her established goals</td>
 						</tr>
 						<tr>
 							<td colspan="2" class="text-start table-secondary table-bordered border-dark">
@@ -776,11 +790,11 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_1 == 4)
+								@if($ratings->ps_rating_1 == 3)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Identifies the existence of problems quickly</td>
+							<td class="text-start" colspan="3">Identifies most problem situations <strong>WITHIN APPROPRIATE TIME FRAMES</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -788,68 +802,37 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Identifies problems in a less than timely manner</td>
+							<td class="text-start" colspan="3">1 - Identifies problems in a <strong>LESS THAN TIMELY MANNER</strong></td>
 						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_1 == 5)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Immediately identifies the existence and nature of problems</td>
-						</tr>
+						
 						<tr>
 							<td width="5%">
 								@if($ratings->ps_rating_1 == 2)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Sometimes late in identifying that problem situations exist</td>
+							<td class="text-start" colspan="3">2 - <strong>SOMETIMES LATE</strong> in identifying that problem situations exist</td>
 						</tr>
+						
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_1 == 3)
+								@if($ratings->ps_rating_1 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Identifies most problem situations within appropriate time frames</td>
+							<td class="text-start" colspan="3"><strong>IMMEDIATELY IDENTIFIES</strong> the existence and nature of problems</td>
 						</tr>
-				
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_1 == 4)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">Identifies the <strong>EXISTENCE OF PROBLEMS QUICKLY</strong></td>
+						</tr>
 						<!-- 4.2 EXPECTED OUTCOME -->
 						<tr>
 							<td class="text-start" colspan="3"><strong>4.2. EXPECTED OUTCOME: Gathers and analyzes information skillfully</strong></td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_2 == 4)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Skilled at gathering and analyzing information from multiple sources</td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_2 == 1)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Does not demonstrate the information gathering and analysis skills needed for his/her position</td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_2 == 5)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Extremely skilled at gathering and analyzing complex information from multiple sources</td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_2 == 2)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Information gathering and analysis are not always thorough enough for his/her position</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -857,20 +840,55 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Information gathering and analysis meet the requirements of his/her position</td>
+							<td class="text-start" colspan="3">Information gathering and analysis <strong>MEET THE REQUIREMENTS</strong> of his/her position</td>
+						</tr>
+						
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_2 == 1)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">1 - <strong>DOES NOT DEMONSTRATE THE INFORMATION</strong> gathering and analysis skills needed for his/her position</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_2 == 2)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">2 - Information gathering and analysis are <strong>NOT ALWAYS THOROUGH ENOUGH</strong> for his/her position</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_2 == 5)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3"><strong>EXTREMELY SKILLED</strong> at gathering and analyzing complex information from multiple sources</td>
+						</tr>
+						
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_2 == 4)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3"><strong>SKILLED AT GATHERING</strong> and analyzing information from multiple sources</td>
 						</tr>
 				
 						<!-- 4.3 EXPECTED OUTCOME -->
 						<tr>
 							<td class="text-start" colspan="3"><strong>4.3. EXPECTED OUTCOME: Develops alternative solutions</strong></td>
 						</tr>
+						
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_3 == 4)
+								@if($ratings->ps_rating_3 == 3)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Addresses problem-solving situations by analyzing options and developing several alternative solutions
+							<td class="text-start" colspan="3">Most of the time, s/he develops <strong>SEVERAL ALTERNATIVE SOLUTIONS</strong> to problems
 							</td>
 						</tr>
 						<tr>
@@ -879,16 +897,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Does not develop adequate alternative solutions as part of the problem-solving process
-							</td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_3 == 5)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Routinely researches all options, developing the best alternative solutions
+							<td class="text-start" colspan="3">1 - <strong>DOES NOT DEVELOP ADEQUATE ALTERNATIVE</strong> solutions as part of the problem-solving process
 							</td>
 						</tr>
 						<tr>
@@ -897,18 +906,28 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Would be better at problem-solving if s/he better developed alternative solutions
+							<td class="text-start" colspan="3">2 - <strong>WOULD BE BETTER AT PROBLEM-SOLVING</strong> if s/he better developed alternative solutions
 							</td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_3 == 3)
+								@if($ratings->ps_rating_3 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Most of the time, s/he develops several alternative solutions to problems
+							<td class="text-start" colspan="3"><strong>ROUTINELY RESEARCHES ALL OPTIONS</strong>, developing the best alternative solutions
 							</td>
 						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_3 == 4)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">Addresses problem-solving situations by <strong>ANALYZING OPTIONS AND DEVELOPING SEVERAL ALTERNATIVE SOLUTIONS</strong>
+							</td>
+						</tr>
+						
 				
 						<!-- 4.4 EXPECTED OUTCOME -->
 						<tr>
@@ -916,11 +935,11 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_4 == 4)
+								@if($ratings->ps_rating_4 == 3)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Resolves or minimizes problems by addressing them in their early stages</td>
+							<td class="text-start" colspan="3"><strong>USUALLY RESOLVES OR MINIMIZES</strong> most problems <strong>BEFORE THEY GROW</strong> into larger issues</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -928,7 +947,16 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Frequently, problems become larger issues because s/he fails to anticipate and resolve them earlier</td>
+							<td class="text-start" colspan="3">1 - <strong>FREQUENTLY, PROBLEMS BECOME LARGER ISSUES</strong> because s/he fails to anticipate and resolve them earlier</td>
+						</tr>
+						
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_4 == 2)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">2 - <strong>COULD DO MORE TO ANTICIPATE</strong> and resolve problems before they grow into larger issues</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -936,24 +964,17 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Using his/her foresight and analytical skills, s/he quickly resolves problems in their earliest stages</td>
+							<td class="text-start" colspan="3">Using his/her foresight and analytical skills, s/he <strong>QUICKLY RESOLVES PROBLEMS IN THEIR EARLIEST STAGES</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_4 == 2)
+								@if($ratings->ps_rating_4 == 4)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Could do more to anticipate and resolve problems before they grow into larger issues</td>
+							<td class="text-start" colspan="3">Resolves or minimizes problems by <strong>ADDRESSING THEM IN THEIR EARLY STAGES</strong></td>
 						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_4 == 3)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">Usually resolves or minimizes most problems before they grow into larger issues</td>
-						</tr>
+						
 				
 						<!-- 4.5 EXPECTED OUTCOME -->
 						<tr>
@@ -961,11 +982,11 @@
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_5 == 4)
+								@if($ratings->ps_rating_5 == 3)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">In group situations, s/he contributes actively to help solve problems</td>
+							<td class="text-start" colspan="3"><strong>PARTICIPATES WELL</strong> in group problem solving situations</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -973,15 +994,7 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Needs to participate more actively in group problem solving situations</td>
-						</tr>
-						<tr>
-							<td width="5%">
-								@if($ratings->ps_rating_5 == 5)
-									<i class="fa fa-check fa-lg"></i>
-								@endif
-							</td>
-							<td class="text-start" colspan="3">In group problem solving situations, s/he is a key member, listening to all perspectives and helping the team come to resolution</td>
+							<td class="text-start" colspan="3">1 - <strong>NEEDS TO PARTICIPATE MORE ACTIVELY</strong> in group problem solving situations</td>
 						</tr>
 						<tr>
 							<td width="5%">
@@ -989,15 +1002,23 @@
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Participation in group problem solving situations needs to improve</td>
+							<td class="text-start" colspan="3">2 - Participation in group problem solving situations <strong>NEEDS TO IMPROVE</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
-								@if($ratings->ps_rating_5 == 3)
+								@if($ratings->ps_rating_5 == 5)
 									<i class="fa fa-check fa-lg"></i>
 								@endif
 							</td>
-							<td class="text-start" colspan="3">Participates well in group problem solving situations</td>
+							<td class="text-start" colspan="3">In group problem solving situations, s/he is <strong>A KEY MEMBER, LISTENING TO ALL PERSPECTIVES</strong> and helping the team come to resolution</td>
+						</tr>
+						<tr>
+							<td width="5%">
+								@if($ratings->ps_rating_5 == 4)
+									<i class="fa fa-check fa-lg"></i>
+								@endif
+							</td>
+							<td class="text-start" colspan="3">In group situations, s/he <strong>CONTRIBUTES ACTIVELY TO HELP SOLVE PROBLEMS</strong></td>
 						</tr>
 				
 						<!-- Remarks and Average -->
@@ -1048,7 +1069,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Needs to display more creativity and original thinking to meet the minimum expectations for his/her position</td>
+				            <td class="text-start" colspan="3">2 - Needs to display more creativity and original thinking to meet the minimum expectations for his/her position</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1056,7 +1077,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has not displayed enough creativity or original thinking in his/her work</td>
+				            <td class="text-start" colspan="3">1 - Has not displayed enough creativity or original thinking in his/her work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1093,7 +1114,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Not always resourceful enough when faced with unexpected challenges</td>
+				            <td class="text-start" colspan="3">2 - Not always resourceful enough when faced with unexpected challenges</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1101,7 +1122,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Does not show the necessary resourcefulness when faced with unexpected challenges</td>
+				            <td class="text-start" colspan="3">1 - Does not show the necessary resourcefulness when faced with unexpected challenges</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1130,7 +1151,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Contributes usable suggestions for improving work</td>
+				            <td class="text-start" colspan="3">Contributes <strong>USABLE SUGGESTIONS</strong> for improving work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1138,7 +1159,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">It would be preferable if s/he offered more usable suggestions on how to improve work</td>
+				            <td class="text-start" colspan="3">2 - It <strong>WOULD BE PREFERABLE</strong> if s/he <strong>OFFERED MORE USABLE</strong> suggestions on how to improve work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1146,7 +1167,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Rarely contributes usable suggestions for improving work</td>
+				            <td class="text-start" colspan="3">1 - <strong>RARELY CONTRIBUTES</strong> usable suggestions for improving work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1154,7 +1175,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">On a consistent basis, s/he contributes highly ingenious and valuable suggestions for improving work</td>
+				            <td class="text-start" colspan="3">On a <strong>CONSISTENT BASIS</strong>, s/he contributes <strong>HIGHLY INGENIOUS AND VALUABLE SUGGESTIONS</strong> for improving work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1162,7 +1183,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Generates many usable and ingenious suggestions for improving work</td>
+				            <td class="text-start" colspan="3"><strong>GENERATES MANY USABLE</strong> and ingenious suggestions for improving work</td>
 				        </tr>
 					
 				        <!-- 5.4 EXPECTED OUTCOME -->
@@ -1175,7 +1196,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has developed innovative approaches and ideas</td>
+				            <td class="text-start" colspan="3">Has <strong>DEVELOPED INNOVATIVE APPROACHES</strong> and ideas</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1183,7 +1204,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has not developed many innovative approaches or ideas</td>
+				            <td class="text-start" colspan="3">2 - Has <strong>NOT DEVELOPED MANY INNOVATIVE APPROACHES</strong> or ideas</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1191,7 +1212,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Approaches and ideas have not been innovated enough for his/her position</td>
+				            <td class="text-start" colspan="3">1 - Approaches and ideas have <strong>NOT BEEN INNOVATED ENOUGH</strong> for his/her position</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1199,7 +1220,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has produced innovative approaches and ideas that are far above the expectations for his/her position</td>
+				            <td class="text-start" colspan="3">Has <strong>PRODUCED INNOVATIVE APPROACHES</strong> and ideas that are <strong>FAR ABOVE THE EXPECTATIONS</strong> for his/her position</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1207,7 +1228,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has developed some highly innovative approaches and ideas</td>
+				            <td class="text-start" colspan="3">Has developed some <strong>HIGHLY INNOVATIVE APPROACHES</strong> and ideas</td>
 				        </tr>
 					
 				        <!-- Remarks and Average -->
@@ -1245,7 +1266,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Skill at balancing the needs of the team with his/her individual responsibilities is outstanding</td>
+				            <td class="text-start" colspan="3"><strong>SKILL AT BALANCING THE NEEDS</strong> of the team with his/her individual responsibilities is <strong>OUTSTANDING</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1253,7 +1274,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has trouble meeting his/her team responsibilities as well as his/her own</td>
+				            <td class="text-start" colspan="3">1 - <strong>HAS TROUBLE MEETING</strong> his/her team responsibilities as well as his/her own</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1261,7 +1282,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Does an admirable job of balancing the needs of the team with his/her individual responsibilities</td>
+				            <td class="text-start" colspan="3">Does an <strong>ADMIRABLE JOB OF BALANCING THE NEEDS</strong> of the team with his/her individual responsibilities</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1269,7 +1290,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has had some difficulty balancing team responsibilities with his/her own individual responsibilities</td>
+				            <td class="text-start" colspan="3">2 - <strong>HAS HAD SOME DIFFICULTY</strong> balancing team responsibilities with his/her own individual responsibilities</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1277,7 +1298,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has been able to balance the needs of the team with his/her individual responsibilities</td>
+				            <td class="text-start" colspan="3"><strong>HAS BEEN ABLE TO BALANCE THE NEEDS</strong> of the team with his/her individual responsibilities</td>
 				        </tr>
 					
 				        <!-- 6.2 EXPECTED OUTCOME -->
@@ -1290,7 +1311,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Welcomes the opinions and views of others, always maintaining a high degree of objectivity</td>
+				            <td class="text-start" colspan="3">Welcomes the opinions and views of others, <strong>ALWAYS MAINTAINING A HIGH DEGREE OF OBJECTIVITY</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1298,7 +1319,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Often does not show objectivity or respect for the views of others</td>
+				            <td class="text-start" colspan="3">1 - <strong>OFTEN DOES NOT SHOW OBJECTIVITY</strong> or respect for the views of others</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1306,7 +1327,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Exhibits a high degree of openness and objectivity to the views of others</td>
+				            <td class="text-start" colspan="3">Exhibits a <strong>HIGH DEGREE OF OPENNESS</strong> and objectivity to the views of others</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1314,7 +1335,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">There have been situations when he/she did not show adequate objectivity or openness to the views of others</td>
+				            <td class="text-start" colspan="3">2 - There <strong>HAVE BEEN SITUATIONS</strong> when he/she <strong>DID NOT SHOW ADEQUATE OBJECTIVITY</strong> or openness to the views of others</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1322,7 +1343,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Exhibits objectivity and openness to the views of others</td>
+				            <td class="text-start" colspan="3"><strong>EXHIBITS</strong> objectivity and openness to the views of others</td>
 				        </tr>
 					
 				        <!-- 6.3 EXPECTED OUTCOME -->
@@ -1335,7 +1356,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Gives honest, constructive feedback to team members and, in turn, actively requests feedback from them</td>
+				            <td class="text-start" colspan="3">Gives honest, constructive feedback to team members and, in turn, <strong>ACTIVELY REQUESTS FEEDBACK</strong> from them</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1343,7 +1364,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Resists giving and receiving constructive feedback</td>
+				            <td class="text-start" colspan="3">1 - <strong>RESISTS</strong> giving and receiving constructive feedback</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1351,7 +1372,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Gives honest, constructive feedback and welcomes it from team members</td>
+				            <td class="text-start" colspan="3">Gives honest, constructive feedback and <strong>WELCOMES IT FROM TEAM MEMBERS</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1359,7 +1380,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Lacks certain skills in giving and receiving constructive feedback</td>
+				            <td class="text-start" colspan="3">2 - <strong>LACKS CERTAIN SKILLS</strong> in giving and receiving constructive feedback</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1367,7 +1388,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Gives constructive feedback to and accepts it from team members</td>
+				            <td class="text-start" colspan="3">Gives constructive feedback to and <strong>ACCEPTS IT FROM TEAM MEMBERS</strong></td>
 				        </tr>
 					
 				        <!-- 6.4 EXPECTED OUTCOME -->
@@ -1380,7 +1401,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">A leader in building a strong team spirit and identity</td>
+				            <td class="text-start" colspan="3"><strong>A LEADER IN BUILDING A STRONG TEAM</strong> spirit and identity</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1388,7 +1409,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has had a negative impact on team morale</td>
+				            <td class="text-start" colspan="3">1 - Has had a <strong>NEGATIVE IMPACT</strong> on team morale</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1396,7 +1417,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Works hard to build a positive team spirit and identity</td>
+				            <td class="text-start" colspan="3"><strong>WORKS HARD</strong> to build a positive team spirit and identity</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1404,7 +1425,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Contributions to building a positive team spirit have been minimal</td>
+				            <td class="text-start" colspan="3">2 - Contributions to building a positive team spirit <strong>HAVE BEEN MINIMAL</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1412,7 +1433,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Contributes to building a positive team spirit</td>
+				            <td class="text-start" colspan="3"><strong>CONTRIBUTES</strong> to building a positive team spirit</td>
 				        </tr>
 					
 				        <!-- 6.5 EXPECTED OUTCOME -->
@@ -1425,7 +1446,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">All his/her actions are directed toward the success of the team over his/her own interests</td>
+				            <td class="text-start" colspan="3"><strong>ALL HIS/HER ACTIONS ARE DIRECTED TOWARD THE SUCCESS OF THE TEAM</strong> over his/her own interests</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1433,7 +1454,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Puts his/her own interests above the interests of the team</td>
+				            <td class="text-start" colspan="3">1 - <strong>PUTS HIS/HER OWN INTERESTS ABOVE</strong> the interests of the team</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1441,7 +1462,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Keeps the success of the team in the forefront of all his/her actions</td>
+				            <td class="text-start" colspan="3">Keeps the <strong>SUCCESS OF THE TEAM</strong> in the <strong>FOREFRONT OF ALL HIS/HER ACTIONS</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1449,7 +1470,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Needs to give more attention to making the team successful rather than furthering his/her own interests</td>
+				            <td class="text-start" colspan="3">2 - <strong>NEEDS TO GIVE MORE ATTENTION</strong> to making the team successful rather than furthering his/her own interests</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1457,7 +1478,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Puts the success of the team above his/her own interests</td>
+				            <td class="text-start" colspan="3"><strong>PUTS THE SUCCESS OF THE TEAM ABOVE</strong> his/her own interests</td>
 				        </tr>
 					
 				        <!-- Remarks and Score -->
@@ -1497,7 +1518,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Displays effective verbal communications skills</td>
+				            <td class="text-start" colspan="3">Displays <strong>EFFECTIVE</strong> verbal communications skills</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1505,7 +1526,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Displays superior verbal skills, communicating clearly, concisely, and in meaningful ways</td>
+				            <td class="text-start" colspan="3">Displays <strong>SUPERIOR VERBAL SKILLS</strong>, communicating clearly, concisely, and in meaningful ways</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1513,7 +1534,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Needs to improve his/her verbal communications skills</td>
+				            <td class="text-start" colspan="3">2 - <strong>NEEDS TO IMPROVE</strong> his/her verbal communications skills</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1521,7 +1542,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Does not display the verbal communications skills required</td>
+				            <td class="text-start" colspan="3">1 - <strong>DOES NOT DISPLAY</strong> the verbal communications skills required</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1529,7 +1550,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Displays very good verbal skills, communicating clearly and concisely</td>
+				            <td class="text-start" colspan="3">Displays <strong>VERY GOOD VERBAL SKILLS</strong>, communicating clearly and concisely</td>
 				        </tr>
 					
 				        <!-- 7.2 EXPECTED OUTCOME -->
@@ -1542,7 +1563,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Written communications skills meet the requirements of his/her position</td>
+				            <td class="text-start" colspan="3">Written communications skills <strong>MEET THE REQUIREMENTS</strong> of his/her position</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1550,7 +1571,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Demonstrates outstanding written communications skills</td>
+				            <td class="text-start" colspan="3">Demonstrates <strong>OUTSTANDING</strong> written communications skills</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1558,7 +1579,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Requires more assistance than desirable to produce written communications that meet the job’s requirements</td>
+				            <td class="text-start" colspan="3">2 - <strong>REQUIRES MORE ASSISTANCE</strong> than desirable to produce written communications that meet the job’s requirements</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1566,7 +1587,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Written communications fall short of the quality needed</td>
+				            <td class="text-start" colspan="3">1 - Written communications <strong>FALL SHORT</strong> of the quality needed</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1574,7 +1595,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Demonstrates excellent written communications skills</td>
+				            <td class="text-start" colspan="3">Demonstrates <strong>EXCELLENT</strong> written communications skills</td>
 				        </tr>
 					
 				        <!-- 7.3 EXPECTED OUTCOME -->
@@ -1587,7 +1608,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Listens and comprehends well</td>
+				            <td class="text-start" colspan="3"><strong>LISTENS AND COMPREHENDS</strong> well</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1595,7 +1616,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Listens carefully, asks perceptive questions, and quickly comprehends new or highly complex matters</td>
+				            <td class="text-start" colspan="3">Listens <strong>CAREFULLY</strong>, asks <strong>PERCEPTIVE</strong> questions, and <strong>QUICKLY COMPREHENDS</strong> new or highly complex matters</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1603,7 +1624,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Does not always exhibit good listening and comprehension skills</td>
+				            <td class="text-start" colspan="3">2 - <strong>DOES NOT ALWAYS EXHIBIT</strong> good listening and comprehension skills</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1611,7 +1632,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Does not exhibit the listening and comprehension skills necessary for satisfactory performance of his/her job</td>
+				            <td class="text-start" colspan="3">1 - <strong>DOES NOT EXHIBIT</strong> the listening and comprehension skills necessary for satisfactory performance of his/her job</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1619,7 +1640,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Exhibits good listening skills and comprehends complex matters well</td>
+				            <td class="text-start" colspan="3"><strong>EXHIBITS GOOD LISTENING</strong> skills and comprehends complex matters well</td>
 				        </tr>
 					
 				        <!-- 7.4 EXPECTED OUTCOME -->
@@ -1632,7 +1653,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Keeps others adequately informed</td>
+				            <td class="text-start" colspan="3">Keeps others <strong>ADEQUATELY INFORMED</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1640,7 +1661,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Extremely thorough and proactive about keeping others well informed</td>
+				            <td class="text-start" colspan="3"><strong>EXTREMELY THOROUGH AND PROACTIVE</strong> about keeping others well informed</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1648,7 +1669,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Unless reminded, s/he sometimes fails to keep others adequately informed</td>
+				            <td class="text-start" colspan="3">2 - Unless reminded, s/he <strong>SOMETIMES FAILS TO KEEP</strong> others adequately informed</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1656,7 +1677,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Frequently fails to keep others adequately informed</td>
+				            <td class="text-start" colspan="3">1 - <strong>FREQUENTLY FAILS</strong> to keep others adequately informed</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1664,7 +1685,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Careful to keep others informed in a timely manner</td>
+				            <td class="text-start" colspan="3"><strong>CAREFUL TO KEEP OTHERS INFORMED</strong> in a timely manner</td>
 				        </tr>
 					
 				        <!-- 7.5 EXPECTED OUTCOME -->
@@ -1677,7 +1698,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Selects appropriate methods of communication</td>
+				            <td class="text-start" colspan="3"><strong>SELECTS APPROPRIATE</strong> methods of communication</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1685,7 +1706,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Implements highly effective and often innovative communication methods</td>
+				            <td class="text-start" colspan="3">Implements <strong>HIGHLY EFFECTIVE</strong> and often innovative communication methods</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1693,7 +1714,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Occasionally selects inappropriate methods of communication</td>
+				            <td class="text-start" colspan="3">2 - <strong>OCCASIONALLY SELECTS INAPPROPRIATE METHODS</strong> of communication</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1701,7 +1722,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Too often he/she does not select or use appropriate communication methods</td>
+				            <td class="text-start" colspan="3">1 - <strong>TOO OFTEN</strong> he/she <strong>DOES NOT SELECT OR USE APPROPRIATE</strong> communication methods</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1709,7 +1730,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">When communicating, s/he is very good at selecting and using the most effective methods</td>
+				            <td class="text-start" colspan="3">When communicating, s/he is <strong>VERY GOOD AT SELECTING</strong> and using the most effective methods</td>
 				        </tr>
 					
 				        <!-- Remarks and Score -->
@@ -1749,7 +1770,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Hardly comply, interrogate</td>
+				            <td class="text-start" colspan="3">1 - <strong>HARDLY COMPLY</strong>, interrogate</td>
 				        </tr>
 						<tr>
 				            <td width="5%">
@@ -1757,7 +1778,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Requires frequent reminder</td>
+				            <td class="text-start" colspan="3">Requires <strong>FREQUENT REMINDER</strong></td>
 				        </tr>
 						<tr>
 				            <td width="5%">
@@ -1765,7 +1786,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Manifests sensitivity to compliance ‘walk-his-talk’ and ‘walk on extra mile’</td>
+				            <td class="text-start" colspan="3">Manifests <strong>SENSITIVITY TO COMPLIANCE</strong> ‘walk-his-talk’ and ‘walk on extra mile’</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1773,7 +1794,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Reprimanded for some violation/noncompliance to policies and procedures</td>
+				            <td class="text-start" colspan="3">2 - <strong>REPRIMANDED FOR SOME VIOLATION/NONCOMPLIANCE</strong> to policies and procedures</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1781,7 +1802,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Consistently comply with company policies and procedures</td>
+				            <td class="text-start" colspan="3"><strong>CONSISTENTLY COMPLY</strong> with company policies and procedures</td>
 				        </tr>
 					
 				        <!-- 8.2 EXPECTED OUTCOME -->
@@ -1794,7 +1815,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Routinely observes safety and security procedures</td>
+				            <td class="text-start" colspan="3"><strong>ROUTINELY OBSERVES</strong> safety and security procedures</td>
 				        </tr>
 						<tr>
 				            <td width="5%">
@@ -1802,7 +1823,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">A leader in carefully observing and monitoring proper safety and security procedures</td>
+				            <td class="text-start" colspan="3"><strong>A LEADER IN CAREFULLY OBSERVING</strong> and monitoring proper safety and security procedures</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1810,7 +1831,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Fails to observe proper safety and security procedures</td>
+				            <td class="text-start" colspan="3">1 - <strong>FAILS TO OBSERVE</strong> proper safety and security procedures</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1818,7 +1839,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Careful about observing safety and security procedures</td>
+				            <td class="text-start" colspan="3"><strong>CAREFUL ABOUT OBSERVING</strong> safety and security procedures</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1826,7 +1847,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Upon occasion, has not observed proper safety and security procedures</td>
+				            <td class="text-start" colspan="3">2 - <strong>UPON OCCASION, HAS NOT OBSERVED</strong> proper safety and security procedures</td>
 				        </tr>
 					
 				        <!-- 8.3 EXPECTED OUTCOME -->
@@ -1839,7 +1860,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">When faced with situations not covered by normal guidelines, he/she usually arrives at an appropriate action</td>
+				            <td class="text-start" colspan="3">When faced with situations not covered by normal guidelines, he/she <strong>USUALLY ARRIVES AT AN APPROPRIATE ACTION</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1847,7 +1868,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Even under very unusual conditions not covered by the normal guidelines, he/she quickly sizes up the situation and determines the appropriate action</td>
+				            <td class="text-start" colspan="3">Even under very unusual conditions not covered by the normal guidelines, he/she <strong>QUICKLY SIZES UP THE SITUATION</strong> and determines the appropriate action</td>
 				        </tr>
 						<tr>
 				            <td width="5%">
@@ -1855,7 +1876,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">When a situation arises that is not covered by the normal guidelines, he/she has difficulty determining an appropriate action</td>
+				            <td class="text-start" colspan="3">1 - When a situation arises that is not covered by the normal guidelines, he/she <strong>HAS DIFFICULTY DETERMINING</strong> an appropriate action</td>
 				        </tr>
 						<tr>
 				            <td width="5%">
@@ -1863,7 +1884,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has little difficulty arriving at the most appropriate action when faced with situations not covered by normal guidelines</td>
+				            <td class="text-start" colspan="3"><strong>HAS LITTLE DIFFICULTY AT THE MOST APPROPRIATE ACTION</strong> when faced with situations not covered by normal guidelines</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1871,12 +1892,28 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has had some difficulty determining an appropriate action when faced with a situation outside the normal guidelines</td>
+				            <td class="text-start" colspan="3">2 - <strong>HAS HAD SOME DIFFICULTY DETERMINING</strong> an appropriate action when faced with a situation outside the normal guidelines</td>
 				        </tr>
 					
 				        <!-- 8.4 EXPECTED OUTCOME -->
 				        <tr>
 				            <td class="text-start" colspan="3"><strong>8.4 EXPECTED OUTCOME:</strong> Uses equipment and materials properly</td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_4 == 3)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3"><strong>PROPERLY</strong> uses equipment and materials</td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_4 == 5)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3">Pays <strong>EXCEPTIONAL ATTENTION</strong> to ensure proper use of equipment and materials</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1884,23 +1921,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Although s/he has been properly trained, he/she has created unsafe situations by misusing equipment and materials</td>
-				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_4 == 2)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">There have been times when s/he had to be warned about the improper use of equipment and materials</td>
-				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_4 == 3)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">Properly uses equipment and materials</td>
+				            <td class="text-start" colspan="3">1 - Although s/he has been properly trained, he/she has <strong>CREATED UNSAFE SITUATIONS BY MISUSING EQUIPMENT</strong> and materials</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1908,20 +1929,52 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Takes careful precautions when using equipment and materials</td>
+				            <td class="text-start" colspan="3"><strong>TAKES CAREFUL PRECAUTIONS</strong> when using equipment and materials</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
-				                @if($ratings->comp_rating_4 == 5)
+				                @if($ratings->comp_rating_4 == 2)
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Pays exceptional attention to ensure proper use of equipment and materials</td>
+				            <td class="text-start" colspan="3">2 - There have been times when s/he <strong>HAD TO BE WARNED ABOUT THE IMPROPER USE</strong> of equipment and materials</td>
 				        </tr>
 					
 				        <!-- 8.5 EXPECTED OUTCOME -->
 				        <tr>
 				            <td class="text-start" colspan="3"><strong>8.5 EXPECTED OUTCOME:</strong> Observes proper deportment and decorum – social traits such as disposition, tact, appearance, behavior, and conduct</td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_5 == 3)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3">Could be <strong>EXPECTED TO PRESENT A BUSINESS-LIKE ATTITUDE</strong> with constant reminders</td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_5 == 2)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3">2 - Showed <strong>MISDEMEANOR</strong></td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_5 == 5)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3"><strong>ROLE MODEL</strong> in terms of grooming and basic corporate ethics</td>
+				        </tr>
+						<tr>
+				            <td width="5%">
+				                @if($ratings->comp_rating_5 == 4)
+				                    <i class="fa fa-check fa-lg"></i>
+				                @endif
+				            </td>
+				            <td class="text-start" colspan="3">Demonstrated <strong>TACT AND DILIGENCE</strong></td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1929,41 +1982,8 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Often inappropriate, does not follow professional decorum</td>
+				            <td class="text-start" colspan="3">1 - <strong>FAILS TO ADHERE</strong> to standards</td>
 				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_5 == 2)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">Sometimes exhibits behavior that is unprofessional or not in line with company standards</td>
-				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_5 == 3)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">Usually adheres to proper deportment and decorum</td>
-				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_5 == 4)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">Demonstrates professional behavior and appearance consistently</td>
-				        </tr>
-				        <tr>
-				            <td width="5%">
-				                @if($ratings->comp_rating_5 == 5)
-				                    <i class="fa fa-check fa-lg"></i>
-				                @endif
-				            </td>
-				            <td class="text-start" colspan="3">Exemplifies outstanding deportment and decorum, setting a standard for others</td>
-				        </tr>
-
 						<!-- 8.6 EXPECTED OUTCOME -->
 				        <tr>
 				            <td class="text-start" colspan="3"><strong>8.6 EXPECTED OUTCOME:</strong> Observes proper interpersonal skills – the ability to work harmoniously with others towards the achievement of goals.</td>
@@ -1974,7 +1994,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Normally tactful, usually obtains cooperation and respect of others</td>
+				            <td class="text-start" colspan="3"><strong>NORMALLY TACTFUL, USUALLY</strong> obtains cooperation and respect of others</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1982,7 +2002,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Occasionally able to get the respect and cooperation of others. Needs to improve relationship with co-workers</td>
+				            <td class="text-start" colspan="3">2 - Occasionally able to get the respect and cooperation of others. <strong>NEEDS TO IMPROVE</strong> relationship with co-workers</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1990,7 +2010,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Strong force for office morale. Always obtains cooperation and respect of others</td>
+				            <td class="text-start" colspan="3"><strong>STRONG FORCE</strong> for office morale. <strong>ALWAYS</strong> obtains cooperation and respect of others</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -1998,7 +2018,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Gets out of his/her way to cooperate</td>
+				            <td class="text-start" colspan="3"><strong>GETS OUT OF HIS/HER WAY</strong> to cooperate</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -2006,7 +2026,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Dislikes to cooperate, cannot work harmoniously with others</td>
+				            <td class="text-start" colspan="3">1 - <strong>DISLIKES TO COOPERATE</strong>, cannot work harmoniously with others</td>
 				        </tr>
 
 						<!-- 8.7 EXPECTED OUTCOME -->
@@ -2020,7 +2040,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Has very low regard for work</td>
+				            <td class="text-start" colspan="3">1 - Has <strong>VERY LOW</strong> regard for work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -2028,7 +2048,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Possesses great interest in work</td>
+				            <td class="text-start" colspan="3">Possesses <strong>GREAT INTEREST</strong> in work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -2036,7 +2056,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Displays little interest. Not conscious of doing a good job.</td>
+				            <td class="text-start" colspan="3">2 - Displays <strong>LITTLE INTEREST</strong>. Not conscious of doing a good job.</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -2044,7 +2064,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Demonstrates professional behavior and appearance consistently</td>
+				            <td class="text-start" colspan="3"><strong>EXCEPTIONALLY ENTHUSIASTIC</strong> about work</td>
 				        </tr>
 				        <tr>
 				            <td width="5%">
@@ -2052,7 +2072,7 @@
 				                    <i class="fa fa-check fa-lg"></i>
 				                @endif
 				            </td>
-				            <td class="text-start" colspan="3">Shows moderate interest in work</td>
+				            <td class="text-start" colspan="3">Shows <strong>MODERATE INTEREST</strong> in work</td>
 				        </tr>
 					
 				        <!-- Average Score -->
@@ -2090,31 +2110,31 @@
 							<td width="5%">
 								@if($ratings->attend_rating_1 == 3) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Before he/she takes time off, s/he gives advance notice whenever possible</td>
+							<td class="text-start" colspan="3">Before he/she takes time off, s/he <strong>GIVES ADVANCE NOTICE</strong> whenever possible</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_1 == 5) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Always works out a mutually agreeable time off schedule with superior and coworkers</td>
+							<td class="text-start" colspan="3"><strong>ALWAYS WORKS OUT A MUTUALLY AGREEABLE TIME OFF</strong> schedule with superior and coworkers</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_1 == 1) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">There have been too many occasions when s/he has taken time off without providing adequate notice</td>
+							<td class="text-start" colspan="3">1 - There have been too many occasions when s/he has <strong>TAKEN TIME OFF WITHOUT PROVIDING ADEQUATE NOTICE</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_1 == 4) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Usually works out time off arrangements in advance</td>
+							<td class="text-start" colspan="3"><strong>USUALLY WORKS OUT TIME OFF</strong> arrangements in advance</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_1 == 2) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Needs to give more advance notice before s/he takes time off</td>
+							<td class="text-start" colspan="3">2 - <strong>NEEDS TO GIVE MORE ADVANCE NOTICE</strong> before s/he takes time off</td>
 						</tr>
 				
 						<!-- 9A.2 EXPECTED OUTCOME -->
@@ -2125,31 +2145,31 @@
 							<td width="5%">
 								@if($ratings->attend_rating_2 == 3) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Usually begins work on time</td>
+							<td class="text-start" colspan="3"><strong>USUALLY</strong> begins work on time</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_2 == 5) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Consistently ready for work at the scheduled times</td>
+							<td class="text-start" colspan="3"><strong>CONSISTENTLY READY FOR WORK</strong> at the scheduled times</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_2 == 1) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Begins work late more frequently than acceptable</td>
+							<td class="text-start" colspan="3">1 - <strong>BEGINS WORK LATE MORE FREQUENTLY</strong> than acceptable</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_2 == 4) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Rarely begins work late</td>
+							<td class="text-start" colspan="3"><strong>RARELY</strong> begins work late</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_2 == 2) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Occasionally begins work late</td>
+							<td class="text-start" colspan="3">2 - <strong>OCCASIONALLY</strong> begins work late</td>
 						</tr>
 				
 						<!-- 9A.3 EXPECTED OUTCOME -->
@@ -2160,31 +2180,31 @@
 							<td width="5%">
 								@if($ratings->attend_rating_3 == 3) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">When late or absent, s/he generally makes sure that his/her responsibilities are covered</td>
+							<td class="text-start" colspan="3">When late or absent, s/he <strong>GENERALLY MAKES SURE</strong> that his/her responsibilities are covered</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_3 == 5) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">When out of the office, s/he makes a special effort to ensure that his/her commitments are met and problems resolved</td>
+							<td class="text-start" colspan="3">When out of the office, s/he <strong>MAKES A SPECIAL EFFORT</strong> to ensure that his/her commitments are met and problems resolved</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_3 == 1) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">When late or absent, problems have occurred because s/he failed to confirm that his/her responsibilities were adequately covered</td>
+							<td class="text-start" colspan="3">1 - When late or absent, <strong>PROBLEMS HAVE OCCURRED</strong> because s/he failed to confirm that his/her responsibilities were adequately covered</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_3 == 4) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">When out of the office, s/he confirms that his/her responsibilities and commitments are managed</td>
+							<td class="text-start" colspan="3">When out of the office, s/he <strong>CONFIRMS THAT HIS/HER RESPONSIBILITIES AND COMMITMENTS ARE MANAGED</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_3 == 2) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">When late or absent, s/he has not always confirmed that his/her responsibilities are covered</td>
+							<td class="text-start" colspan="3">2 - When late or absent, s/he <strong>HAS NOT ALWAYS CONFIRMED</strong> that his/her responsibilities are covered</td>
 						</tr>
 				
 						<!-- 9A.4 EXPECTED OUTCOME -->
@@ -2195,31 +2215,31 @@
 							<td width="5%">
 								@if($ratings->attend_rating_4 == 3) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Normally on time for meetings and appointments</td>
+							<td class="text-start" colspan="3"><strong>NORMALLY ON TIME</strong> for meetings and appointments</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_4 == 5) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Sets a good example for others by always arriving promptly for meetings and appointments</td>
+							<td class="text-start" colspan="3"><strong>SETS A GOOD EXAMPLE</strong> for others by always arriving promptly for meetings and appointments</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_4 == 1) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Inconveniences others by being late for meetings</td>
+							<td class="text-start" colspan="3">1 - Inconveniences others by <strong>BEING LATE FOR MEETINGS</strong></td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_4 == 4) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Prompt for meetings and appointments</td>
+							<td class="text-start" colspan="3"><strong>PROMPT FOR MEETINGS</strong> and appointments</td>
 						</tr>
 						<tr>
 							<td width="5%">
 								@if($ratings->attend_rating_4 == 2) <i class="fa fa-check fa-lg"></i> @endif
 							</td>
-							<td class="text-start" colspan="3">Inconveniences others by often being late for meetings</td>
+							<td class="text-start" colspan="3">2 - Inconveniences others by <strong>OFTEN BEING LATE FOR MEETINGS</strong></td>
 						</tr>
 
 						<!-- Average Score -->
@@ -2284,7 +2304,7 @@
 						</tr>
 					</tbody>
 				</table>
-				@if($attendance)
+			@if($attendance)
 				<table>
 					<table width="100%" class="table table-bordered border-dark text-center">
 						<tbody>
@@ -2333,8 +2353,32 @@
 							<td class="text-start">{{ $i }}x Frequency</td>
             				<td>{{ 5 - $i }}</td>
 							<td>
-								@if (isset($attendance->{'da_records_late_' . ($i + 1)}))
-								{{ getMonthYear($attendance->start_month, $i) }}
+								@if (isset($attendance->{'late_rating_' . ($i + 1)}))
+								    @php
+								        try {
+								            // Get the current year, assuming we're using the current year as a reference
+								            $currentMonth = date('m');
+        									$currentYear = date('Y');
+																			
+        									if ($currentMonth >= 7 && $currentMonth <= 12) {
+        									    $currentYear = $currentYear; // Current year for Period 1 (January-June)
+        									} else {
+        									    $currentYear = $currentYear - 1 ; // Previous year for Period 2 (July-December)
+        									}
+										
+								            // Convert `start_month` to a date using the current year
+								            #halt
+								            // $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+								            $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+										
+								            // Add the offset and format the month and year
+								            $monthYear = $startMonth->addMonths($i)->format('F Y');
+								        } catch (\Exception $e) {
+								            // Fallback if the format is invalid
+								            $monthYear = 'Invalid Date';
+								        }
+								    @endphp
+								    {{ $monthYear }}
 								@endif
 							</td>
 							<td>{{ $attendance->{'late_rating_' . ($i + 1)} }}</td>
@@ -2432,9 +2476,33 @@
 							
 								<!-- Dynamic values for the remaining columns -->
 								<td>
-									@if (isset($attendance->{'da_records_late_' . ($i + 1)}))
-										{{ getMonthYear($attendance->start_month, $i) }}
-									@endif
+									@if (isset($attendance->{'ut_rating_' . ($i + 1)}))
+								    @php
+								        try {
+								            // Get the current year, assuming we're using the current year as a reference
+								            $currentMonth = date('m');
+        									$currentYear = date('Y');
+																			
+        									if ($currentMonth >= 7 && $currentMonth <= 12) {
+        									    $currentYear = $currentYear; // Current year for Period 1 (January-June)
+        									} else {
+        									    $currentYear = $currentYear - 1 ; // Previous year for Period 2 (July-December)
+        									}
+										
+								            // Convert `start_month` to a date using the current year
+								            #halt
+								            // $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+								            $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+										
+								            // Add the offset and format the month and year
+								            $monthYear = $startMonth->addMonths($i)->format('F Y');
+								        } catch (\Exception $e) {
+								            // Fallback if the format is invalid
+								            $monthYear = 'Invalid Date';
+								        }
+								    @endphp
+								    {{ $monthYear }}
+								@endif
 								</td>
 								<td>{{ $attendance->{'ut_rating_' . ($i + 1)} }}</td>
 								<td>{{ $attendance->{'da_records_ut_' . ($i + 1)} }}</td>
@@ -2519,7 +2587,31 @@
             				<td>{{ 5 - $i }}</td>
 							<td>
 								@if (isset($attendance->{'ul_rating_' . ($i + 1)}))
-								{{ getMonthYear($attendance->start_month, $i) }}
+								    @php
+								        try {
+								            // Get the current year, assuming we're using the current year as a reference
+								            $currentMonth = date('m');
+        									$currentYear = date('Y');
+																			
+        									if ($currentMonth >= 7 && $currentMonth <= 12) {
+        									    $currentYear = $currentYear; // Current year for Period 1 (January-June)
+        									} else {
+        									    $currentYear = $currentYear - 1 ; // Previous year for Period 2 (July-December)
+        									}
+										
+								            // Convert `start_month` to a date using the current year
+								            #halt
+								            // $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+								            $startMonth = \Carbon\Carbon::createFromDate($currentYear, $attendance->start_month, 1);
+										
+								            // Add the offset and format the month and year
+								            $monthYear = $startMonth->addMonths($i)->format('F Y');
+								        } catch (\Exception $e) {
+								            // Fallback if the format is invalid
+								            $monthYear = 'Invalid Date';
+								        }
+								    @endphp
+								    {{ $monthYear }}
 								@endif
 							</td>
 							<td>{{ $attendance->{'ul_rating_' . ($i + 1)} }}</td>
@@ -2572,7 +2664,7 @@
 				            <td colspan="2"></td>
 				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ {{$numMonths}} MOS.</strong></td>
 				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->ul_rating_score * $numMonths }}</u> ÷ </strong> {{ $numMonths }} <strong> = <u>{{ $attendance->ul_rating_score }}</u></strong></td>
-				            <td class="table-secondary table-bordered border-dark"></td>
+				            <td class="table-secondary table-bordered border-dark" width="15%"></td>
 				        </tr>
 				    </tbody>
 				</table>
@@ -2581,42 +2673,42 @@
 				        <tr>
 				            <td class="text-center" width="31%">
 				            </td>
-							<td></td>
+							<td style="width: 20%;"></td>
 				            <td class="text-center align-middle" style="border-top: hidden; border-right:hidden;" width="23%"><strong></strong></td>
 				            <td class="text-center align-middle" style="border-top: hidden; border-right:hidden;" width="23%"><strong></strong></td>
 				            <td class="text-center align-middle" style="border-top: hidden; border-right:hidden;" width="23%"><strong></strong></td>
 				        </tr>
 				        <tr>
 				            <td style="border-top: hidden"><strong>SUMMARY</strong></td>
-				            <td style="border-top: hidden" width="5%"><strong>RATINGS</strong></td>
+				            <td style="border-top: hidden; width: 20%;"><strong>RATINGS</strong></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				        </tr>
 				        <tr>
 				            <td class="text-start">PUNCTUALITY RECORD</td>
-				            <td>{{ $attendance->late_rating_score }}</td>
+				            <td  style="width: 20%;">{{ $attendance->late_rating_score }}</td>
 				           	<td style="border-top: hidden; border-right:hidden;"></td>
 				           	<td style="border-top: hidden; border-right:hidden;"></td>
 				           	<td style="border-top: hidden; border-right:hidden;"></td>
 				        </tr>
 				        <tr>
 				            <td class="text-start">UNDERTIME RECORD</td>
-				            <td>{{ $attendance->ut_rating_score }}</td>
+				            <td  style="width: 20%;">{{ $attendance->ut_rating_score }}</td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				        </tr>
 				        <tr>
 				            <td class="text-start">UNSCHEDULED LEAVE RECORD</td>
-				            <td>{{ $attendance->ul_rating_score }}</td>
+				            <td  style="width: 20%;">{{ $attendance->ul_rating_score }}</td>
 							<td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				            <td style="border-top: hidden; border-right:hidden;"></td>
 				        </tr>
 				        <tr>
 				            <td class="table-secondary table-bordered border-dark"><strong>AVERAGE = TOTAL ÷ 3</strong></td>
-				            <td class="table-secondary table-bordered border-dark"><strong><u>{{ $attendance->late_rating_score + $attendance->ut_rating_score + $attendance->ul_rating_score }}</u> ÷ </strong> 3 <strong> = <u>{{ ($attendance->late_rating_score + $attendance->ut_rating_score + $attendance->ul_rating_score) / 3 }}</u></strong></td>
+				            <td class="table-secondary table-bordered border-dark" style="width: 20%;"><strong><u>{{ $attendance->late_rating_score + $attendance->ut_rating_score + $attendance->ul_rating_score }}</u> ÷ </strong> 3 <strong> = <u>{{ number_format(($attendance->late_rating_score + $attendance->ut_rating_score + $attendance->ul_rating_score) / 3, 2) }}</u></strong></td>
 							<td style="border-top: hidden; border-right:hidden; border-bottom: hidden"></td>
 				            <td style="border-top: hidden; border-right:hidden; border-bottom: hidden"></td>
 				            <td style="border-top: hidden; border-right:hidden; border-bottom: hidden"></td>
@@ -2628,18 +2720,4 @@
 		<br>
 	</div>
 </body>
-<?php
-function getMonthYear($startMonth, $offset) {
-    $currentYear = date('Y');
-    $month = ($startMonth + $offset) % 12;
-    $year = $currentYear + floor(($startMonth + $offset) / 12);
-    return date('M Y', mktime(0, 0, 0, $month, 1, $year));
-}
-
-$late_start_month = $attendance->late_start_month; // Assuming this comes from your database
-$months = [];
-for ($i = 0; $i < 6; $i++) {
-    $months[] = getMonthYear($late_start_month, $i);
-}
-?>
 </html>

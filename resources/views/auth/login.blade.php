@@ -55,7 +55,7 @@
             <div class="card col-md-5 text-white bg-danger py-5">
                 <div class="card-body text-center">
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <img src="{{ asset('images/EPAlogo.png') }}" alt="" style="max-width: 100%; max-height: 250px;">
+                        <img src="{{ asset('images/EPALogo.png') }}" alt="" style="max-width: 100%; max-height: 250px;">
                     </div>
                 </div>
             </div>

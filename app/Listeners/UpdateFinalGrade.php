@@ -21,64 +21,72 @@ class UpdateFinalGrade
     public function handle(FinalGradeUpdated $event)
     {
         $employee_id = $event->employee_id;
+        $period_id = $event->period_id;
         $currentMonth = now()->month;
+        // $year = 2025;
         $year = date('Y');
+        
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+            $year = $year; // Current year for Period 1 (January-June)
+        } else {
+            $year = $year - 1 ; // Previous year for Period 2 (July-December)
+        }
 
+        // An explicit year (e.g. late encoding by HR) overrides the date-based default
+        if ($event->year) {
+            $year = (int) $event->year;
+        }
+    
         // Get the evaluator IDs
         $employee = User::where('id', $employee_id)->first();
         $immediateSupervisor = User::where('id', $employee_id)->pluck('is_id')->first();
         $finalRater = User::where('id', $employee_id)->pluck('fr_id')->first();
         $employee_level = User::where('id', $employee_id)->pluck('job_level')->first();
 
-        if($employee->es_id == 3)
-        {
-            if ($currentMonth >= 7 && $currentMonth <= 12) {
-                $period_id = 1; // Current year for Period 1 (January-June)
-            } else {
-                $period_id = 2; // Previous year for Period 2 (July-December)
-            }
-        }
-        else{
-            $period_id = 3;
-        }
 
         if($period_id == 3){
-            $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
-            ->where('evaluator_id', $immediateSupervisor)
+            $attendance = ActualAttendance::where('employee_id', $employee_id)
             ->where('period_id', $period_id)
-            ->whereYear('evaluation_date', $year)
+            ->whereYear('created_at', $year)
             ->first();
-            
-            if($appraisal1){
-                $attendance = ActualAttendance::where('employee_id', $employee_id)
+
+            // dd($attendance);
+
+            $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
+                ->where('evaluator_id', $immediateSupervisor)
                 ->where('period_id', $period_id)
-                ->where('start_month', $appraisal1->start_month)
-                ->where('end_month', $appraisal1->end_month)
                 ->whereYear('created_at', $year)
+                ->where('start_month', optional($attendance)->start_month)
+                ->where('status', 'submitted')
                 ->first();
-    
+
+            $appraisal2 = null; 
+
+            if ($appraisal1) {
                 $appraisal2 = PerformanceAppraisal::where('employee_id', $employee_id)
                     ->where('evaluator_id', $finalRater)
                     ->where('period_id', $period_id)
-                    ->where('start_month', $appraisal1->start_month)
-                    ->where('end_month', $appraisal1->end_month)
-                    ->whereYear('evaluation_date', $year)
+                    ->whereYear('created_at', $year)
+                    ->where('start_month', optional($attendance)->start_month)
+                    ->where('status', 'submitted')
                     ->first();
-                }
             }
+        }
         else
         {
             // Fetch relevant data (e.g., performance appraisals, attendance)
         $appraisal1 = PerformanceAppraisal::where('employee_id', $employee_id)
         ->where('evaluator_id', $immediateSupervisor)
         ->where('period_id', $period_id)
-        ->whereYear('evaluation_date', $year)
+        ->whereYear('created_at', $year)
+        ->where('status', 'submitted')
         ->first();
 
         $appraisal2 = PerformanceAppraisal::where('employee_id', $employee_id)
             ->where('evaluator_id', $finalRater)
             ->where('period_id', $period_id)
-            ->whereYear('evaluation_date', $year)
+            ->whereYear('created_at', $year)
+            ->where('status', 'submitted')
             ->first();
 
         $attendance = ActualAttendance::where('employee_id', $employee_id)
@@ -86,18 +94,10 @@ class UpdateFinalGrade
         ->whereYear('created_at', $year)
         ->first();
         }
-
-        
-        
-            if (!$attendance) {
-                $attendance_score = 0;
-            } else {
-                $attendance_score = $attendance->attend_b_rating_score;
-            }
-
             // Calculate appraisal scores
-            $appraisal1_score = $appraisal1 ? ($appraisal1->appraisalRating->appraisal_rating_score + $attendance_score): null;
-            $appraisal2_score = $appraisal2 ? ($appraisal2->appraisalRating->appraisal_rating_score + $attendance_score): null;
+            $attendance_score = $attendance->attend_b_rating_score ?? 0;
+            $appraisal1_score = $appraisal1 ? ($appraisal1->appraisalRating->appraisal_rating_score ?? 0) + $attendance_score : null;
+            $appraisal2_score = $appraisal2 ? ($appraisal2->appraisalRating->appraisal_rating_score ?? 0) + $attendance_score : null;
 
             // Calculate final score
             if ($appraisal1 && $appraisal2) {
@@ -132,8 +132,6 @@ class UpdateFinalGrade
             }
         }
             
-
-
         $finalGrade = FinalGrade::updateOrCreate(
             [
                 'employee_id' => $employee_id,
@@ -144,11 +142,13 @@ class UpdateFinalGrade
                 'appraisal1_id' => $appraisal1 ? $appraisal1->id : null,
                 'appraisal2_id' => $appraisal2 ? $appraisal2->id : null,
                 'attendance_id' => $attendance ? $attendance->id : null,
-                'appraisal1_score' => $appraisal1_score,
-                'appraisal2_score' => $appraisal2_score,
+                'appraisal1_score' => $appraisal1->appraisalRating->appraisal_rating_score ?? 0,
+                'appraisal2_score' => $appraisal2->appraisalRating->appraisal_rating_score ?? 0,
                 'attendance_score' => $attendance ? $attendance->attend_b_rating_score : null,
                 'final_score' => $final_score ?? null,
-                'final_grade' => $final_grade
+                'final_grade' => $final_grade,
+                'created_at' => now()->subMonths(6),
+                'updated_at' => now()->subMonths(6),
             ]
         );
     }

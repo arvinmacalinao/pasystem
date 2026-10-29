@@ -18,6 +18,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -83,9 +84,9 @@ class User extends Authenticatable
     }
 
     public function supervisor(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'is_id');
-    }
+        {
+            return $this->belongsTo(User::class, 'is_id', 'id');
+        }
 
     public function subordinatesasIS(): HasMany
     {
@@ -146,6 +147,15 @@ class User extends Authenticatable
         return $query->where('c_id', $comp);
     }
 
+     public function scopeSearchStatus($query, $status)
+    {
+        if (empty($status)) {
+            return $query;
+        }
+
+        return $query->where('es_id', $status);
+    }
+
     public function scopeSearchLevel($query, $level)
     {
         if (empty($level)) {
@@ -163,4 +173,17 @@ class User extends Authenticatable
 
         return ucfirst($this->last_name). ', '.ucfirst($this->first_name).' '.ucfirst(substr($this->middle_name, 0, 1)). '. (' . $companyAlias . ' - '. $groupAlias . ' - ' . $designationName .')';
 	}
+
+    public function finalGrade()
+{
+    return $this->hasOne(FinalGrade::class, 'employee_id', 'id');
+}
+
+public function department()
+{
+    return $this->belongsTo(UserGroup::class, 'ug_id', 'id');
+}
+
+
+
 }

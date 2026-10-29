@@ -20,9 +20,14 @@ class FinalGradeUpdated
     use Dispatchable, SerializesModels;
 
     public $employee_id;
+    public $period_id;
+    public $year;
 
-    public function __construct($employee_id)
+    // public function __construct($employee_id, $period_id)
+    public function __construct($employee_id, $period_id, $year = null)
     {
         $this->employee_id = $employee_id;
+        $this->period_id = $period_id;
+        $this->year = $year;
     }
 }

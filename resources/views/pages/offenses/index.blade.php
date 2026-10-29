@@ -30,7 +30,7 @@
                     <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
                         @csrf
                         <div class="col-auto">
-                            <input class="form-control" type="text" placeholder="Search" name="search" id="search" maxlength="255" value="">
+                            <input class="form-control" type="text" placeholder="Search" name="qsearch" id="qsearch" maxlength="255" value="">
                             {{-- {{ old('search', $search) }} --}}
                         </div>
                         <div class="col-auto">

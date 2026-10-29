@@ -172,7 +172,9 @@
                             for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
                                 // Calculate the month and year
                                 $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
+                                #halt
+                                // $year = ($i <= 6) ? $currentYear : $currentYear - 1;
+                                $year = ($i <= 6) ? $currentYear - 1 : $currentYear - 1;
             
                                 echo '<tr>';
                                 echo '<td><small>' . $month . ' ' . $year . '</small></td>';
@@ -269,7 +271,9 @@
                             for ($i = $startMonth; $i <= $startMonth + 5; $i++) {
                                 // Calculate the month and year
                                 $month = date('M', mktime(0, 0, 0, $i, 1));
-                                $year = ($i <= 6) ? $currentYear : $currentYear - 1;
+                                #halt
+                                // $year = ($i <= 6) ? $currentYear : $currentYear - 1;
+                                $year = ($i <= 6) ? $currentYear - 1 : $currentYear - 1;
             
                                 echo '<tr>';
                                 echo '<td><small>' . $month . ' ' . $year . '</small></td>';

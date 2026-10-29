@@ -35,7 +35,7 @@ class AppraisalHelper
             $ratings = [];
             for ($i = 1; $i <= $endMonth; $i++) {
                 $rating = $request->input("{$category}_rating_{$i}");
-                if ($rating) {
+                if ($rating !== null && $rating !== '') {
                     $ratings[] = $rating;
                 }
             }
@@ -58,7 +58,7 @@ class AppraisalHelper
             $ratings = [];
             for ($i = 1; $i <= 6; $i++) {
                 $rating = $request->input("{$category}_rating_{$i}");
-                if ($rating) {
+                if ($rating !== null && $rating !== '') {
                     $ratings[] = $rating;
                 }
             }

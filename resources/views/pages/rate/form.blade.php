@@ -27,7 +27,10 @@
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
-                    <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
+                    <li class="list-group-item">Appraisal Year: <strong>{{ $period_id == 1 ? $currentYear : $currentYear - 1 }}</strong></li>
+                    {{-- #halt --}}
+                    {{-- <li class="list-group-item">Appraisal Period: <strong>Jan-June</strong></li>
+                    <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear - 1}}</strong></li> --}}
                 </ul>
             </div>
         </div>
@@ -91,313 +94,32 @@
     alert('Please fill in all required fields.');
   }
 });
+</script>
+<script>
+    $(document).ready(function () {
+    let timer;
+    
+    $('input[type="radio"]').on('change', function () {
+        clearTimeout(timer);
+        timer = setTimeout(autoSave, 3000); // Autosave after 3s of inactivity
+    });
+
+    function autoSave() {
+        let formData = $('#appraisalForm').serialize(); // Serialize all form data
+        $.ajax({
+            url: "/autosave", 
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                console.log("AutoSaved Successfully", response);
+            },
+            error: function (xhr) { 
+                console.log("AutoSave Failed", xhr);
+            }
+        });
+    }
+});
 
 </script>
-@if($user->job_level >= 1 && $user->job_level <= 3)
-<script>
-    $(document).ready(function() {
-        $('#next-to-job').click(function() {
-                $('#nav-quality-tab').click();
-            });
-        $('#prev-to-job').click(function() {
-            $('#nav-job-tab').click();
-        });
-        $('#next-to-quality').click(function() {
-                $('#nav-quantity-tab').click();
-            });
-        $('#prev-to-quantity').click(function() {
-            $('#nav-quality-tab').click();
-        });
-        $('#next-to-quantity').click(function() {
-                $('#nav-initiative-tab').click();
-        });
-        $('#prev-to-initiative').click(function() {
-            $('#nav-quantity-tab').click();
-        });
-        $('#next-to-initiative').click(function() {
-                $('#nav-cooperation-tab').click();
-        });
-        $('#prev-to-cooperation').click(function() {
-            $('#nav-initiative-tab').click();
-        });
-        $('#next-to-cooperation').click(function() {
-                $('#nav-communication-tab').click();
-        });
-        $('#prev-to-communication').click(function() {
-            $('#nav-cooperation-tab').click();
-        });
-        $('#next-to-communication').click(function() {
-                $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-compliance').click(function() {
-            $('#nav-communication-tab').click();
-        });
-        $('#next-to-compliance').click(function() {
-                $('#nav-attendance-tab').click();
-        });
-        $('#next-to-attendance').click(function() {
-                $('#nav-attendanceb-tab').click();
-        });
-        $('#prev-to-attendance').click(function() {
-            $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-attendanceb').click(function() {
-            $('#nav-attendance-tab').click();
-        });
-    });
-</script>
-
-@elseif(($user->job_level >= 4 && $user->job_level <= 5))
-<script>
-    $(document).ready(function() {
-        $('#next-to-job').click(function() {
-                $('#nav-quality-tab').click();
-            });
-        $('#prev-to-job').click(function() {
-            $('#nav-job-tab').click();
-        });
-        $('#next-to-quality').click(function() {
-                $('#nav-quantity-tab').click();
-            });
-        $('#prev-to-quantity').click(function() {
-            $('#nav-quality-tab').click();
-        });
-        $('#next-to-quantity').click(function() {
-                $('#nav-problem-tab').click();
-        });
-        $('#prev-to-problem').click(function() {
-            $('#nav-quantity-tab').click();
-        });
-        $('#next-to-problem').click(function() {
-                $('#nav-innovation-tab').click();
-        });
-
-        $('#prev-to-innovation').click(function() {
-            $('#nav-problem-tab').click();
-        });
-        $('#next-to-innovation').click(function() {
-                $('#nav-teamwork-tab').click();
-        });
-        $('#prev-to-teamwork').click(function() {
-            $('#nav-innovation-tab').click();
-        });
-        $('#next-to-teamwork').click(function() {
-                $('#nav-communication-tab').click();
-        });
-        $('#prev-to-communication').click(function() {
-            $('#nav-innovation-tab').click();
-        });
-        $('#next-to-communication').click(function() {
-                $('#nav-communication-tab').click();
-        });
-        $('#prev-to-communication').click(function() {
-            $('#nav-cooperation-tab').click();
-        });
-        $('#next-to-communication').click(function() {
-                $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-compliance').click(function() {
-            $('#nav-communication-tab').click();
-        });
-        $('#next-to-compliance').click(function() {
-                $('#nav-attendance-tab').click();
-        });
-        $('#next-to-attendance').click(function() {
-                $('#nav-attendanceb-tab').click();
-        });
-        $('#prev-to-attendance').click(function() {
-            $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-attendanceb').click(function() {
-            $('#nav-attendance-tab').click();
-        });
-    });
-</script>
-
-@elseif(($user->job_level >= 6 && $user->job_level <= 7))
-<script>
-    $(document).ready(function() {
-        $('#next-to-job').click(function() {
-                $('#nav-quality-tab').click();
-            });
-        $('#prev-to-job').click(function() {
-            $('#nav-job-tab').click();
-        });
-        $('#next-to-quality').click(function() {
-                $('#nav-quantity-tab').click();
-            });
-        $('#prev-to-quantity').click(function() {
-            $('#nav-quality-tab').click();
-        });
-        $('#next-to-quantity').click(function() {
-                $('#nav-people-tab').click();
-        });
-        $('#prev-to-people').click(function() {
-            $('#nav-quantity-tab').click();
-        });
-        $('#next-to-people').click(function() {
-                $('#nav-problem-tab').click();
-        });
-        $('#prev-to-problem').click(function() {
-            $('#nav-people-tab').click();
-        });
-        $('#next-to-problem').click(function() {
-                $('#nav-judgement-tab').click();
-        });
-        $('#prev-to-judgement').click(function() {
-            $('#nav-problem-tab').click();
-        });
-        $('#next-to-judgement').click(function() {
-                $('#nav-leadership-tab').click();
-        });
-        $('#prev-to-leadership').click(function() {
-            $('#nav-judgement-tab').click();
-        });
-        $('#next-to-leadership').click(function() {
-                $('#nav-innovation-tab').click();
-        });
-        $('#prev-to-innovation').click(function() {
-            $('#nav-leadership-tab').click();
-        });
-        $('#next-to-innovation').click(function() {
-                $('#nav-communication-tab').click();
-        });
-        $('#prev-to-communication').click(function() {
-            $('#nav-innovation-tab').click();
-        });
-        $('#next-to-communication').click(function() {
-                $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-compliance').click(function() {
-            $('#nav-communication-tab').click();
-        });
-        $('#next-to-compliance').click(function() {
-                $('#nav-attendance-tab').click();
-        });
-        $('#next-to-attendance').click(function() {
-                $('#nav-attendanceb-tab').click();
-        });
-        $('#prev-to-attendance').click(function() {
-            $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-attendanceb').click(function() {
-            $('#nav-attendance-tab').click();
-        });
-    });
-</script>
-@elseif(($user->job_level >= 8 && $user->job_level <= 9))
-<script>
-    $(document).ready(function() {
-        $('#next-to-job').click(function() {
-                $('#nav-quality-tab').click();
-            });
-        $('#prev-to-job').click(function() {
-            $('#nav-job-tab').click();
-        });
-        $('#next-to-quality').click(function() {
-                $('#nav-quantity-tab').click();
-            });
-        $('#prev-to-quantity').click(function() {
-            $('#nav-quality-tab').click();
-        });
-        $('#next-to-quantity').click(function() {
-                $('#nav-people-tab').click();
-        });
-        $('#prev-to-people').click(function() {
-            $('#nav-quantity-tab').click();
-        });
-        $('#next-to-people').click(function() {
-                $('#nav-problem-tab').click();
-        });
-        $('#prev-to-problem').click(function() {
-            $('#nav-people-tab').click();
-        });
-        $('#next-to-problem').click(function() {
-                $('#nav-judgement-tab').click();
-        });
-        $('#prev-to-judgement').click(function() {
-            $('#nav-problem-tab').click();
-        });
-        $('#next-to-judgement').click(function() {
-                $('#nav-leadership-tab').click();
-        });
-        $('#prev-to-leadership').click(function() {
-            $('#nav-judgement-tab').click();
-        });
-        $('#next-to-leadership').click(function() {
-                $('#nav-innovation-tab').click();
-        });
-        $('#prev-to-innovation').click(function() {
-            $('#nav-leadership-tab').click();
-        });
-        $('#next-to-innovation').click(function() {
-                $('#nav-communication-tab').click();
-        });
-        $('#prev-to-communication').click(function() {
-            $('#nav-innovation-tab').click();
-        });
-        $('#next-to-communication').click(function() {
-                $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-compliance').click(function() {
-            $('#nav-communication-tab').click();
-        });
-        $('#next-to-compliance').click(function() {
-                $('#nav-attendance-tab').click();
-        });
-        $('#next-to-attendance').click(function() {
-                $('#nav-attendanceb-tab').click();
-        });
-        $('#prev-to-attendance').click(function() {
-            $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-attendanceb').click(function() {
-            $('#nav-attendance-tab').click();
-        });
-    });
-</script>
-@elseif(($user->job_level >= 10 && $user->job_level <= 11))
-<script>
-    $(document).ready(function() {
-        $('#next-to-management').click(function() {
-                $('#nav-people-tab').click();
-            });
-        $('#prev-to-people').click(function() {
-            $('#nav-management-tab').click();
-        });
-        $('#next-to-people').click(function() {
-                $('#nav-problem-tab').click();
-        });
-        $('#prev-to-problem').click(function() {
-            $('#nav-people-tab').click();
-        });
-        $('#next-to-problem').click(function() {
-                $('#nav-judgement-tab').click();
-        });
-        $('#prev-to-judgement').click(function() {
-            $('#nav-problem-tab').click();
-        });
-        $('#next-to-judgement').click(function() {
-                $('#nav-leadership-tab').click();
-        });
-        $('#prev-to-leadership').click(function() {
-            $('#nav-judgement-tab').click();
-        });
-        $('#next-to-leadership').click(function() {
-                $('#nav-innovation-tab').click();
-        });
-        $('#prev-to-innovation').click(function() {
-            $('#nav-leadership-tab').click();
-        });
-        $('#next-to-innovation').click(function() {
-                $('#nav-compliance-tab').click();
-        });
-        $('#prev-to-compliance').click(function() {
-            $('#nav-innovation-tab').click();
-        });
-        
-    });
-</script>
-@endif
 
 @endsection

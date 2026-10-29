@@ -27,6 +27,8 @@
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     <li class="list-group-item">Appraisal Period: <strong>{{ $period_id == 1 ? 'Jan-June' : 'July-Dec' }}</strong></li>
+                    {{-- <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li> --}}
+                    {{-- #halt --}}
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
@@ -411,7 +413,15 @@
         </div> 
     @endif
     <br>
+    @if($user->es_id == 3)
+                <input type="hidden" id="period_id" name="period_id" value="{{ $period_id }} " />
+                <input type="hidden" id="start_month" name="start_month" value="{{ $period_id == 1 ? 1 : 7 }}" />
+                <input type="hidden" id="end_month" name="end_month" value="{{ $period_id == 1 ? 6 : 12 }}" />
+            @else
+                
+            @endif
     <input type="hidden" id="attend_b_rating_score" name="attend_b_rating_score" value="" />
+    <input type="hidden" id="qyear" name="qyear" value="{{ $currentYear }}" />
     <div class="d-grid gap-2">
         <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
     </div>
@@ -424,11 +434,13 @@
 <script>
     function updateLateMonths() {
         const startMonth = document.getElementById('late_start_month').value;
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const monthRows = document.getElementById('lateMonthRows');
         monthRows.innerHTML = '';
 
         for (let i = 0; i < 6; i++) {
+            //#halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -465,11 +477,13 @@
 <script>
     function updateUTMonths() {
         const startMonth = document.getElementById('ut_start_month').value;
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const monthRows = document.getElementById('utMonthRows');
         monthRows.innerHTML = '';
 
         for (let i = 0; i < 6; i++) {
+            //#halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -506,11 +520,13 @@
 <script>
     function updateULMonths() {
         const startMonth = document.getElementById('ul_start_month').value;
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const monthRows = document.getElementById('ulMonthRows');
         monthRows.innerHTML = '';
 
         for (let i = 0; i < 6; i++) {
+            //#halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();

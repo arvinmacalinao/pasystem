@@ -27,49 +27,48 @@
             <div class="row">
                 <div class="col-md-12 ms-2 mb-2">
                 <!-- Search engine section -->
-                    <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="col-auto">
-                            <input class="form-control" type="text" placeholder="Search" name="search" id="search" maxlength="255" value="">
-                            {{-- {{ old('search', $search) }} --}}
+                <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
+                    @csrf
+                    <div class="col-auto">
+                        <input class="form-control" type="text" placeholder="Search" name="qsearch" id="qsearch" maxlength="255" value="{{ old('search', $search) }}">
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Company</span>
+                            <select class="form-control" name="qcomp" id="qcomp">
+                                <option value="">-- All --</option>
+                                @foreach($companies as $company)
+                                    <option value="{{ $company->id }}"> {{ $company->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Company</span>
-                                <select class="form-control" name="reg" id="reg">
-                                    <option value="">-- All --</option>
-                                    @foreach($companies as $company)
-									<option value="{{ $company->c_id }}">{{ $company->name }}</option>
-								@endforeach
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Department</span>
+                            <select class="form-control" name="qug" id="qug">
+                                <option value="">-- All --</option>
+                                @foreach($groups as $ugroup)
+                                    <option value="{{ $ugroup->id }}"> {{ $ugroup->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Department</span>
-                                <select class="form-control" name="sec" id="sec">
-                                    <option value="">-- All --</option>
-                                    @foreach($groups as $ugroup)
-									<option value="{{ $ugroup->ug_id }}" >{{ $ugroup->alias }}</option>
-								    @endforeach
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-auto me-1">
+                        <div class="input-group">
+                            <span class="input-group-text">Job Level</span>
+                            <select class="form-control" name="qlevel" id="qlevel">
+                                <option value="">-- All --</option>
+                                @for($i = 1; $i <= 9; $i++)
+                                    <option value="{{ $i }}"> Level {{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
-                        <div class="col-auto me-1">
-                            <div class="input-group">
-                                <span class="input-group-text">Job Level</span>
-                                <select class="form-control" name="sec" id="sec">
-                                    <option value="">-- All --</option>
-                                    @for($i = 1; $i <= 9; $i++)
-                                        <option value="level {{ $i }}">Level {{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <input class="btn btn-primary btn-sm" type="submit" name="search-btn" id="search-btn" value="Search">
-                        </div>
-                    </form>
+                    </div>
+                    <div class="col-auto">
+                        <input class="btn btn-primary btn-sm" type="submit" name="search-btn" id="search-btn" value="Search">
+                    </div>
+                </form>
                 <!-- End of search engine section -->
                 </div>
                 <div class="col-md-12 ms-2 mb-0">
@@ -132,9 +131,9 @@
                                                 <i class="fa fa-pencil"></i> Rate
                                             </a>
                                             @if ($row->immediate_supervisor_rated)
-                                                @if($row->has_attendance)
+                                                {{-- @if($row->has_attendance) --}}
                                                 <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
-                                                @endif
+                                                {{-- @endif --}}
                                                 <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
                                                     <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
                                                 </a>
@@ -148,7 +147,7 @@
                                             <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
                                                 <i class="fa fa-pencil"></i> Rate
                                             </a>
-                                            @if ($row->immediate_supervisor_rated1)
+                                            @if ($row->immediate_supervisor_rated)
                                             <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
                                                 <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}
                                             </a>
@@ -157,48 +156,52 @@
                                             <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
                                         @endif
                                 @endif
-                            @else         
-                                @if($row->forevaluation)
-                                    @if($row->is_final_rater1)
-                                        @if(!$row->immediate_supervisor_rated1)
-                                                <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
-                                            @else
-                                            @if (!$row->has_been_rated1)
-                                                <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
-                                                    <i class="fa fa-pencil"></i> Rate
-                                                </a>
-                                                @if ($row->immediate_supervisor_rated1)
-                                                    @if($row->has_attendance)
-                                                <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated1->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated->evaluator->first_name ?? '' }}</a>
+                            @else 
+                                @if($row->has_attendance1)      
+                                    @if($row->forevaluation)
+                                        @if($row->is_final_rater1)
+                                            @if(!$row->immediate_supervisor_rated1)
+                                                    <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Not yet rated by immediate supervisor"><i class="fa fa-pencil"></i> Rate</button>
+                                                @else
+                                                @if (!$row->has_been_rated1)
+                                                    <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                        <i class="fa fa-pencil"></i> Rate
+                                                    </a>
+                                                    @if ($row->immediate_supervisor_rated1)
+
+                                                        <a class="btn btn-primary btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->immediate_supervisor_rated1->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> View Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}</a>
+
+                                                        <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
+                                                            <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
+                                                        </a>
                                                     @endif
+                                                @else
+                                                    <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
+                                                @endif
+                                            @endif
+                                        @else
+                                                @if (!$row->has_been_rated1)
+                                                    <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
+                                                        <i class="fa fa-pencil"></i> Rate
+                                                    </a>
+                                                    @if ($row->immediate_supervisor_rated1)
                                                     <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
                                                         <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
                                                     </a>
+                                                    @endif
+                                                @else
+                                                    <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
                                                 @endif
-                                            @else
-                                                <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
-                                            @endif
                                         @endif
-                                    @else
-                                            @if (!$row->has_been_rated1)
-                                                <a class="btn btn-warning btn-sm text-light" href="{{ route('team.rate', ['id' => $row->id]) }}">
-                                                    <i class="fa fa-pencil"></i> Rate
-                                                </a>
-                                                @if ($row->immediate_supervisor_rated1)
-                                                <a class="btn btn-success btn-sm text-light" onclick="openModal({{ $row->id }})">
-                                                    <i class="fa fa-copy"></i> Copy Rating of {{ $row->immediate_supervisor_rated1->evaluator->first_name ?? '' }}
-                                                </a>
-                                                @endif
-                                            @else
-                                                <small class="text-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Appraisal Done</small>
-                                            @endif
                                     @endif
+                                @else
+                                    <button type="button" class="btn btn-secondary btn-sm text-light" data-coreui-toggle="tooltip" data-coreui-placement="top" title="No Attendance Encoded by HR yet"><i class="fa fa-pencil"></i> Rate</button>
                                 @endif
                             @endif
                         </td>
                     </tr>
                 </tbody>
-                @if ($row->immediate_supervisor_rated1)
+                @if ($row->immediate_supervisor_rated)
                 <div class="modal fade" id="copyRatingModal-{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="copyRatingModalLabel-{{ $row->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -208,7 +211,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}" method="POST">
+                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}" method="POST">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="form-group">
@@ -224,17 +227,17 @@
                         </div>
                     </div>
                 </div>
-                @elseif($row->immediate_supervisor_rated)
+                @elseif($row->immediate_supervisor_rated1)
                 <div class="modal fade" id="copyRatingModal-{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="copyRatingModalLabel-{{ $row->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="copyRatingModalLabel-{{ $row->id }}">Copy Rating Confirmation</h5>
+                                <h5 class="modal-title" id="copyRatingModalLabel-{{ $row->id }}">Copy Rating Confirmation</h5> 
                                 <button type="button" class="close" data-coreui-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated->id]) }}" method="POST">
+                            <form action="{{ route('team.copy.rating', ['id' => $row->immediate_supervisor_rated1->id]) }}" method="POST">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="form-group">

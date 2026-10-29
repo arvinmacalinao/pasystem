@@ -40,6 +40,9 @@ class FinalGradeExport implements WithEvents
                 if($finalGrade->period_id == 1){
                     $period = 'Jan-June';
                 }
+                elseif($finalGrade->period_id == 2){
+                    $period = 'July-Dec';
+                }
 
                 $level = $user->job_level;
 

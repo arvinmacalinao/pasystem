@@ -43,4 +43,19 @@ class FinalGrade extends Model
     {
         return $this->belongsTo(ActualAttendance::class, 'attendance_id');
     }
+    
+    public function scopeSearchYear($query, $year)
+    {
+        if (!empty($year)) {
+            $query->where('year', $year);
+        }
+    }
+
+    public function scopeSearchPeriod($query, $period)
+    {
+        if (!empty($period)) {
+            $query->where('period_id', $period); 
+        }
+    }
+
 }

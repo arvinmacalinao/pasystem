@@ -111,6 +111,38 @@
             {{ __('Disiplinary Action') }}
         </a>
     </li>
+
+    {{-- <li class="nav-item">
+        <a class="nav-link" href="{{ route('team.index2') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-report-slash') }}"></use>
+            </svg>
+            {{ __('Team Test') }}
+        </a>
+    </li> --}}
+
+    <li class="nav-group" aria-expanded="false">
+        <a class="nav-link nav-group-toggle" href="">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-file') }}"></use>
+            </svg>
+            Reports
+        </a>
+        <ul class="nav-group-items" style="height: 0px;">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('complete.rating.index') }}" target="_top">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('icons/coreui.svg#cil-calendar-check') }}"></use>
+                    </svg>
+                    @php
+                        $year = date('Y');
+                        $year = $year - 1;
+                    @endphp
+                    Completed Rating {{ $year }}
+                </a>
+            </li>
+        </ul>
+    </li>
     
     {{-- <li class="nav-item">
         <a class="nav-link" href="">

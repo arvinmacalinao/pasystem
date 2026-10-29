@@ -20,8 +20,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-2">
-                                    <label class="form-label fw-bold" for="first_name">Full Name</label>
-                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $employee->FullName }}" readonly>
+                                    <label class="form-label fw-bold" for="first_name">First Name</label>
+                                    <input placeholder="First Name" class="form-control" type="text" maxlength="255" name="first_name" id="first_name" value="{{ $employee->first_name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -123,8 +123,14 @@
                             @foreach ($rows as $row)
                                 <tr>
                                     <td class="text-center">{{ $ctr++ }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($row->created_at)->format('Y') }}</td>
+                                    <td>{{ $row->year }}</td>
+                                    @if($row->period_id == 1)
+                                    <td>Jan - June</td>
+                                    @elseif($row->period_id == 2)
+                                    <td>July - Dec</td>
+                                    @elseif($row->period_id == 3)
                                     <td>{{ $row->appraisal1->period ?? '' }}</td>
+                                    @endif
                                     @if($row->appraisal1)
                                     <td class="" style="vertical-align: middle"><small>score:</small> {{ $row->appraisal1_score ?? ''}} <small>
                                         <br>rated by: {{$row->appraisal1->evaluator->FullName ?? ''}}</small>

@@ -35,10 +35,11 @@ class EmployeeOffenseController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+        $search     = $request->input('qsearch', '');
 
-        $rows       = EmployeeOffense::paginate(20);
+        $rows       = EmployeeOffense::EoSearch($search)->paginate(20);
 
-        return view('pages.offenses.index', compact('rows', 'msg'));
+        return view('pages.offenses.index', compact('rows', 'msg', 'search'));
     }
 
     public function create(Request $request)

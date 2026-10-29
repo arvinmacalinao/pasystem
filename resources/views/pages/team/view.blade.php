@@ -67,7 +67,7 @@
                     @foreach ($rows as $row)
                         <tr>
                             <td class="text-center">{{ $ctr++ }}</td>
-                            <td>{{ \Carbon\Carbon::parse($row->evaluation_date)->format('Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($row->created_at)->format('Y') }}</td>
                             <td>{{ $row->period }}</td>
                             <td>
                                 <?php
@@ -82,12 +82,16 @@
                             }
                             ?>
                             </td>
-                            @if (!$row->has_attendance)
-                            @else
-                            <td  class="project-actions text-right">
-                                <a class="btn btn-success btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> Download</a>
-                            </td>
+                            <td>
+                            @if ($row->final_grades->isNotEmpty())
+                            @foreach ($row->final_grades as $finalGrade)
+                                @if($finalGrade->final_grade == 1)
+                                    <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $finalGrade->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span> Download Matrix</a>
+                                @endif
+                                @endforeach
                             @endif
+                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> Download PDF</a>
+                            </td>
                         </tr>
                     </tbody>
                     @endforeach

@@ -108,6 +108,7 @@
                         <th class="bg-body-secondary">Company</th>
                         <th class="bg-body-secondary">Department</th>
                         <th class="bg-body-secondary">Position</th>
+                        <th class="bg-body-secondary">Job Grade</th>
                         <th class="bg-body-secondary">Date Hired</th>
                         <th class="bg-body-secondary">Status</th>
                         <th class="bg-body-secondary"></th>
@@ -124,7 +125,8 @@
                         <td>{{ $row->FullName }}</td>
                         <td>{{ $row->company->name ?? '' }}</td>
                         <td>{{ $row->group->name ?? '' }}</td>
-                        <td>{{ $row->role->name ?? '' }}</td>
+                        <td>{{ $row->designation->name ?? '' }}</td>
+                        <td>{{ $row->job_level ?? '' }} <small class="text-muted">{{ $row->joblevel->name ?? '' }}</small></td>
                         <td>{{ \Carbon\Carbon::parse($row->date_hired)->format('M-d-Y') }}</td>
                         <td>{{ $row->status->name ?? '' }}</td>
                         @if($row->u_active == 1)

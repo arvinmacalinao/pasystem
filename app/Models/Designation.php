@@ -22,4 +22,16 @@ class Designation extends Model
 	{
 	    return $this->hasMany(User::class);
 	}
+
+	public function scopeSearch($query, $search)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%$search%")
+                  ->orWhere('description', 'LIKE', "%$search%");
+        });
+    }
 }

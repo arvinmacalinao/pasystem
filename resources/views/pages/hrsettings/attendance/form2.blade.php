@@ -27,6 +27,8 @@
                     <li class="list-group-item">Job Grade: <strong>{{ $user->job_level }} - {{ $user->joblevel->name }}</strong></li>
                     <li class="list-group-item">Location: <strong>{{ $user->location }}</strong></li>
                     <li class="list-group-item">Appraisal Period: <strong><span id="monthRangeText"></span></strong></li>
+                    {{-- <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li> --}}
+                    {{-- #halt --}}
                     <li class="list-group-item">Appraisal Year: <strong>{{ $currentYear }}</strong></li>
                 </ul>
             </div>
@@ -377,6 +379,7 @@
     @endif
     <br>
     <input type="hidden" id="attend_b_rating_score" name="attend_b_rating_score" value="" />
+    <input type="hidden" id="qyear" name="qyear" value="{{ $currentYear }}" />
     <div class="d-grid gap-2">
         <input class="btn btn-info text-light" type="submit" name="form-submit" id="form-submit" value="Save">
     </div>
@@ -398,7 +401,7 @@
         // Perform the numeric addition
         const sum = startMonthNum + endMonthNum;
 
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const monthRows = document.getElementById('lateMonthRows');
         const displayRange = document.getElementById('monthRangeText');
         monthRows.innerHTML = '';
@@ -413,6 +416,8 @@
         displayRange.textContent = `${startMonthWord} - ${endMonthWord}`;
 
         for (let i = 0; i < endMonth; i++) {
+            // #halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -449,12 +454,14 @@
 <script>
     function updateUTMonths() {
         const startMonth = document.getElementById('start_month').value;
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const endMonth = document.getElementById('end_month').value;
         const monthRows = document.getElementById('utMonthRows');
         monthRows.innerHTML = '';
 
         for (let i = 0; i < endMonth; i++) {
+            // #halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -491,12 +498,14 @@
 <script>
     function updateULMonths() {
         const startMonth = document.getElementById('start_month').value;
-        const currentYear = new Date().getFullYear();
+        const currentYear = {{ (int) $currentYear }};
         const endMonth = document.getElementById('end_month').value;
         const monthRows = document.getElementById('ulMonthRows');
         monthRows.innerHTML = '';
 
         for (let i = 0; i < endMonth; i++) {
+            // #halt
+            // const date = new Date(currentYear, startMonth - 1 + i);
             const date = new Date(currentYear, startMonth - 1 + i);
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();

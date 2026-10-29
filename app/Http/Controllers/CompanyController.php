@@ -30,10 +30,11 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+        $search     = $request->input('qsearch', '');
 
-        $rows       = Company::paginate(20);
+        $rows       = Company::CompanySearch($search)->paginate(20);
 
-        return view('pages.company.index', compact('rows', 'msg'));
+        return view('pages.company.index', compact('rows', 'msg', 'search'));
     }
 
     public function create(Request $request)

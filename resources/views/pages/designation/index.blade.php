@@ -27,11 +27,10 @@
             <div class="row">
                 <div class="col-md-12 ms-2 mb-2">
                 <!-- Search engine section -->
-                    <form class="row row-cols-lg-auto g-2 align-items-center" method="POST" action="{{ url()->current() }}">
+                    <form class="row row-cols-lg-auto g-2 align-items-center" method="" action="{{ url()->current() }}">
                         @csrf
                         <div class="col-auto">
-                            <input class="form-control" type="text" placeholder="Search" name="search" id="search" maxlength="255" value="">
-                            {{-- {{ old('search', $search) }} --}}
+                            <input class="form-control" type="text" placeholder="Search" name="qsearch" id="qsearch" maxlength="255" value="{{ old('qsearch', $search) }}">
                         </div>
                         <div class="col-auto">
                             <input class="btn btn-primary btn-sm" type="submit" name="search-btn" id="search-btn" value="Search">

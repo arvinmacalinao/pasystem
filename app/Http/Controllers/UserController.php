@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use Exception;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\EmployeeStatus;
 use App\Events\FinalGradeUpdated;
 use App\Exports\FinalGradeExport;
+use Illuminate\Support\Facades\DB;
 use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -40,19 +42,20 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $msg        = $request->session()->pull('session_msg', '');
+        
         $search     = $request->input('qsearch', '');
-
         $ug         = $request->input('qug');
         $comp       = $request->input('qcomp', '');
         $level      = $request->input('qlevel', '');
+        $status     = $request->input('qstatus', '');
 
         $groups     = UserGroup::get();
         $roles      = Role::where('id', '!=', 1)->get();
         $companies  = Company::get();
 
-        $rows       = User::where('id', '!=', 1)->UserSearch($search)->SearchCompany($comp)->SearchLevel($level)->SearchUsergroup($ug)->paginate(20);
+        $rows       = User::where('id', '!=', 1)->UserSearch($search)->SearchCompany($comp)->SearchLevel($level)->SearchUsergroup($ug)->SearchStatus($status)->orderby('last_name', 'asc')->paginate(100);
 
-        return view('users.index', compact('rows', 'companies', 'roles', 'groups', 'msg', 'search', 'ug', 'comp', 'level'));
+        return view('users.index', compact('rows', 'companies', 'roles', 'groups', 'msg', 'search', 'ug', 'comp', 'level', 'status'));
     }
 
     public function create(Request $request)
@@ -196,6 +199,7 @@ class UserController extends Controller
 
     public function view(Request $request, $id)
     {
+        
         $msg        = $request->session()->pull('session_msg', '');
         
         $employee       = User::where('id', $id)->first();
@@ -206,42 +210,69 @@ class UserController extends Controller
     }
 
     public function reset(Request $request, $appraisal_id)
-    {
-        $appraisal = PerformanceAppraisal::where('id', $appraisal_id)->first();
-        if(!$appraisal) {
-            $request->session()->put('session_msg', 'Record not found!');
-            return redirect(route('employee.index'));
-        } else {
-            $appraisal->deleted_at = Carbon::now();
-            $appraisal->appraisalRating()->delete();
-            $final_grade1 = FinalGrade::where('appraisal1_id', $appraisal_id)->first();
-            $final_grade2 = FinalGrade::where('appraisal2_id', $appraisal_id)->first();
+{
+    $appraisal = PerformanceAppraisal::find($appraisal_id);
+    
+    if (!$appraisal) {
+        $request->session()->put('session_msg', 'Record not found!');
+        return redirect(route('employee.index'));
+    }
 
-            if($final_grade1)
-            {
+    // Find all duplicate appraisals with same employee, period, and type
+    $duplicates = PerformanceAppraisal::where('employee_id', $appraisal->employee_id)
+        ->where('period_id', $appraisal->period_id)
+        ->where('evaluator_id', $appraisal->evaluator_id)
+        ->where('start_month', $appraisal->start_month)
+        ->where('end_month', $appraisal->end_month)
+        ->where('evaluation_date', $appraisal->evaluation_date)
+        ->get();
+
+
+    // dd($duplicates);
+
+    DB::beginTransaction();
+    try {
+        foreach ($duplicates as $dup) {
+            $dup->deleted_at = Carbon::now();
+            $dup->appraisalRating()->delete();
+
+            // Nullify related FinalGrades
+            $final_grade1 = FinalGrade::where('appraisal1_id', $dup->id)->first();
+            $final_grade2 = FinalGrade::where('appraisal2_id', $dup->id)->first();
+
+            if ($final_grade1) {
                 $final_grade1->appraisal1_id = null;
                 $final_grade1->appraisal1_score = null;
                 $final_grade1->final_score = null;
-                $final_grade1->update();
+                $final_grade1->save();
             }
 
-            if($final_grade2)
-            {
+            if ($final_grade2) {
                 $final_grade2->appraisal2_id = null;
                 $final_grade2->appraisal2_score = null;
                 $final_grade2->final_score = null;
-                $final_grade2->update();
-            }    
-           
-            $appraisal->update();
+                $final_grade2->save();
+            }
 
-             // Dispatch the FinalGradeUpdated event
-             event(new FinalGradeUpdated($appraisal->employee_id));
-            
-            $request->session()->put('session_msg', 'Appraisal Reset Successfull!');
-            return redirect()->back();
-        }        
+            $dup->save();
+        }
+
+        // Dispatch event once
+        event(new FinalGradeUpdated($appraisal->employee_id, $appraisal->period_id));
+
+        DB::commit();
+
+        $request->session()->put('session_msg', 'Appraisal Reset Successful (including duplicates)!');
+        return redirect()->back();
+
+    } catch (Exception $e) {
+        DB::rollBack();
+        $request->session()->put('session_msg', 'Reset failed: ' . $e->getMessage());
+        return redirect()->back();
     }
+}
+    
+
     public function active(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
@@ -288,28 +319,41 @@ class UserController extends Controller
             $request->session()->put('session_msg', 'Record not found!');
             return redirect(route('employee.index'));
         } else {
-
+        
             $firstname = $user->first_name;
             $lastname = $user->last_name;
             $dateHired = $user->date_hired;
-
-            // Extract the year from the date_hired
+        
             $yearHired = date('Y', strtotime($dateHired));
-
-            // Create default user pass
-            $defaultUsername = strtolower(substr($firstname, 0, 1) . $lastname);
+        
+            $baseUsername = strtolower(substr($firstname, 0, 1) . $lastname);
+            $defaultUsername = $baseUsername;
+        
+            // Check for duplicates
+            $counter = 1;
+            while (User::where('username', $defaultUsername)->where('id', '!=', $user->id)->exists()) {
+                $defaultUsername = $baseUsername . $counter;
+                $counter++;
+            }
+        
+            // Create default password
             $defaultPassword = strtoupper(substr($firstname, 0, 1)) . strtoupper(substr($lastname, 0, 1)) . 'cherry' . $yearHired;
-
-            $user->update(['password' => $defaultPassword]);
-
+        
+            // Update user credentials
+            $user->update([
+                'username' => $defaultUsername,
+                'password' => bcrypt($defaultPassword)
+            ]);
+        
             $request->session()->put('new_user_credentials', [
                 'username' => $defaultUsername,
                 'password' => $defaultPassword,
             ]);
-
+        
             $request->session()->put('session_msg', 'Password successfully reset!');
             return redirect()->back();
-        }      
+        }
+   
     }
 
     public function force_rate(Request $request, $id)

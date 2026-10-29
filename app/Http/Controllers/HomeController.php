@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
+use App\Models\FinalGrade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\CompanyUserGroup;
+use App\Models\PerformanceAppraisal;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -29,25 +32,43 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $msg = $request->session()->pull('session_msg', '');
-    
+
+        
+        
+        
         // Get current month and determine the period
         $currentMonth = date('m');
-        $period_id = ($currentMonth >= 1 && $currentMonth <= 6) ? 2 : 1; // Adjusted for period_id based on months
-    
+        $currentYear = date('Y');
+
+        if ($currentMonth >= 7 && $currentMonth <= 12) {
+                $period_id = 1;
+                $year = $currentYear;
+            } else {
+                // Jan–Jun: rating period 2 (for Jul–Dec work of previous year)
+                $period_id = 2;
+                $year = $currentYear-1;
+            }
+
+        $today = Carbon::today();
+        $appraisalsToday = PerformanceAppraisal::whereDate('updated_at', $today)->count();
+
+        $totalfinalgrade = FinalGrade::where('final_grade', 1)->where('year', $year)->count();
+
+
         // Get all companies with their users
         $companies = Company::with(['users' => function($query) {
             // Filter users by job level 1-10
             $query->whereBetween('job_level', [1, 10]);
         }])->get();
     
-        $companyData = $companies->map(function ($company) use ($period_id) {
+        $companyData = $companies->map(function ($company) use ($period_id, $year) {
             // Get all employees with job levels 1-10
             $totalEmployees = $company->users->count();
         
             // Get the number of rated employees
-            $ratedEmployees = $company->users->filter(function ($user) use ($period_id) {
+            $ratedEmployees = $company->users->filter(function ($user) use ($period_id, $year) {
                 // Check if the employee has a final_grade of 1 for this period
-                $hasFinalGrade = $user->final_grade->where('period_id', $period_id)->first();
+                $hasFinalGrade = $user->final_grade->where('period_id', $period_id)->where('year', $year)->first();
                 
                 if ($hasFinalGrade && $hasFinalGrade->final_grade == 1) {
                     return true; // Rated employee with final_grade set to 1
@@ -69,7 +90,7 @@ class HomeController extends Controller
         // Sort companies by rating percentage in descending order
         $sortedCompanyData = $companyData->sortByDesc('ratingPercentage')->values();
     
-        return view('home', ['companies' => $sortedCompanyData, 'msg' => $msg]);
+        return view('home', ['companies' => $sortedCompanyData, 'msg' => $msg, 'appraisalsToday' => $appraisalsToday, 'totalfinalgrade' => $totalfinalgrade]);
     }
 
 

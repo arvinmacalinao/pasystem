@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserGroup;
+use App\Models\FinalGrade;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Models\EmployeeStatus;
@@ -42,7 +43,15 @@ class ProfileController extends Controller
 
         $rows       = PerformanceAppraisal::where('employee_id', $auth_id)->orderby('created_at', 'desc')->orderby('period_id', 'asc')->paginate(20);
 
-
+        foreach ($rows as $row) {
+        
+            // Fetch the final grade (if exists) where final_grade = 1
+            $row->final_grades = FinalGrade::where(function ($query) use ($row) {
+                $query->where('appraisal1_id', $row->id)
+                      ->orWhere('appraisal2_id', $row->id);
+            })
+            ->get();
+        }
 
         return view('auth.profile', compact('user', 'msg', 'id', 'rows'));
     }

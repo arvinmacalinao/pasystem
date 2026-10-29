@@ -121,10 +121,18 @@
                                     <td>{{ $row->period_id == 1 ? '1st Semester' : '2nd Semester' }}</td>
                                     <td>{{ $row->evaluator->FullName }}</td>
                                     <td>{{ $row->appraisalRating->appraisal_rating_score ?? '' }}</td>
-                                    <td  class="project-actions text-right">
+                                    <td>
+                                    @if ($row->final_grades->isNotEmpty())
+                                    @foreach ($row->final_grades as $finalGrade)
+                                        @if($finalGrade->final_grade == 1)
+                                            <a class="btn btn-success btn-sm text-light" id="" href="{{ route('employee.download.excel', ['id' => $finalGrade->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download Matrix"><span class="fa fa-floppy-o"></span> Download Matrix</a>
+                                        @endif
+                                        @endforeach
+                                    @endif
+                                    <a class="btn btn-success btn-sm text-light" id="" href="{{ route('download.pdf', ['id' => $row->id]) }}" name="download-list-btn" class="print-download-btn pr" target="_blank" title="Download List"><span class="fa fa-floppy-o"></span> Download PDF</a>
                                     </td>
-                                </tr>
-                            </tbody>
+                                        </tr>
+                                    </tbody>
                             @endforeach
                         </table>
                 </div>
